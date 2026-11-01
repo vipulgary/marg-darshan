@@ -41,7 +41,7 @@ export function PlanetLabels({
 }) {
   const crowded = planets.length > 4;
   const per = crowded ? perRow + 1 : perRow;
-  const fontSize = crowded ? 12 : 15;
+  const fontSize = crowded ? 15 : 18;
   const rowH = crowded ? 15 : 19;
   const colW = crowded ? 27 : 32;
   const rows = Math.ceil(planets.length / per);
@@ -90,23 +90,24 @@ export function NorthIndianChart({ chart: base, lang, division = "d1" }: { chart
       <svg viewBox="0 0 400 400" role="img" aria-labelledby={`${id}-t ${id}-d`} className="h-auto w-full">
         <title id={`${id}-t`}>{t(division === "d9" ? "northTitleD9" : "northTitle")}</title>
         <desc id={`${id}-d`}>{t("desc", { lagna: lagnaName })}</desc>
-        <rect x={L} y={L} width={R - L} height={R - L} rx="4" className="fill-night-s1 stroke-gold-300" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+        <rect x={L} y={L} width={R - L} height={R - L} rx="4" className="fill-night-s1 stroke-gold-300" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+        <path d={`M${M} ${L}L${(L + M) / 2} ${(L + M) / 2}L${M} ${M}L${(M + R) / 2} ${(L + M) / 2}Z`} className="fill-saffron-400/12" />
         <path
           d={`M${L} ${L}L${R} ${R}M${R} ${L}L${L} ${R}M${M} ${L}L${R} ${M}L${M} ${R}L${L} ${M}Z`}
           fill="none"
           className="stroke-gold-300"
-          strokeWidth="1.5"
+          strokeWidth="2"
           strokeLinejoin="round"
           vectorEffect="non-scaling-stroke"
         />
-        <text x={M} y={40} textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight={700} className="fill-saffron-400">
+        <text x={M} y={40} textAnchor="middle" dominantBaseline="central" fontSize="15" fontWeight={700} className="fill-saffron-400">
           {tr("ascMarker")}
         </text>
         {houses.map((h) => {
           const g = GEO[h.house];
           return (
             <g key={h.house}>
-              <text x={g.nx} y={g.ny} textAnchor="middle" dominantBaseline="central" fontSize="12" className="fill-ink-3">
+              <text x={g.nx} y={g.ny} textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight={600} className="fill-gold-300 opacity-80">
                 {h.sign}
               </text>
               <PlanetLabels planets={h.planets} cx={g.cx} cy={g.cy} perRow={g.perRow} lang={lang} retroLabel={t("retro")} />
