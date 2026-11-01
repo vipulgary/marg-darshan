@@ -79,7 +79,7 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
           <LanguageToggle hint />
-          <AccountButton className="hidden sm:block" />
+          <AccountButton className="hidden sm:inline-flex" />
           <Link
             href={bookingHrefFor(pathname)}
             className="relative hidden h-9 items-center rounded-full bg-grad-gold before:absolute before:-inset-y-1 before:inset-x-0 before:content-[''] px-3.5 text-sm font-semibold text-ink-ongold transition-all hover:-translate-y-0.5 hover:shadow-glow-gold focus-visible:ring-focus sm:inline-flex"

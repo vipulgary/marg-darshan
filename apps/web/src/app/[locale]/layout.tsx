@@ -4,6 +4,7 @@ import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/layout/Footer";
+import { SpotlightTracker } from "@/components/effects/SpotlightTracker";
 import { Header } from "@/components/layout/Header";
 import { THEME_INIT_SCRIPT } from "@/components/layout/ThemeToggle";
 import { MobileCtaBar } from "@/components/layout/MobileCtaBar";
@@ -60,6 +61,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
                 {children}
               </main>
               <Footer />
+              <SpotlightTracker />
               {/* AMX-006: privacy-friendly analytics (no cookies); only when configured. */}
               {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
               <Script

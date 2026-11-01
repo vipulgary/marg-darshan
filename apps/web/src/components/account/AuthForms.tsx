@@ -208,6 +208,18 @@ export function AuthForm({
           {t(`auth.${mode}.submit`)}
         </Button>
       </form>
+      {mode === "login" && process.env.NODE_ENV === "development" && (
+        <button
+          type="button"
+          onClick={async () => {
+            const res = await api("/api/auth/demo", "POST");
+            if (res.ok) go(locale, next);
+          }}
+          className="h-11 w-full rounded-full border border-dashed border-line-gold text-sm font-semibold text-gold-300 hover:bg-gold-300/8 focus-visible:ring-focus"
+        >
+          {locale === "en" ? "Demo login (localhost only)" : "डेमो लॉगिन (केवल localhost)"}
+        </button>
+      )}
       {mode === "login" && (
         <p className="text-sm text-ink-2">
           {t("auth.login.noAccount")}{" "}

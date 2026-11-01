@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { cn } from "@/lib/cn";
 
 /**
@@ -22,6 +22,25 @@ const isLight = () => document.documentElement.classList.contains("light");
 export function ThemeToggle({ className }: { className?: string }) {
   const t = useTranslations("layout.theme");
   const light = useSyncExternalStore(subscribe, isLight, () => false);
+
+  // Switching language re-renders <html> and drops the class; restore the stored theme whenever that happens.
+  useEffect(() => {
+    const root = document.documentElement;
+    const sync = () => {
+      let want = false;
+      try {
+        want = localStorage.getItem(THEME_KEY) === "light";
+      } catch {
+        return;
+      }
+      if (root.classList.contains("light") !== want) root.classList.toggle("light", want);
+      listeners.forEach((l) => l());
+    };
+    sync();
+    const mo = new MutationObserver(sync);
+    mo.observe(root, { attributes: true, attributeFilter: ["class"] });
+    return () => mo.disconnect();
+  }, []);
 
   const toggle = () => {
     const next = !isLight();

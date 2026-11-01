@@ -93,7 +93,7 @@ export function MegaMenu({ navClass }: { navClass: (active: boolean) => string }
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.16, ease: [0.2, 0.8, 0.2, 1] }}
-            className="absolute inset-x-4 top-[calc(100%+8px)] z-50 mx-auto max-w-[1120px] rounded-xl border border-line bg-night-s1/92 p-4 shadow-e2 backdrop-blur-[18px] md:inset-x-6"
+            className="md-panel absolute inset-x-4 top-[calc(100%+8px)] z-50 mx-auto max-w-[1120px] rounded-xl border border-line bg-night-s1/92 p-4 shadow-e2 backdrop-blur-[18px] md:inset-x-6"
           >
             <p className="px-2 pb-3 text-[13px] font-semibold text-gold-300">{t("mega.intro")}</p>
             <ul className="grid grid-cols-2 gap-3 xl:grid-cols-4">

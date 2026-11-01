@@ -44,7 +44,9 @@ export async function Footer() {
   return (
     <footer className="md-band theme-dark relative mt-16 overflow-hidden border-t border-line-subtle bg-night-1">
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-56 [mask-image:linear-gradient(180deg,#000,transparent)]">
-        <AuroraBackground />
+        <div aria-hidden className="[.light_&]:hidden">
+          <AuroraBackground />
+        </div>
       </div>
 
       <div className="container-page relative">
@@ -71,7 +73,7 @@ export async function Footer() {
               href={waHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-11 w-fit items-center gap-2 rounded-full bg-[#25D366] px-5 text-[15px] font-semibold text-[#052e16] transition-all hover:-translate-y-0.5 hover:bg-[#1EBE5A] focus-visible:ring-focus"
+              className="inline-flex h-11 w-fit items-center gap-2 rounded-full bg-[#25D366] px-5 text-[15px] font-semibold text-[#052e16] transition-all hover:-translate-y-0.5 hover:bg-[#1EBE5A] focus-visible:ring-focus [.light_&]:bg-[#fff3e8] [.light_&]:text-[#8e2f1f] [.light_&]:shadow-[0_8px_24px_-12px_rgba(0,0,0,.45)] [.light_&]:hover:bg-white"
             >
               <IconWhatsApp size={20} />
               {t("cta.whatsapp")}

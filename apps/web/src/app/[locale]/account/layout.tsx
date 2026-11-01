@@ -12,7 +12,7 @@ export default async function AccountLayout({ children, params }: LayoutProps<"/
   const { locale } = await params;
   setRequestLocale(locale);
   return (
-    <div className="container-page py-8 sm:py-12">
+    <div className="container-page min-h-[calc(100svh-60px)] py-8 sm:py-12 md:min-h-[calc(100svh-72px)]">
       <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <AccountNav />

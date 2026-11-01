@@ -201,7 +201,7 @@
   --aurora-4: rgba(244, 115, 90, 0.22);
   --ring: rgba(156, 79, 59, 0.5);
   --grad-text: linear-gradient(92deg, #9c4f3b 0%, #c2452d 50%, #e0682f 100%);
-  --grad-gold: linear-gradient(135deg, #ffc46b 0%, #ff9f43 50%, #f4735a 100%);
+  --grad-gold: linear-gradient(135deg, #ffb54d 0%, #ff9431 48%, #f27a2a 100%);
   --grad-primary: linear-gradient(135deg, #f5c26b 0%, #ff9f43 45%, #f4735a 100%);
   --grad-aurora:
     radial-gradient(55% 45% at 15% 20%, rgba(255, 159, 67, 0.2), transparent 60%),
@@ -308,4 +308,17 @@
   --elev-e3: 0 40px 80px -32px rgba(122, 58, 42, 0.32);
   --elev-glow-gold: 0 0 0 1px rgba(245, 162, 93, 0.3), 0 12px 36px -12px rgba(224, 104, 47, 0.45);
   --elev-glow-violet: 0 16px 48px -20px rgba(184, 69, 47, 0.35);
+}
+/* Dropdowns inside the light header band need a solid surface (the band's surfaces are translucent). */
+.light .md-band .md-panel {
+  background: linear-gradient(160deg, #a33b27 0%, #8e2f1f 55%, #7e2a1b 100%) !important;
+  border-color: rgba(255, 220, 196, 0.22);
+  box-shadow: 0 24px 60px -20px rgba(94, 31, 20, 0.6);
+}
+
+/* Primary CTAs: a soft light spot follows the cursor on hover (position set by SpotlightTracker). */
+.bg-grad-gold:hover {
+  background-image:
+    radial-gradient(90px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.42), transparent 70%),
+    var(--grad-gold);
 }

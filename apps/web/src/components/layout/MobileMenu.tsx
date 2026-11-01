@@ -124,7 +124,7 @@ export function MobileMenu({
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 34 }}
-              className="absolute inset-y-0 right-0 flex w-full max-w-[420px] flex-col overflow-hidden bg-night-0 shadow-e3"
+              className="md-panel absolute inset-y-0 right-0 flex w-full max-w-[420px] flex-col overflow-hidden bg-night-0 shadow-e3"
             >
               <AuroraBackground intensity="strong" />
               <div className="relative flex items-center justify-between gap-3 border-b border-line-subtle px-4 py-3">

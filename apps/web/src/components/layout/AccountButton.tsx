@@ -95,7 +95,7 @@ export function AccountButton({ className, block = false }: { className?: string
         )}
       </button>
       {open && (
-        <div id={menuId} className="absolute right-0 top-[calc(100%+10px)] z-50 w-56 rounded-md border border-line bg-night-s1 p-1.5 shadow-e2">
+        <div id={menuId} className="md-panel absolute right-0 top-[calc(100%+10px)] z-50 w-56 rounded-md border border-line bg-night-s1 p-1.5 shadow-e2">
           <p className="truncate px-3 py-2 text-sm font-semibold text-ink-1">{name}</p>
           <Link href="/account" onClick={() => setOpen(false)} className="flex min-h-11 items-center gap-2 rounded-sm px-3 text-sm text-ink-2 hover:bg-night-s3 hover:text-ink-1 focus-visible:ring-focus">
             <Icon name="user" size={16} /> {t("myAccount")}
