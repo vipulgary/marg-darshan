@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { BookingCard, KundaliCard, PageHead, goldLink, pillLink } from "@/components/account/parts";
+import { BookingCard, KundaliCard, PageHead, goldLink } from "@/components/account/parts";
 import { Link } from "@/i18n/navigation";
 import { ProfileDashboard } from "@/components/account/ProfileDashboard";
 import { pickProfile } from "@/lib/account/profile-kundali";
@@ -37,7 +37,6 @@ export default async function AccountOverview({ params, searchParams }: PageProp
         action={
           <div className="flex flex-wrap gap-2">
             <Link href="/book-appointment" className={goldLink}>{t("book")}</Link>
-            <Link href="/free-kundali" className={pillLink}>{t("newKundali")}</Link>
           </div>
         }
       />

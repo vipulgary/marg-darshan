@@ -155,7 +155,7 @@ export async function ProfileDashboard({ clientId, locale, profiles, active }: {
         </section>
       )}
 
-      {k && <KundaliReport chart={k.chart} locale={locale} name={active.name} dob={active.dob} />}
+      {k && <KundaliReport chart={k.chart} locale={locale} name={active.name} dob={active.dob} showCharts />}
 
       <section className="flex flex-col gap-3">
         <h3 className="text-lg font-semibold text-ink-1">{t("more", { name: active.label })}</h3>

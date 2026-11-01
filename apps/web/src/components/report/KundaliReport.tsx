@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icons";
 import { CopyPara } from "./CopyPara";
+import { NorthIndianChart } from "@/components/kundali/NorthIndianChart";
 import { Badge } from "@/components/ui/Display";
 import { cn } from "@/lib/cn";
 import type { ChartData } from "@/lib/contracts";
@@ -40,8 +41,9 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 }
 
 /** AMX-180/181 — interpretive report (phalit). Used on the result page tab and in the A4 print view. */
-export function KundaliReport({ chart, locale, print = false, name, dob }: { chart: ChartData; locale: string; print?: boolean; name?: string; dob?: string }) {
+export function KundaliReport({ chart, locale, print = false, name, dob, showCharts = false }: { chart: ChartData; locale: string; print?: boolean; name?: string; dob?: string; showCharts?: boolean }) {
   const t = useTranslations("report");
+  const tk = useTranslations("kundali.result");
   const r = buildReport(chart, locale === "en" ? "en" : "hi");
   const num = name && dob && /^d{4}-d{2}-d{2}$/.test(dob) ? numerology(name, dob) : null;
   const sections: [string, string, IconName][] = [
@@ -101,6 +103,19 @@ export function KundaliReport({ chart, locale, print = false, name, dob }: { cha
           ))}
         </div>
       </Section>
+
+      {showCharts && (
+        <section aria-label={tk("tabChart")} className="grid gap-5 md:grid-cols-2">
+          {(["d1", "d9"] as const).map((d) => (
+            <figure key={d} className="flex flex-col items-center gap-3 rounded-xl border border-line-gold bg-night-s1 p-4 shadow-e1 sm:p-5">
+              <figcaption className="text-sm font-semibold text-gold-300">{tk(d)}</figcaption>
+              <div className="w-full max-w-[420px]">
+                <NorthIndianChart chart={chart} lang={locale === "en" ? "en" : "hi"} division={d} />
+              </div>
+            </figure>
+          ))}
+        </section>
+      )}
 
       <Section id="rep-lagna" icon="sunrise" title={t("lagnaTitle", { sign: r.lagna.sign })}>
         <p className="mb-3 text-ink-1">{r.lagna.personality}</p>
