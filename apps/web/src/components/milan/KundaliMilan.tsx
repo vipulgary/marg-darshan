@@ -7,11 +7,45 @@ import { Icon } from "@/components/icons";
 import { BirthplaceCombobox } from "@/components/kundali/BirthplaceCombobox";
 import { Button } from "@/components/ui/Button";
 import { Badge, Card } from "@/components/ui/Display";
-import { Field, Input } from "@/components/ui/Field";
+import { Field, Input, Select } from "@/components/ui/Field";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import type { PlaceValue } from "@/lib/contracts";
 import type { MatchResult } from "@/lib/engine/client";
+import { SIGN_NAMES } from "@/lib/kundali/chart-layout";
+
+export interface MilanProfile {
+  id: string;
+  label: string;
+  name: string;
+  gender: "male" | "female" | "other";
+  dob: string;
+  tob: string;
+  place: PlaceValue;
+}
+
+/** Koots grouped into life aspects a couple understands. */
+const ASPECTS: { key: string; koots: MatchResult["koots"][number]["key"][] }[] = [
+  { key: "love", koots: ["yoni", "vashya"] },
+  { key: "mind", koots: ["maitri", "gana"] },
+  { key: "family", koots: ["bhakoot"] },
+  { key: "health", koots: ["nadi", "tara"] },
+  { key: "work", koots: ["varna"] },
+];
+
+/** Moon-sign element: 0 fire, 1 earth, 2 air, 3 water. */
+const element = (rashiEn: string) => {
+  const i = SIGN_NAMES.en.indexOf(rashiEn);
+  return i < 0 ? null : i % 4;
+};
+function elementMatch(a: string, b: string): "same" | "complement" | "effort" | null {
+  const x = element(a);
+  const y = element(b);
+  if (x === null || y === null) return null;
+  if (x === y) return "same";
+  const pair = [x, y].sort().join("");
+  return pair === "02" || pair === "13" ? "complement" : "effort";
+}
 
 interface Person {
   name: string;
@@ -23,7 +57,7 @@ const EMPTY: Person = { name: "", dob: "", tob: "", place: null };
 
 const VERDICT_TONE = { excellent: "success", good: "success", average: "warning", low: "error" } as const;
 
-function PersonForm({ side, value, onChange, bad }: { side: "boy" | "girl"; value: Person; onChange: (p: Person) => void; bad: string[] }) {
+function PersonForm({ side, value, onChange, bad, profiles }: { side: "boy" | "girl"; value: Person; onChange: (p: Person) => void; bad: string[]; profiles: MilanProfile[] }) {
   const t = useTranslations("milan");
   const has = (k: string) => bad.some((b) => b === `${side}.${k}` || b.startsWith(`${side}.${k}.`));
   return (
@@ -31,6 +65,28 @@ function PersonForm({ side, value, onChange, bad }: { side: "boy" | "girl"; valu
       <h2 className="flex items-center gap-2 text-xl">
         <Icon name="user" size={22} className="text-gold-300" /> {t(side)}
       </h2>
+      {profiles.length > 0 && (
+        <Field label={t("fromProfile")}>
+          {(id) => (
+            <Select
+              id={id}
+              defaultValue=""
+              onChange={(e) => {
+                const p = profiles.find((x) => x.id === e.target.value);
+                if (p) onChange({ name: p.name || p.label, dob: p.dob, tob: p.tob, place: p.place });
+              }}
+            >
+              <option value="">{t("chooseProfile")}</option>
+              {profiles.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.label}
+                  {p.name ? ` — ${p.name}` : ""}
+                </option>
+              ))}
+            </Select>
+          )}
+        </Field>
+      )}
       <Field label={t("name")} required error={has("name") ? t("required") : undefined}>
         {(id, d) => <Input id={id} aria-describedby={d} aria-invalid={has("name")} value={value.name} onChange={(e) => onChange({ ...value, name: e.target.value })} />}
       </Field>
@@ -47,7 +103,7 @@ function PersonForm({ side, value, onChange, bad }: { side: "boy" | "girl"; valu
   );
 }
 
-export function KundaliMilan() {
+export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
   const t = useTranslations("milan");
   const locale = useLocale();
   const hi = locale !== "en";
@@ -104,8 +160,8 @@ export function KundaliMilan() {
     <div className="flex flex-col gap-8">
       <form onSubmit={submit} noValidate className="flex flex-col gap-6">
         <div className="grid gap-6 lg:grid-cols-2">
-          <PersonForm side="boy" value={boy} onChange={setBoy} bad={bad} />
-          <PersonForm side="girl" value={girl} onChange={setGirl} bad={bad} />
+          <PersonForm side="boy" value={boy} onChange={setBoy} bad={bad} profiles={profiles} />
+          <PersonForm side="girl" value={girl} onChange={setGirl} bad={bad} profiles={profiles} />
         </div>
         {error && <p role="alert" className="text-error">{error}</p>}
         <Button type="submit" size="lg" className="self-center" loading={busy} loadingLabel={t("matching")} iconRight={<Icon name="arrow-right" size={18} />}>
@@ -137,6 +193,41 @@ export function KundaliMilan() {
             </div>
             <Badge tone={VERDICT_TONE[result.verdict]}>{t(`verdict.${result.verdict}`)}</Badge>
             <p className="max-w-[60ch] text-ink-2">{t(`verdictText.${result.verdict}`)}</p>
+          </Card>
+
+          <Card>
+            <h2 className="mb-4 text-xl">{t("aspectsTitle")}</h2>
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              {ASPECTS.map((a) => {
+                const ks = result.koots.filter((k) => a.koots.includes(k.key));
+                const score = ks.reduce((n, k) => n + k.score, 0);
+                const max = ks.reduce((n, k) => n + k.max, 0);
+                const pct = max ? Math.round((score / max) * 100) : 0;
+                return (
+                  <li key={a.key} className="flex flex-col gap-1.5">
+                    <span className="text-sm font-semibold text-ink-1">{t(`aspects.${a.key}`)}</span>
+                    <span className="font-display text-2xl text-ink-1">{pct}%</span>
+                    <div className="h-2 overflow-hidden rounded-full bg-night-s3">
+                      <div className={cn("h-full", pct >= 70 ? "bg-success" : pct >= 40 ? "bg-warning" : "bg-error")} style={{ width: `${Math.max(4, pct)}%` }} />
+                    </div>
+                    <span className="text-xs text-ink-3">
+                      {score}/{max} {t("gunas")}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+            {(() => {
+              const em = elementMatch(result.boy.rashi_en, result.girl.rashi_en);
+              return em ? (
+                <p className="mt-5 rounded-md bg-night-s2 p-4 text-ink-2">
+                  <strong className="text-ink-1">
+                    {nm(result.boy, "rashi")} × {nm(result.girl, "rashi")}:{" "}
+                  </strong>
+                  {t(`element.${em}`)}
+                </p>
+              ) : null;
+            })()}
           </Card>
 
           <div className="grid gap-4 sm:grid-cols-2">

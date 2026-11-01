@@ -101,7 +101,8 @@
     "bookings": "Bookings",
     "payments": "Payments",
     "profiles": "Birth profiles",
-    "settings": "Settings"
+    "settings": "Settings",
+    "match": "Match profiles"
   },
   "overview": {
     "eyebrow": "My account",

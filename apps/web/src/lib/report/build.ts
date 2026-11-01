@@ -52,6 +52,14 @@ export function luckyGems(lagnaSign: number): { primary: PlanetKey; alternate: P
 const fmtDate = (iso: string, l: Locale) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString(l === "hi" ? "hi-IN" : "en-IN", { year: "numeric", month: "short", timeZone: "UTC" });
 
+/** Temperament by Lagna element (fire, earth, air, water) — how the person comes across. */
+const TEMPERAMENT: Bi[] = [
+  { hi: "स्वभाव से आप आत्मविश्वासी और स्पष्ट हैं; लोग आपको नेतृत्व करने वाला मानते हैं। कभी-कभी यह आत्मविश्वास अहंकार जैसा दिख सकता है, इसलिए विनम्रता आपके व्यक्तित्व को और भी आकर्षक बनाती है।", en: "By temperament you are confident and direct, and people see you as a natural leader. At times that confidence can read as pride, so humility makes your personality even more magnetic." },
+  { hi: "स्वभाव से आप ज़मीन से जुड़े, व्यावहारिक और विनम्र हैं। आप दिखावे से ज़्यादा काम पर भरोसा करते हैं, और लोग आपकी विश्वसनीयता की क़द्र करते हैं।", en: "By temperament you are grounded, practical and modest. You trust work over show, and people value how reliable you are." },
+  { hi: "स्वभाव से आप मिलनसार, विचारशील और संतुलित हैं। बातचीत और नए विचार आपको ऊर्जा देते हैं, और आप लोगों को आपस में जोड़ने की कला जानते हैं।", en: "By temperament you are sociable, thoughtful and balanced. Conversation and new ideas energise you, and you have a gift for bringing people together." },
+  { hi: "स्वभाव से आप संवेदनशील, भावुक और दूसरों की परवाह करने वाले हैं। आपका अंतर्ज्ञान गहरा है; बस दूसरों की भावनाओं का बोझ खुद पर ज़्यादा न लें।", en: "By temperament you are sensitive, caring and deeply intuitive. Just don't carry other people's feelings as your own burden." },
+];
+
 export function buildReport(chart: ChartData, locale: Locale, now = new Date()) {
   const l = locale;
   const lagnaSign = chart.ascendant.sign;
@@ -114,8 +122,42 @@ export function buildReport(chart: ChartData, locale: Locale, now = new Date()) 
   const gems = luckyGems(lagnaSign);
   const lore = PLANET_LORE[lagnaLord];
 
+  // Complete summary: one flowing read (≈500–900 words) covering every area, built from the same
+  // chart-specific pieces as the sections below, so it never contradicts them.
+  const hi = l === "hi";
+  const presentDoshas = doshas.filter((d) => d.present && !d.cancelled).map((d) => d.name);
+  const nextDasha = upcoming[0];
+  const overview = [
+    hi
+      ? `आपका जन्म ${signName(lagnaSign, l)} लग्न में हुआ है, चंद्रमा ${signName(moonSign, l)} राशि में है और जन्म नक्षत्र ${moonNak.name_hi} (चरण ${moonNak.pada}) है, जिसके देवता ${pick(nak.deity, l)} हैं। ${pick(lagnaText.personality, l)}`
+      : `You were born with ${signName(lagnaSign, l)} rising, the Moon in ${signName(moonSign, l)}, and ${moonNak.name_en} (pada ${moonNak.pada}) as your birth star, presided over by ${pick(nak.deity, l)}. ${pick(lagnaText.personality, l)}`,
+    `${pick(TEMPERAMENT[(lagnaSign - 1) % 4], l)} ${hi ? "आपकी सबसे बड़ी ताक़तें हैं —" : "Your greatest strengths are"} ${(hi ? pick(lagnaText.strengths, l) : pick(lagnaText.strengths, l).replace(/^./, (c) => c.toLowerCase())).replace(/[.।]$/, "")}${hi ? "।" : "."} ${pick(lagnaText.challenges, l)}`,
+    `${pick(rashiText.mind, l)} ${pick(nak.traits, l)} ${hi ? "मन के लिए एक छोटी सलाह:" : "A small tip for your mind:"} ${pick(rashiText.tip, l)}`,
+    `${life.career.paragraphs[0]} ${life.career.paragraphs[1]} ${life.career.paragraphs[2]}`,
+    `${life.love.paragraphs[0]} ${life.love.paragraphs[1]} ${life.love.paragraphs[2]} ${
+      !manglik ? "" : !manglik.present ? (hi ? "आपकी कुंडली मांगलिक नहीं है।" : "Your chart is not Manglik.") : manglik.cancelled ? (hi ? "मांगलिक योग है, पर वह भंग (निष्प्रभावी) हो जाता है।" : "Manglik placement exists but is cancelled.") : hi ? "कुंडली में मांगलिक दोष है, इसलिए विवाह से पहले मिलान ज़रूर करें।" : "The chart is Manglik, so always match charts before marriage."
+    }`,
+    `${life.health.paragraphs[0]} ${life.health.paragraphs[2]}`,
+    `${life.education.paragraphs[0]} ${life.education.paragraphs[2]}`,
+    maha
+      ? hi
+        ? `अभी आप ${pick(PLANET_NAME[maha.lord], l)} की महादशा में हैं, जो ${fmtDate(maha.end, l)} तक चलेगी। ${pick(DASHA[maha.lord].theme, l)} ${pick(DASHA[maha.lord].focus, l)}${nextDasha ? ` इसके बाद ${nextDasha.name} की दशा आएगी — ${nextDasha.theme}` : ""}`
+        : `You are now in the ${pick(PLANET_NAME[maha.lord], l)} Mahadasha, running until ${fmtDate(maha.end, l)}. ${pick(DASHA[maha.lord].theme, l)} ${pick(DASHA[maha.lord].focus, l)}${nextDasha ? ` After this comes the ${nextDasha.name} period — ${nextDasha.theme}` : ""}`
+      : "",
+    `${
+      presentDoshas.length
+        ? hi ? `कुंडली में ध्यान देने योग्य दोष: ${presentDoshas.join(", ")} — सरल उपाय नीचे दिए गए हैं।` : `Doshas to note: ${presentDoshas.join(", ")} — simple remedies are given below.`
+        : hi ? "आपकी कुंडली किसी बड़े सक्रिय दोष से मुक्त है।" : "Your chart is free of any major active dosha."
+    }${yogas.length ? (hi ? ` शुभ योग: ${yogas.map((y) => y.name).join(", ")}।` : ` Beneficial yogas: ${yogas.map((y) => y.name).join(", ")}.`) : ""} ${
+      hi
+        ? `आपका शुभ रंग ${pick(lore.colour, l)}, शुभ अंक ${lore.number}, शुभ दिन ${pick(lore.day, l)} और शुभ रत्न ${pick(PLANET_LORE[gems.primary].gem, l)} है (रत्न पहनने से पहले सलाह ज़रूर लें)।`
+        : `Your lucky colour is ${pick(lore.colour, l)}, lucky number ${lore.number}, lucky day ${pick(lore.day, l)} and lucky gem ${pick(PLANET_LORE[gems.primary].gem, l)} (consult before wearing a gem).`
+    }`,
+  ].filter(Boolean);
+
   return {
     reviewed: REPORT_REVIEWED,
+    overview,
     summary: {
       lagna: signName(lagnaSign, l),
       lagnaLord: pick(PLANET_NAME[lagnaLord], l),

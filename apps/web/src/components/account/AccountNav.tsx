@@ -11,6 +11,7 @@ const ITEMS: { href: string; key: string; icon: IconName }[] = [
   { href: "/account/bookings", key: "bookings", icon: "calendar" },
   { href: "/account/payments", key: "payments", icon: "file" },
   { href: "/account/profiles", key: "profiles", icon: "star" },
+  { href: "/kundali-milan", key: "match", icon: "rings" },
   { href: "/account/settings", key: "settings", icon: "lock" },
 ];
 

@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icons";
+import { CopyPara } from "./CopyPara";
 import { Badge } from "@/components/ui/Display";
 import { cn } from "@/lib/cn";
 import type { ChartData } from "@/lib/contracts";
@@ -44,6 +45,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob }: { cha
   const r = buildReport(chart, locale === "en" ? "en" : "hi");
   const num = name && dob && /^d{4}-d{2}-d{2}$/.test(dob) ? numerology(name, dob) : null;
   const sections: [string, string, IconName][] = [
+    ["rep-overview", t("overview"), "sparkle"],
     ["rep-lagna", t("lagna"), "sunrise"],
     ["rep-career", t("career"), "briefcase"],
     ["rep-love", t("love"), "rings"],
@@ -89,6 +91,17 @@ export function KundaliReport({ chart, locale, print = false, name, dob }: { cha
         </nav>
       )}
 
+      <Section id="rep-overview" icon="sparkle" title={t("overviewTitle")}>
+        <div className="relative flex flex-col gap-3 pr-9 leading-relaxed">
+          <CopyPara text={r.overview.join("\n\n")} label={t("copy")} />
+          {r.overview.map((para, i) => (
+            <p key={i} className={i === 0 ? "text-ink-1" : undefined}>
+              {para}
+            </p>
+          ))}
+        </div>
+      </Section>
+
       <Section id="rep-lagna" icon="sunrise" title={t("lagnaTitle", { sign: r.lagna.sign })}>
         <p className="mb-3 text-ink-1">{r.lagna.personality}</p>
         <dl className="divide-y divide-line-subtle">
@@ -106,7 +119,8 @@ export function KundaliReport({ chart, locale, print = false, name, dob }: { cha
               </Badge>
             </p>
           )}
-          <div className="flex flex-col gap-3 leading-relaxed">
+          <div className="relative flex flex-col gap-3 pr-9 leading-relaxed">
+            <CopyPara text={a.paragraphs.join("\n\n")} label={t("copy")} />
             {a.paragraphs.map((para, i) => (
               <p key={i} className={i === 0 ? "text-ink-1" : undefined}>
                 {para}

@@ -59,5 +59,8 @@
   "manglikYes": "Manglik dosha: present",
   "manglikNo": "Manglik dosha: not present",
   "manglikCancelled": "Manglik dosha: cancelled",
-  "numerology": "Numerology"
+  "numerology": "Numerology",
+  "overviewTitle": "Complete summary — everything in one read",
+  "overview": "Complete summary",
+  "copy": "Copy section"
 }
