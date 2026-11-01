@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "Shubh Samay — Today's Choghadiya, Rahu Kaal & Muhurat",
+    "description": "Find the best time today to start work, travel or anything important — live choghadiya, Rahu Kaal, Abhijit muhurat and panchang for your city."
+  },
+  "eyebrow": "Daily muhurat",
+  "title": "Shubh Samay",
+  "highlight": "— the right time, today",
+  "lead": "Live choghadiya, Rahu Kaal and Abhijit muhurat for your city, calculated from today's exact sunrise and sunset.",
+  "city": "Your city",
+  "useLocation": "Use my location",
+  "myLocation": "My location",
+  "error": "Couldn't load today's muhurat. Please try again in a moment.",
+  "rightNow": "Right now",
+  "until": "until {time}",
+  "rahuNow": "Rahu Kaal is running until {until} — avoid starting anything new.",
+  "planTitle": "When should I start?",
+  "startsIn": "Time you need",
+  "needMinutes": "{n} minutes",
+  "travel": "I'm travelling (Char is fine)",
+  "goNow": "This is a good time — start now. The good window lasts until {until}.",
+  "waitUntil": "Wait {mins} minutes: the next good time is {start} – {end}.",
+  "noneToday": "No suitable window is left today. Check tomorrow morning.",
+  "spans": {
+    "abhijit": "Abhijit Muhurat",
+    "rahuKaal": "Rahu Kaal",
+    "yamaganda": "Yamaganda",
+    "gulika": "Gulika Kaal"
+  },
+  "spanNote": {
+    "abhijit": "The most auspicious midday window.",
+    "rahuKaal": "Avoid starting new work.",
+    "yamaganda": "Avoid travel and new beginnings.",
+    "gulika": "Fine for routine work; avoid big starts."
+  },
+  "abhijitWed": "Traditionally not used on Wednesdays.",
+  "day": "Day choghadiya",
+  "night": "Night choghadiya",
+  "panchangTitle": "Today's panchang",
+  "panchang": {
+    "vara": "Day",
+    "tithi": "Tithi",
+    "nakshatra": "Nakshatra",
+    "yoga": "Yoga",
+    "sunrise": "Sunrise",
+    "sunset": "Sunset"
+  },
+  "legendGood": "Amrit, Shubh, Labh — good",
+  "legendTravel": "Char — good for travel",
+  "legendAvoid": "Udveg, Kaal, Rog — avoid",
+  "names": {
+    "amrit": "Amrit",
+    "shubh": "Shubh",
+    "labh": "Labh",
+    "char": "Char",
+    "udveg": "Udveg",
+    "kaal": "Kaal",
+    "rog": "Rog"
+  },
+  "meaning": {
+    "amrit": "Best for everything — start important work now.",
+    "shubh": "Auspicious — good for ceremonies, learning and new work.",
+    "labh": "Profitable — good for business, purchases and deals.",
+    "char": "Movement — good for travel and changes.",
+    "udveg": "Anxious time — postpone new beginnings if you can.",
+    "kaal": "Inauspicious — avoid starting new work.",
+    "rog": "Troubled time — avoid new work and important talks."
+  },
+  "card": "Today's best time",
+  "cardCta": "See Shubh Samay"
+}

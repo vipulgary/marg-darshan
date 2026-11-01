@@ -1,0 +1,13 @@
+{
+  "name": "astromax",
+  "private": true,
+  "workspaces": ["apps/web", "packages/*"],
+  "scripts": {
+    "dev": "npm run dev -w apps/web",
+    "build": "npm run build -w apps/web",
+    "lint": "npm run lint -w apps/web",
+    "typecheck": "npm run typecheck -w apps/web",
+    "i18n:check": "node scripts/check-i18n.mjs",
+    "engine:dev": "cd apps/engine && python -m uvicorn app.main:app --reload --port 8000"
+  }
+}

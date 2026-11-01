@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "Kundali Milan — Free Marriage Matching (36 Guna)",
+    "description": "Match the boy's and girl's kundali by the traditional Ashtakoot Guna Milan: 36-point score, Nadi, Bhakoot and Manglik check."
+  },
+  "eyebrow": "Marriage matching",
+  "title": "Kundali Milan",
+  "highlight": "— 36 Guna match",
+  "lead": "Enter the boy's and girl's birth details. We calculate both charts exactly and match them by the traditional Ashtakoot method.",
+  "boy": "Boy's details",
+  "girl": "Girl's details",
+  "name": "Name",
+  "dob": "Date of birth",
+  "tob": "Time of birth",
+  "place": "Place of birth",
+  "required": "This field is required.",
+  "fixFields": "Please fill all the details for both.",
+  "error": "Couldn't calculate the match right now. Please try again.",
+  "submit": "Match kundalis",
+  "matching": "Matching…",
+  "rashi": "Rashi",
+  "nakshatra": "Nakshatra",
+  "lagna": "Lagna",
+  "isManglik": "Manglik: yes",
+  "notManglik": "Manglik: no",
+  "kootsTitle": "Guna by guna",
+  "doshaTitle": "Dosha check",
+  "nadi": "Nadi dosha",
+  "bhakoot": "Bhakoot dosha",
+  "manglik": "Manglik",
+  "noDosha": "Not present.",
+  "cancelled": "Present, but cancelled by a classical exception.",
+  "nadiPresent": "Present — traditionally needs remedies; consult the Jyotish.",
+  "bhakootPresent": "Present — affects harmony and finances; consult the Jyotish.",
+  "manglikMatch": {
+    "none": "Neither is Manglik.",
+    "one": "Only one is Manglik — consult the Jyotish for remedies.",
+    "both": "Both are Manglik — this traditionally balances out."
+  },
+  "verdict": {
+    "excellent": "Excellent match",
+    "good": "Good match",
+    "average": "Acceptable match",
+    "low": "Low match"
+  },
+  "verdictText": {
+    "excellent": "A highly compatible pairing by the traditional measure.",
+    "good": "A good, compatible pairing — most qualities match well.",
+    "average": "Acceptable (18+ points). Look at the doshas below and discuss with the Jyotish.",
+    "low": "Below 18 points — traditionally not recommended without a detailed consultation."
+  },
+  "consultNote": "Guna Milan is one part of matching. A complete decision also considers the full charts, dashas and doshas — our Jyotish can review both kundalis for you.",
+  "book": "Book a matching consultation",
+  "koot": {
+    "varna": {
+      "name": "Varna (1)",
+      "meaning": "Work style and ego compatibility."
+    },
+    "vashya": {
+      "name": "Vashya (2)",
+      "meaning": "Mutual attraction and influence."
+    },
+    "tara": {
+      "name": "Tara (3)",
+      "meaning": "Health and well-being together."
+    },
+    "yoni": {
+      "name": "Yoni (4)",
+      "meaning": "Physical and intimate compatibility."
+    },
+    "maitri": {
+      "name": "Graha Maitri (5)",
+      "meaning": "Mental wavelength and friendship."
+    },
+    "gana": {
+      "name": "Gana (6)",
+      "meaning": "Temperament — how naturally you get along."
+    },
+    "bhakoot": {
+      "name": "Bhakoot (7)",
+      "meaning": "Love, family welfare and finances."
+    },
+    "nadi": {
+      "name": "Nadi (8)",
+      "meaning": "Health and progeny — the most important guna."
+    }
+  },
+  "print": "Print / Save as PDF"
+}

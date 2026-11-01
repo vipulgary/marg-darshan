@@ -1,0 +1,77 @@
+{
+  "meta": { "title": "Manage your booking", "description": "Reschedule or cancel your Marg Darshan consultation." },
+  "eyebrow": "Your booking",
+  "title": "Reschedule or cancel",
+  "summary": {
+    "service": "Service",
+    "topic": "Topic",
+    "when": "Date & time",
+    "mode": "Mode",
+    "online": "Online (Zoom)",
+    "visit": "Personal visit",
+    "duration": "Duration",
+    "minutes": "{count} min"
+  },
+  "policy": {
+    "ok": "You can reschedule for free or cancel with a full refund up to 24 hours before your session.",
+    "too_late": "Your session is less than 24 hours away, so it can no longer be changed online. Please message us on WhatsApp and we'll do our best to help.",
+    "past": "This session time has already passed. For any help, please reach us on WhatsApp.",
+    "cancelled": "This booking has already been cancelled.",
+    "not_manageable": "This booking can't be changed online right now. Please contact us on WhatsApp."
+  },
+  "actions": { "reschedule": "Choose a new time", "cancel": "Cancel booking" },
+  "reschedule": {
+    "title": "Pick a new time",
+    "loading": "Loading available times…",
+    "error": "We couldn't load available times. Please try again.",
+    "retry": "Try again",
+    "daysLabel": "Available days",
+    "none": "No times available on this day.",
+    "current": "your current time",
+    "unavailable": "unavailable",
+    "istNote": "All times are in Indian Standard Time (IST).",
+    "confirm": "Confirm new time",
+    "confirmWith": "Move to {time}",
+    "working": "Rescheduling…",
+    "back": "Back"
+  },
+  "cancelModal": {
+    "title": "Cancel this booking?",
+    "body": "Your session on {when} will be cancelled and the slot released.",
+    "refund": "The full amount you paid will be refunded to your original payment method within 5–7 working days.",
+    "noRefund": "This cancellation is not eligible for a refund.",
+    "keep": "Keep booking",
+    "confirm": "Yes, cancel",
+    "working": "Cancelling…",
+    "close": "Close"
+  },
+  "result": {
+    "rescheduled": {
+      "badge": "Rescheduled",
+      "title": "Your new time is confirmed",
+      "body": "Your session is now on {when}. We've emailed you the updated details."
+    },
+    "cancelled": {
+      "badge": "Cancelled",
+      "title": "Your booking has been cancelled",
+      "body": "We've emailed you a confirmation.",
+      "refund": "A refund of {amount} has been initiated and should reach you in 5–7 working days.",
+      "refundPending": "Your refund will be processed manually by our team — no action is needed from you."
+    },
+    "bookAgain": "Book another consultation"
+  },
+  "errors": {
+    "slot_unavailable": "Sorry, that time was just taken. Please pick another one.",
+    "slot_invalid": "That time can't be booked. Please pick another one.",
+    "not_allowed": "This booking can no longer be changed online. Please contact us on WhatsApp.",
+    "invalid_token": "This link is invalid or has expired.",
+    "rate_limited": "Too many attempts. Please wait a few minutes and try again.",
+    "conflict_retry": "Your booking changed in the meantime. Please refresh the page and try again.",
+    "generic": "Something went wrong. Please try again or contact us on WhatsApp."
+  },
+  "refundPolicy": "Refund & cancellation policy",
+  "whatsappCta": "Message us on WhatsApp",
+  "whatsappMessage": "Hello, I need help rescheduling or cancelling my Marg Darshan booking.",
+  "invalid": { "title": "This link isn't valid", "body": "The link may have expired or been copied incorrectly. Please use the link from your latest booking email, or message us on WhatsApp." },
+  "unavailable": { "title": "Booking management is temporarily unavailable", "body": "Please try again in a little while, or message us on WhatsApp and we'll help right away." }
+}

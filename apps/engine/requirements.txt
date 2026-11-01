@@ -1,0 +1,12 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.8
+pyswisseph>=2.10.3
+geopy>=2.4
+timezonefinder>=6.5
+tzdata>=2024.1   # zoneinfo data on Windows/slim images
+celery[redis]>=5.4
+# Vedic layers (AGPL) — used from Sprint 1 (jyotishyamitra) and Sprint 2 (PyJHora, jyotichart)
+jyotishyamitra>=1.1.0
+PyJHora>=4.7
+jyotichart>=6.0.1

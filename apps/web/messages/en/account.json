@@ -1,0 +1,221 @@
+{
+  "meta": {
+    "login": "Log in",
+    "signup": "Create account",
+    "forgot": "Forgot password",
+    "reset": "Reset password",
+    "verify": "Verify email",
+    "account": "My account",
+    "description": "Your Marg Darshan account — kundalis, bookings and receipts in one place."
+  },
+  "menu": {
+    "login": "Log in",
+    "myAccount": "My account",
+    "signOut": "Sign out",
+    "open": "Account menu"
+  },
+  "fields": {
+    "name": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "currentPassword": "Current password",
+    "passwordHint": "At least 8 characters, not only numbers.",
+    "show": "Show password",
+    "phone": "WhatsApp number",
+    "language": "Preferred language",
+    "langHi": "हिन्दी",
+    "langEn": "English"
+  },
+  "errors": {
+    "invalid_credentials": "Email or password is incorrect.",
+    "unverified": "Please verify your email first — we've just sent you a fresh link.",
+    "rate_limited": "Too many attempts. Please wait a few minutes and try again.",
+    "server_error": "Something went wrong on our side. Please try again.",
+    "network": "Couldn't reach the server. Check your connection and try again.",
+    "required": "This field is required.",
+    "invalid": "Please check this value.",
+    "too_short": "Use at least 8 characters.",
+    "too_long": "That password is too long.",
+    "all_digits": "Don't use only numbers — add a letter or symbol.",
+    "wrong": "Current password is incorrect.",
+    "invalid_token": "This link is invalid or has expired. Please request a new one.",
+    "google_unavailable": "Google sign-in isn't available right now.",
+    "google_state": "Google sign-in expired. Please try again.",
+    "google_cancelled": "Google sign-in was cancelled.",
+    "google_failed": "Google sign-in failed. Please try again.",
+    "google_email_unverified": "Your Google email isn't verified, so we can't use it to sign in.",
+    "google_linked_elsewhere": "This email is already linked to a different Google account."
+  },
+  "auth": {
+    "eyebrow": "Your Marg Darshan account",
+    "or": "or",
+    "google": "Continue with Google",
+    "login": {
+      "title": "Welcome back",
+      "lead": "Log in to see your kundalis, bookings and receipts.",
+      "submit": "Log in",
+      "busy": "Logging in…",
+      "forgot": "Forgot password?",
+      "noAccount": "New here?",
+      "signupLink": "Create an account"
+    },
+    "signup": {
+      "title": "Create your account",
+      "lead": "Bookings and charts you've made with this email will appear in your account once you verify it.",
+      "submit": "Create account",
+      "busy": "Creating…",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "sentTitle": "Check your inbox",
+      "sentBody": "If this email can be used, we've sent a link to finish setting up your account. It's valid for 24 hours."
+    },
+    "forgot": {
+      "title": "Forgot your password?",
+      "lead": "Enter your email and we'll send you a reset link.",
+      "submit": "Send reset link",
+      "busy": "Sending…",
+      "sent": "If an account exists for this email, a reset link is on its way. It's valid for 1 hour.",
+      "back": "Back to log in"
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "lead": "You'll be signed in and logged out of other devices.",
+      "submit": "Save password",
+      "busy": "Saving…",
+      "missing": "This page needs the link from your email.",
+      "requestNew": "Request a new link"
+    },
+    "verify": {
+      "title": "Verify your email",
+      "lead": "Confirm this email to activate your account and see everything you've done with us.",
+      "submit": "Verify and continue",
+      "busy": "Verifying…",
+      "missing": "Open the link from your email to verify your account."
+    }
+  },
+  "nav": {
+    "label": "Account sections",
+    "overview": "Overview",
+    "kundalis": "Kundalis",
+    "bookings": "Bookings",
+    "payments": "Payments",
+    "profiles": "Birth profiles",
+    "settings": "Settings"
+  },
+  "overview": {
+    "eyebrow": "My account",
+    "greeting": "Namaste, {name}",
+    "lead": "Everything you've done with Marg Darshan, saved in one place.",
+    "stats": {
+      "kundalis": "Kundalis",
+      "upcoming": "Upcoming sessions",
+      "payments": "Payments",
+      "profiles": "Saved profiles"
+    },
+    "next": "Your next session",
+    "noUpcoming": "No upcoming sessions.",
+    "recentKundalis": "Recent kundalis",
+    "viewAll": "View all",
+    "book": "Book a consultation",
+    "newKundali": "Make a free kundali"
+  },
+  "kundalis": {
+    "title": "My kundalis",
+    "empty": "You haven't made a kundali yet.",
+    "open": "Open",
+    "print": "Print / PDF",
+    "created": "Made on {date}",
+    "status": {
+      "QUEUED": "Queued",
+      "RUNNING": "Calculating",
+      "DONE": "Ready",
+      "FAILED": "Failed"
+    }
+  },
+  "bookings": {
+    "title": "My bookings",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "empty": "No bookings here yet.",
+    "join": "Join Zoom",
+    "manage": "Reschedule / cancel",
+    "pay": "Complete payment",
+    "online": "Online (Zoom)",
+    "visit": "Personal visit",
+    "minutes": "{count} min",
+    "status": {
+      "DRAFT": "Draft",
+      "HELD": "Slot held",
+      "PENDING_PAYMENT": "Awaiting payment",
+      "PARTIALLY_PAID": "Advance paid",
+      "CONFIRMED": "Confirmed",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled",
+      "EXPIRED": "Expired",
+      "NO_SHOW": "Missed",
+      "REFUNDED": "Refunded"
+    }
+  },
+  "payments": {
+    "title": "Payments & receipts",
+    "empty": "No payments yet.",
+    "amount": "Amount",
+    "date": "Date",
+    "for": "For",
+    "invoice": "View invoice",
+    "noInvoice": "Invoice pending",
+    "installment": "Instalment {n}",
+    "status": {
+      "CREATED": "Pending",
+      "CAPTURED": "Paid",
+      "FAILED": "Failed",
+      "REFUNDED": "Refunded"
+    }
+  },
+  "profiles": {
+    "title": "Saved birth profiles",
+    "lead": "Save birth details for yourself and family to fill kundali and booking forms in one tap.",
+    "empty": "No saved profiles yet.",
+    "add": "Add profile",
+    "edit": "Edit",
+    "delete": "Remove",
+    "confirmDelete": "Remove this profile? Kundalis and bookings already made stay in your account.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saved": "Profile saved.",
+    "removed": "Profile removed.",
+    "label": "Label",
+    "labelHint": "e.g. Self, Mother, Son",
+    "subjectName": "Name",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "dob": "Date of birth",
+    "tob": "Time of birth",
+    "tobHint": "Leave empty if unknown.",
+    "place": "Place of birth",
+    "timeUnknown": "Time unknown",
+    "useSaved": "Use a saved profile",
+    "choose": "Choose…",
+    "makeKundali": "Make kundali",
+    "book": "Book with this profile"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "save": "Save changes",
+    "saved": "Saved.",
+    "emailNote": "Email can't be changed here — contact us on WhatsApp if needed.",
+    "password": "Password",
+    "setPassword": "Set a password",
+    "googleOnly": "You sign in with Google. You can also set a password.",
+    "changePassword": "Change password",
+    "passwordSaved": "Password updated. Other devices were signed out.",
+    "sessions": "Sessions",
+    "sessionsLead": "Signed in on a shared or lost device? Sign out everywhere.",
+    "signOutAll": "Sign out of all devices",
+    "linkedGoogle": "Google account linked"
+  }
+}

@@ -1,0 +1,311 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Astromax design tokens (design.md §1–§3, §9) — AMX-010
+   Tailwind v4: tokens live in @theme and become utilities (bg-night-0, text-ink-2, rounded-lg…)
+   ========================================================================== */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* Brand */
+  /* Accent text/border shades are theme-aware (deeper on light); fills stay fixed. */
+  --color-saffron-300: var(--accent-saffron-300);
+  --color-saffron-400: var(--accent-saffron-400);
+  --color-saffron-500: #f59e0b;
+  --color-saffron-600: #d97706;
+  --color-saffron-700: #b45309;
+  --color-gold-200: var(--accent-gold-200);
+  --color-gold-300: var(--accent-gold-300);
+  --color-violet-300: var(--accent-violet-300);
+  --color-violet-400: var(--accent-violet-400);
+  --color-violet-500: var(--accent-violet-500);
+  --color-violet-700: var(--accent-violet-700);
+  --color-magenta-500: var(--accent-magenta-500);
+  --color-sindoor-600: #b91c1c;
+
+  /* Surfaces & text — mapped to the theme variables below */
+  --color-night-0: var(--bg-0);
+  --color-night-1: var(--bg-1);
+  --color-night-s1: var(--surface-1);
+  --color-night-s2: var(--surface-2);
+  --color-night-s3: var(--surface-3);
+  --color-ink-1: var(--text-1);
+  --color-ink-2: var(--text-2);
+  --color-ink-3: var(--text-3);
+  --color-ink-ongold: #1a1325;
+  --color-line: var(--border);
+  --color-line-subtle: var(--border-subtle);
+  --color-line-hover: var(--border-hover);
+  --color-line-gold: var(--border-gold);
+
+  /* Semantic */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+
+  /* Type */
+  --font-display: var(--font-fraunces), var(--font-tiro), ui-serif, serif;
+  --font-sans: var(--font-jakarta), var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* Elevation */
+  --shadow-e1: var(--elev-e1);
+  --shadow-e2: var(--elev-e2);
+  --shadow-e3: var(--elev-e3);
+  --shadow-glow-gold: var(--elev-glow-gold);
+  --shadow-glow-violet: var(--elev-glow-violet);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --animate-shimmer: shimmer 0.7s var(--ease-out);
+  --animate-aurora: aurora 32s ease-in-out infinite;
+  --animate-wheel: spin 120s linear infinite;
+  --animate-skeleton: skeleton 1.4s ease-in-out infinite;
+  --animate-shake: shake 0.2s ease-in-out;
+
+  @keyframes shimmer {
+    from { transform: translateX(-120%); }
+    to { transform: translateX(120%); }
+  }
+  @keyframes aurora {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(4%, -3%) scale(1.08); }
+  }
+  @keyframes skeleton {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+}
+
+/* Registered as utilities (not plain classes) so variants like has-checked:, hover:, focus-visible: work. */
+@utility bg-grad-gold {
+  background-image: var(--grad-gold);
+}
+@utility bg-grad-primary {
+  background-image: var(--grad-primary);
+}
+@utility bg-aurora {
+  background-image: var(--grad-aurora);
+}
+@utility ring-focus {
+  box-shadow: 0 0 0 2px var(--bg-0), 0 0 0 5px var(--ring);
+}
+
+/* Dark is the default theme. html.light switches the site (header toggle); .theme-dark keeps
+   an always-dark section (plasma hero) dark even in light mode. */
+:root,
+.theme-dark {
+  --bg-0: #07060f;
+  --bg-1: #0d0a1c;
+  --surface-1: #15112a;
+  --surface-2: #1d1736;
+  --surface-3: #262044;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.18);
+  --border-gold: rgba(252, 217, 138, 0.4);
+  --text-1: #f8f5ee;
+  --text-2: #cfc8df;
+  --text-3: #948cad;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+  --info: #7dd3fc;
+  --accent-gold-200: #fde7b0;
+  --accent-gold-300: #fcd98a;
+  --accent-saffron-300: #fcd34d;
+  --accent-saffron-400: #fbbf24;
+  --accent-violet-300: #c4b5fd;
+  --accent-violet-400: #a78bfa;
+  --accent-violet-500: #7c3aed;
+  --accent-violet-700: #4c1d95;
+  --accent-magenta-500: #db2777;
+  --aurora-1: rgba(124, 58, 237, 0.55);
+  --aurora-2: rgba(245, 158, 11, 0.38);
+  --aurora-3: rgba(219, 39, 119, 0.34);
+  --aurora-4: rgba(76, 29, 149, 0.55);
+  --ring: rgba(252, 217, 138, 0.55);
+
+  --grad-primary: linear-gradient(135deg, #f59e0b 0%, #db2777 55%, #7c3aed 100%);
+  --grad-gold: linear-gradient(135deg, #fde7b0 0%, #f59e0b 45%, #d97706 100%);
+  --grad-text: linear-gradient(92deg, #fde7b0 0%, #f59e0b 45%, #c4b5fd 100%);
+  --grad-aurora:
+    radial-gradient(55% 45% at 15% 20%, rgba(124, 58, 237, 0.45), transparent 60%),
+    radial-gradient(45% 40% at 85% 25%, rgba(245, 158, 11, 0.3), transparent 60%),
+    radial-gradient(60% 55% at 50% 110%, rgba(219, 39, 119, 0.28), transparent 60%);
+  color-scheme: dark;
+}
+
+:root {
+  --elev-e1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  --elev-e2: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 24px 48px -20px rgba(0, 0, 0, 0.7);
+  --elev-e3: 0 40px 80px -24px rgba(0, 0, 0, 0.8);
+  --elev-glow-gold: 0 0 0 1px rgba(252, 217, 138, 0.35), 0 12px 40px -10px rgba(245, 158, 11, 0.55);
+  --elev-glow-violet: 0 12px 60px -16px rgba(124, 58, 237, 0.65);
+}
+
+:root {
+  /* The page's own background, unaffected by .theme-dark islands (used by their edge fades). */
+  --page-bg: #07060f;
+}
+
+.theme-dark {
+  color: var(--text-2);
+}
+
+.light {
+  /* Light theme — warm "Leo season" palette: sand, tangerine, coral, salmon, terracotta. No purple. */
+  --bg-0: #fff8f1;
+  --page-bg: #fff8f1;
+  --bg-1: #fcefe3;
+  --surface-1: #ffffff;
+  --surface-2: #fff6ee;
+  --surface-3: #fbe9da;
+  --border-subtle: #f6e8da;
+  --border: #f0dcc8;
+  --border-hover: #e3c2a4;
+  --border-gold: rgba(156, 79, 59, 0.35);
+  --text-1: #2a1712;
+  --text-2: #5a4038;
+  --text-3: #7a5e54; /* 5.6:1 on #fff8f1 */
+  --success: #047857;
+  --warning: #b4533a;
+  --error: #c62828;
+  --info: #0277bd;
+  --accent-gold-200: #7a3a2a; /* deep terracotta for small accent text */
+  --accent-gold-300: #9c4f3b; /* terracotta — brand accent, 6:1 */
+  --accent-saffron-300: #b4533a;
+  --accent-saffron-400: #c2452d; /* coral, text-safe 4.7:1 */
+  --accent-violet-300: #9c4f3b; /* links: terracotta instead of purple */
+  --accent-violet-400: #b4533a;
+  --accent-violet-500: #f4735a; /* coral glows / borders */
+  --accent-violet-700: #9c4f3b;
+  --accent-magenta-500: #eb9783; /* salmon */
+  --aurora-1: rgba(255, 159, 67, 0.32);
+  --aurora-2: rgba(245, 194, 107, 0.4);
+  --aurora-3: rgba(235, 151, 131, 0.34);
+  --aurora-4: rgba(244, 115, 90, 0.22);
+  --ring: rgba(156, 79, 59, 0.5);
+  --grad-text: linear-gradient(92deg, #9c4f3b 0%, #c2452d 50%, #e0682f 100%);
+  --grad-gold: linear-gradient(135deg, #ffc46b 0%, #ff9f43 50%, #f4735a 100%);
+  --grad-primary: linear-gradient(135deg, #f5c26b 0%, #ff9f43 45%, #f4735a 100%);
+  --grad-aurora:
+    radial-gradient(55% 45% at 15% 20%, rgba(255, 159, 67, 0.2), transparent 60%),
+    radial-gradient(45% 40% at 85% 25%, rgba(235, 151, 131, 0.22), transparent 60%),
+    radial-gradient(60% 55% at 50% 110%, rgba(245, 194, 107, 0.22), transparent 60%);
+  color-scheme: light;
+  background-color: var(--bg-0);
+  color: var(--text-2);
+}
+
+@layer base {
+  html {
+    background: var(--bg-0);
+    color: var(--text-2);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
+    background: var(--bg-0);
+  }
+  h1, h2, h3, h4 {
+    color: var(--text-1);
+    font-weight: 600;
+  }
+  /* Devanagari needs more size and leading (design.md §2.2) */
+  :lang(hi) body {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+  :lang(hi) :is(h1, h2, h3) {
+    letter-spacing: 0 !important;
+    line-height: 1.3;
+  }
+  ::selection {
+    background: rgba(245, 158, 11, 0.35);
+    color: var(--text-1);
+  }
+  :focus-visible {
+    outline: none;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .container-page {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1200px;
+    padding-inline: 16px;
+  }
+  @media (min-width: 768px) {
+    .container-page { padding-inline: 24px; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Light theme: header + footer use "Radiant Earth" (WGSN/Coloro 2028) blending into Jaipur
+   pink-city terracotta, with warm (never purple) tokens for everything inside the band. */
+.light .md-band {
+  --surface-1: rgba(255, 240, 228, 0.12);
+  --surface-2: rgba(255, 240, 228, 0.18);
+  --surface-3: rgba(255, 240, 228, 0.24);
+  --border-subtle: rgba(255, 226, 205, 0.16);
+  --border: rgba(255, 226, 205, 0.28);
+  --border-hover: rgba(255, 226, 205, 0.45);
+  --text-1: #fff7f0;
+  --text-2: #fbe4d6;
+  --text-3: #f1c9b6;
+  --accent-violet-300: #ffd9a8;
+  --accent-violet-400: #ffc98a;
+  --accent-violet-500: #f5a25d;
+  --accent-violet-700: #8e2f1f;
+  --accent-magenta-500: #f0a08a;
+  --aurora-1: rgba(255, 181, 140, 0.28);
+  --aurora-2: rgba(255, 214, 160, 0.22);
+  --aurora-3: rgba(232, 132, 108, 0.3);
+  --aurora-4: rgba(142, 47, 31, 0.35);
+  --ring: rgba(255, 214, 170, 0.7);
+  background: linear-gradient(118deg, #7e2a1b 0%, #a33b27 28%, #b8452f 52%, #c8634a 78%, #d98468 100%) !important;
+  border-color: rgba(255, 220, 196, 0.2) !important;
+}
+.light header.md-band { box-shadow: 0 8px 28px -14px rgba(126, 42, 27, 0.6); }
+.light footer.md-band {
+  background: linear-gradient(160deg, #b8452f 0%, #9c3a26 40%, #7e2a1b 75%, #5e1f14 100%) !important;
+}
+/* Warm, neutral elevations in light mode — no violet glows. */
+.light {
+  --elev-e1: 0 1px 2px rgba(122, 58, 42, 0.06), 0 8px 24px -14px rgba(122, 58, 42, 0.22);
+  --elev-e2: 0 2px 4px rgba(122, 58, 42, 0.06), 0 24px 48px -24px rgba(122, 58, 42, 0.28);
+  --elev-e3: 0 40px 80px -32px rgba(122, 58, 42, 0.32);
+  --elev-glow-gold: 0 0 0 1px rgba(245, 162, 93, 0.3), 0 12px 36px -12px rgba(224, 104, 47, 0.45);
+  --elev-glow-violet: 0 16px 48px -20px rgba(184, 69, 47, 0.35);
+}

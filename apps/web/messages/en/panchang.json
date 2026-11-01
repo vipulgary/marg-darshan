@@ -1,0 +1,11 @@
+{
+  "title": "Today's Panchang",
+  "place": "New Delhi",
+  "loading": "Loading today's panchang",
+  "vara": "Day",
+  "tithi": "Tithi",
+  "nakshatra": "Nakshatra",
+  "yoga": "Yoga",
+  "sunrise": "Sunrise",
+  "sunset": "Sunset"
+}

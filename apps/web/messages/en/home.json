@@ -1,0 +1,125 @@
+{
+  "hero": {
+    "trustLabel": "Key facts about us",
+    "rating": "average rating",
+    "consultations": "consultations",
+    "years": "years of experience"
+  },
+  "quick": {
+    "title": "Quick Kundali",
+    "lead": "Enter your birth details — we'll complete the rest on the next page.",
+    "name": "Name",
+    "namePlaceholder": "e.g. Rahul Sharma",
+    "dob": "Date of birth",
+    "tob": "Time of birth",
+    "place": "Place of birth",
+    "placePlaceholder": "City, e.g. Jaipur",
+    "submit": "Create Free Kundali"
+  },
+  "trust": {
+    "label": "Why people trust us",
+    "i1": "Lahiri ayanamsa · Swiss Ephemeris calculations",
+    "i2": "Secure payments via Razorpay",
+    "i3": "100% confidential consultations",
+    "i4": "Online (Zoom) and in-person sessions",
+    "i5": "In Hindi and English",
+    "i6": "Lab-certified gemstones",
+    "i7": "Vastu remedies without demolition",
+    "i8": "Instant confirmation by email and WhatsApp"
+  },
+  "problems": {
+    "eyebrow": "Start here",
+    "title": "What would you like",
+    "highlight": "help with?",
+    "lead": "Pick your concern — we'll start your booking with the right service and duration.",
+    "all": "See all {count} topics"
+  },
+  "bento": {
+    "eyebrow": "Our services",
+    "title": "Complete guidance,",
+    "highlight": "in one place",
+    "lead": "Astrology, Vastu and gemstones — classical method with modern convenience.",
+    "from": "From {price}",
+    "more": "Learn more",
+    "kundali": {
+      "badge": "Free",
+      "title": "See your Kundali in a minute",
+      "body": "Lagna, Rashi, Nakshatra, planetary positions, Vimshottari dasha and key doshas and yogas — in North or South Indian style."
+    },
+    "modes": {
+      "title": "Online or face to face",
+      "body": "Join on Zoom from anywhere in the world, or meet us at the office."
+    },
+    "stats": {
+      "years": "years of experience",
+      "clients": "consultations completed"
+    },
+    "birthTime": {
+      "title": "Don't know your birth time?",
+      "body": "We help work out your exact birth time from the key events of your life."
+    }
+  },
+  "jyotish": {
+    "eyebrow": "Your Jyotish",
+    "title": "Meet",
+    "portraitLabel": "Portrait of {name} (coming soon)",
+    "chipsLabel": "Expertise",
+    "more": "Full profile"
+  },
+  "how": {
+    "eyebrow": "How it works",
+    "title": "Four simple",
+    "highlight": "steps",
+    "lead": "Booking takes two minutes. The preparation is on us.",
+    "s1": {
+      "title": "Choose your concern",
+      "body": "Career, marriage, Vastu or gemstones — pick a topic and share your details."
+    },
+    "s2": {
+      "title": "Pick a time",
+      "body": "Online or in person, at a slot that suits you."
+    },
+    "s3": {
+      "title": "Pay securely",
+      "body": "UPI, cards or net banking, processed securely by Razorpay."
+    },
+    "s4": {
+      "title": "Consult",
+      "body": "Speak with Acharya Ji at your slot — your chart is prepared in advance."
+    }
+  },
+  "pricing": {
+    "eyebrow": "Pricing",
+    "title": "Clear,",
+    "highlight": "transparent fees",
+    "lead": "No hidden costs. For larger services, confirm your slot with a 50% advance.",
+    "all": "See all plans and pricing"
+  },
+  "birthTime": {
+    "eyebrow": "Birth-time rectification",
+    "title": "Don't know your birth time?",
+    "highlight": "We'll help",
+    "lead": "Share an approximate time and a few key life events — Acharya Ji works out the right time from your dashas.",
+    "cta": "Start the Birth Time Finder"
+  },
+  "newsletter": {
+    "eyebrow": "Weekly letter",
+    "title": "Every Sunday,",
+    "highlight": "your Panchang",
+    "lead": "A weekly Hindi newsletter, straight to your inbox and completely free.",
+    "p1": "The week's Panchang — tithi, nakshatra and yoga",
+    "p2": "Fasts, festivals and auspicious muhurtas",
+    "p3": "Simple tips on planetary transits"
+  },
+  "faq": {
+    "eyebrow": "Questions",
+    "title": "Frequently asked",
+    "highlight": "questions",
+    "all": "See all questions"
+  },
+  "final": {
+    "title": "The right guidance,",
+    "highlight": "at the right time",
+    "lead": "Book a consultation today, or start with your free Kundali."
+  }
+}

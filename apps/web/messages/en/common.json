@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "title": "Marg Darshan — Vedic Astrology, Vastu & Gemstone Consulting",
+    "description": "Online and in-person astrology consultations, Vastu Shastra, gemstone guidance and a free Kundali."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "astrology": "Astrology Consulting",
+    "vastu": "Vastu Shastra",
+    "gems": "Gemstone Consulting",
+    "kundali": "Free Kundali",
+    "shop": "Shop",
+    "about": "About the Jyotish",
+    "book": "Book",
+    "menu": "Open menu"
+  },
+  "language": {
+    "label": "भाषा बदलें / Change language",
+    "hi": "हिंदी",
+    "en": "English",
+    "hiShort": "हि",
+    "enShort": "EN",
+    "hint": "हिंदी में देखें"
+  },
+  "cta": {
+    "book": "Book Consultation",
+    "kundali": "Create Free Kundali",
+    "birthTime": "Don't know your birth time? We'll help",
+    "enquire": "Check suitability & price",
+    "whatsapp": "Chat on WhatsApp",
+    "loading": "Please wait…",
+    "next": "Continue",
+    "back": "Back"
+  },
+  "home": {
+    "eyebrow": "Vedic Astrology · Vastu · Gems",
+    "titleStart": "Your Kundali,",
+    "titleHighlight": "your guidance",
+    "lead": "Consult an experienced Jyotish online or in person — for career, marriage, health, Vastu and gemstone questions.",
+    "sprintNote": "Sprint 1 — design system preview"
+  },
+  "form": {
+    "name": "Full name",
+    "namePlaceholder": "e.g. Rahul Sharma",
+    "email": "Email",
+    "phone": "WhatsApp number",
+    "question": "Your question",
+    "questionPlaceholder": "Briefly describe your concern…",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "chartStyle": "Chart style",
+    "north": "North Indian",
+    "south": "South Indian",
+    "duration": "Duration",
+    "selectPlaceholder": "Select",
+    "timeUnknown": "Don't know your birth time?",
+    "timeUnknownHint": "No problem — we'll help find it from your life events.",
+    "consent": "I agree to the privacy policy",
+    "splitPlan": "Split payment (50% advance)",
+    "required": "This field is required",
+    "invalidEmail": "Enter a valid email",
+    "invalidPhone": "Enter a 10-digit mobile number"
+  },
+  "problems": {
+    "title": "What would you like help with?",
+    "career": "Career & Business",
+    "marriage": "Marriage & Matching",
+    "health": "Health",
+    "finance": "Finance & Investment",
+    "vastu": "Vastu Shastra",
+    "gems": "Gemstone Advice",
+    "santaan": "Children",
+    "birthTime": "Birth time unknown"
+  },
+  "steps": {
+    "problem": "Problem",
+    "mode": "Mode",
+    "details": "Details",
+    "slot": "Slot",
+    "pay": "Pay",
+    "progress": "Step {current}/{total}"
+  },
+  "ui": {
+    "close": "Close",
+    "saved": "Saved",
+    "toastSaved": "Your details have been saved",
+    "openModal": "Open modal",
+    "modalTitle": "Send an enquiry",
+    "modalBody": "We'll reply on WhatsApp.",
+    "popular": "Most popular",
+    "tabChart": "Chart",
+    "tabPlanets": "Planets",
+    "tabDasha": "Dasha",
+    "chart": "Chart",
+    "planets": "Planets",
+    "dasha": "Dasha"
+  },
+  "showcase": {
+    "buttons": "Buttons",
+    "inputs": "Forms",
+    "selection": "Selection",
+    "feedback": "Feedback",
+    "navigation": "Navigation",
+    "formDraftNote": "Type something in this form, then switch language — nothing is lost."
+  },
+  "glossary": {
+    "lagna": "Ascendant (Lagna)",
+    "rashi": "Moon sign (Rashi)",
+    "nakshatra": "Nakshatra",
+    "graha": "Planet",
+    "bhava": "House",
+    "dasha": "Dasha",
+    "mahadasha": "Mahadasha",
+    "antardasha": "Antardasha",
+    "dosha": "Dosha",
+    "yoga": "Yoga",
+    "ayanamsa": "Ayanamsa",
+    "navamsa": "Navamsa (D9)",
+    "retrograde": "Retrograde",
+    "kundali": "Kundali",
+    "panchang": "Panchang",
+    "muhurta": "Muhurta",
+    "ratna": "Gemstone",
+    "vastu": "Vastu"
+  }
+}

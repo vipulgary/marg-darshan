@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "title": "Book a Consultation — Astrology, Vastu & Gemstones | Marg Darshan",
+    "description": "Book your astrology, Vastu or gemstone consultation in 5 easy steps — online on Zoom or in person, times in IST."
+  },
+  "page": {
+    "eyebrow": "Consultation booking",
+    "title": "Book your",
+    "highlight": "consultation",
+    "lead": "Pick your concern, choose how to meet, share your details and select a convenient time — it takes about 2 minutes."
+  },
+  "problem": {
+    "title": "What would you like guidance on?",
+    "lead": "Choose the area you need help with — we'll match you with the right consultation.",
+    "legend": "Choose your concern"
+  },
+  "mode": {
+    "title": "Mode & duration",
+    "lead": "Online or in person — whichever suits you best.",
+    "modeLegend": "How would you like to meet?",
+    "durationLegend": "Session length",
+    "durationHint": "Fees depend on the duration; the price stays visible in your summary.",
+    "minutes": "{count} min",
+    "ONLINE_ZOOM": {
+      "title": "Online (Zoom)",
+      "desc": "Video call from home — the link arrives by email and WhatsApp."
+    },
+    "PERSONAL_VISIT": {
+      "title": "Personal visit",
+      "desc": "Face-to-face at our office, or a Vastu site visit."
+    }
+  },
+  "details": {
+    "title": "Your details",
+    "lead": "Accurate details mean an accurate reading — everything you share stays confidential.",
+    "contactTitle": "Contact details",
+    "emailHint": "Your confirmation and Zoom link will be sent here.",
+    "phoneHint": "10-digit Indian mobile number (+91 optional)",
+    "profileAttached": "Your birth-time rectification details are attached",
+    "profileAttachedHint": "The birth date, place and life events you shared in the Birth Time Finder will be sent with this booking.",
+    "profileDetach": "Enter new details instead",
+    "rectificationTitle": "Details for birth-time rectification",
+    "birthTitle": "Birth details",
+    "dob": "Date of birth",
+    "tob": "Time of birth",
+    "tobHint": "As exact as possible — from the birth certificate or family.",
+    "birthplace": "Place of birth",
+    "windowLegend": "Approximate birth time",
+    "windowHint": "Roughly between which hours were you born? For example, between 4 and 8 AM.",
+    "windowStart": "From",
+    "windowEnd": "To",
+    "propertyTitle": "Property details",
+    "address": "Property address",
+    "addressHint": "House/shop number, street, area",
+    "propertyLocation": "Property location (city)",
+    "propertyType": "Property type",
+    "facing": "Main entrance facing",
+    "facingHint": "The direction you face when stepping out of the main door",
+    "floorPlan": "Floor plan (optional)",
+    "questionHint": "Optional — it helps Acharya Ji prepare in advance.",
+    "propertyTypes": {
+      "home": "Home / flat",
+      "office": "Office",
+      "shop": "Shop / showroom",
+      "factory": "Factory / warehouse",
+      "plot": "Empty plot"
+    },
+    "facings": {
+      "N": "North",
+      "NE": "North-East (Ishaan)",
+      "E": "East",
+      "SE": "South-East (Agneya)",
+      "S": "South",
+      "SW": "South-West (Nairutya)",
+      "W": "West",
+      "NW": "North-West (Vayavya)"
+    }
+  },
+  "slot": {
+    "title": "Pick a time",
+    "lead": "Choose a day and time that suits you. All times are in Indian Standard Time (IST).",
+    "loading": "Loading available times…",
+    "error": "We couldn't load available times. Please try again.",
+    "retry": "Try again",
+    "daysLabel": "Choose a day",
+    "closed": "Closed on this day",
+    "fullyBooked": "Fully booked on this day",
+    "availableCount": "{count} times available",
+    "unavailable": "unavailable",
+    "istNote": "Times shown in IST (India Standard Time)",
+    "localTime": "Your time: {time}"
+  },
+  "pay": {
+    "title": "Review & pay",
+    "lead": "Check your details, choose a payment plan and hold your slot for 10 minutes."
+  },
+  "review": {
+    "edit": "Edit",
+    "contact": "Contact",
+    "property": "Property",
+    "birth": "Birth details",
+    "question": "Your question",
+    "timeUnknown": "Birth time unknown",
+    "planLegend": "Payment plan",
+    "full": "Pay in full",
+    "split": "{pct}% advance",
+    "splitDesc": "{advance} now, balance later",
+    "fullOnly": "Total fee {amount} — paid in full now.",
+    "consent": "I agree to the <privacy>privacy policy</privacy>, <terms>terms</terms> and <refund>refund policy</refund>.",
+    "holdNote": "When you continue, this time is held for you for 10 minutes so you can complete payment calmly."
+  },
+  "summary": {
+    "title": "Booking summary",
+    "problem": "Concern",
+    "service": "Service",
+    "mode": "Mode",
+    "duration": "Duration",
+    "slot": "Time",
+    "total": "Total fee",
+    "splitNote": "{advance} now · {balance} later",
+    "startOver": "Start over",
+    "hide": "Hide summary",
+    "show": "View summary"
+  },
+  "hold": {
+    "countdown": "Slot releases in {time}",
+    "expired": "Hold expired — please pick your time again",
+    "minutesLeft": "{count, plural, one {# minute} other {# minutes}} left on your slot hold"
+  },
+  "upload": {
+    "done": "Uploaded · {size} MB",
+    "remove": "Remove {name}",
+    "cta": "Drop your floor plan here or browse",
+    "hint": "PDF/JPG/PNG, max 10MB",
+    "uploading": "Uploading",
+    "errors": {
+      "tooLarge": "The file is larger than 10MB.",
+      "badType": "Please upload a PDF, JPG or PNG file.",
+      "rateLimited": "Too many uploads — please try again later.",
+      "failed": "Upload failed, please try again.",
+      "network": "Check your internet connection and try again."
+    }
+  },
+  "events": {
+    "legend": "Key life events",
+    "hint": "Add {min} to {max} important events with their dates — they are used to pin down your exact birth time.",
+    "type": "Event {n}",
+    "choose": "Choose an event",
+    "date": "Date",
+    "remove": "Remove event {n}",
+    "add": "Add another event",
+    "types": {
+      "marriage": "Marriage",
+      "child_birth": "Birth of first child",
+      "job_start": "First job",
+      "job_change": "Job change",
+      "business_start": "Started a business",
+      "illness_surgery": "Major illness / surgery",
+      "accident": "Accident",
+      "relocation_abroad": "Moved abroad",
+      "father_passing": "Father's passing",
+      "mother_passing": "Mother's passing",
+      "education": "Education milestone"
+    }
+  },
+  "nav": {
+    "holding": "Holding your slot…",
+    "continuePayment": "Continue to payment",
+    "holdAndPay": "Hold slot & pay",
+    "completeStep": "Complete this step to continue."
+  },
+  "errors": {
+    "required": "This is required",
+    "tooShort": "Please add a little more detail",
+    "tooLong": "This is too long",
+    "invalidEmail": "Enter a valid email",
+    "invalidPhone": "Enter a 10-digit Indian mobile number",
+    "invalidDate": "Choose a valid date",
+    "dateInFuture": "The date can't be in the future",
+    "invalidTime": "Choose a valid time",
+    "windowEmpty": "Start and end times must differ",
+    "eventBeforeBirth": "Event date must be after your date of birth",
+    "lifeEventsMin": "Add at least 4 events",
+    "lifeEventsMax": "At most 6 events",
+    "invalidUpload": "Please upload the file again",
+    "consentRequired": "Please accept to continue",
+    "serviceMismatch": "Please choose your concern again",
+    "invalidMode": "Please choose the mode again",
+    "invalidDuration": "Please choose the duration again",
+    "slotTaken": "That time was just booked by someone else — please pick another.",
+    "rateLimited": "Too many attempts — please try again in a few minutes.",
+    "unavailable": "Booking is temporarily unavailable. Please reach us on WhatsApp.",
+    "server": "Something went wrong. Please try again.",
+    "network": "Check your internet connection and try again."
+  }
+}

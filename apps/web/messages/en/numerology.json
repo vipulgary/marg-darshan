@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "title": "Numerology — Your Mulank, Bhagyank & Lucky Numbers",
+    "description": "Instantly find your psychic number (Mulank), destiny number (Bhagyank), name number, lucky numbers, days, colours and gemstone."
+  },
+  "eyebrow": "Numerology",
+  "title": "Ank Jyotish",
+  "highlight": "— your numbers",
+  "lead": "Enter your name and date of birth to see your Mulank, Bhagyank, name number and lucky factors — calculated instantly.",
+  "name": "Full name",
+  "nameHint": "Use English letters for the name number.",
+  "dob": "Date of birth",
+  "enterDetails": "Enter your name and date of birth to see your numbers.",
+  "mulank": "Mulank",
+  "mulankHint": "Psychic number — from your birth day",
+  "bhagyank": "Bhagyank",
+  "bhagyankHint": "Destiny number — from your full birth date",
+  "namank": "Namank",
+  "namankHint": "Name number (Chaldean)",
+  "namankLatin": "Enter the name in English letters",
+  "yourNature": "Number {n} — ruled by {planet}",
+  "destinyLine": "Your destiny number {n} ({planet}):",
+  "luckyTitle": "Your lucky factors",
+  "luckyNumbers": "Lucky numbers",
+  "luckyDays": "Lucky days",
+  "luckyColours": "Lucky colours",
+  "gem": "Gemstone",
+  "nameFit": {
+    "good": "Name number: favourable",
+    "ok": "Name number: neutral",
+    "weak": "Name number: weak"
+  },
+  "nameFitText": {
+    "good": "Your name number supports your birth numbers.",
+    "ok": "Your name number is fine with one of your birth numbers.",
+    "weak": "Your name number doesn't match your birth numbers — a small spelling change is sometimes suggested; consult the Jyotish."
+  },
+  "gemNote": "Wear a gemstone only after consulting the Jyotish."
+}

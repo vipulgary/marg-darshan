@@ -1,0 +1,860 @@
+{
+  "_note": "Source of truth for task.md. Status: todo | doing | done. Run: node scripts/gen-tasks.mjs",
+  "epics": [
+    {
+      "id": "E0",
+      "name": "Project Setup & DevOps",
+      "tickets": [
+        [
+          "AMX-001",
+          "Monorepo scaffold",
+          1,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-002",
+          "CI/CD (GitHub Actions)",
+          1,
+          "doing",
+          "S1"
+        ],
+        [
+          "AMX-003",
+          "Environments & secrets",
+          0.5,
+          "doing",
+          "S1"
+        ],
+        [
+          "AMX-004",
+          "Postgres + Prisma schema v1",
+          1.5,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-005",
+          "Infra: Redis, R2, Docker Compose",
+          1,
+          "doing",
+          "S1"
+        ],
+        [
+          "AMX-006",
+          "Observability (Sentry, Plausible)",
+          0.5,
+          "doing",
+          "S2"
+        ]
+      ]
+    },
+    {
+      "id": "E1",
+      "name": "Design System & Layout",
+      "tickets": [
+        [
+          "AMX-010",
+          "Design tokens",
+          1,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-011",
+          "Fonts (Latin + Devanagari)",
+          0.5,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-012",
+          "Core UI components",
+          3,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-013",
+          "Effects library (plasma, aurora…)",
+          2,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-014",
+          "Layout shell (header, footer, mobile bar)",
+          1.5,
+          "done",
+          "S2"
+        ]
+      ]
+    },
+    {
+      "id": "E2",
+      "name": "Bilingual (i18n)",
+      "tickets": [
+        [
+          "AMX-020",
+          "next-intl setup (hi default)",
+          1,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-021",
+          "Language toggle",
+          1,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-022",
+          "Message catalogs + glossary + CI check",
+          2,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-023",
+          "Localized formats (₹, IST)",
+          0.5,
+          "done",
+          "S2"
+        ]
+      ]
+    },
+    {
+      "id": "E3",
+      "name": "CMS & Content Pages",
+      "tickets": [
+        [
+          "AMX-030",
+          "Payload CMS setup",
+          2,
+          "todo",
+          "S2"
+        ],
+        [
+          "AMX-031",
+          "Home page",
+          3,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-032",
+          "About Jyotish page",
+          1.5,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-033",
+          "Service: Astrology",
+          1,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-034",
+          "Service: Vastu",
+          1,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-035",
+          "Service: Gems",
+          1,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-036",
+          "Pricing page",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-037",
+          "Contact, FAQ, legal pages",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-038",
+          "SEO (hreflang, sitemap, JSON-LD)",
+          1,
+          "done",
+          "S3"
+        ]
+      ]
+    },
+    {
+      "id": "E4",
+      "name": "Astro Engine (Python)",
+      "tickets": [
+        [
+          "AMX-040",
+          "FastAPI skeleton + Docker",
+          1,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-041",
+          "Ephemeris install",
+          0.5,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-042",
+          "Geo service (geopy + timezonefinder)",
+          1.5,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-043",
+          "Chart calculation core",
+          3,
+          "done",
+          "S1"
+        ],
+        [
+          "AMX-044",
+          "Yogas & doshas",
+          1.5,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-045",
+          "SVG charts (jyotichart)",
+          1.5,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-046",
+          "PDF kundali",
+          2,
+          "done",
+          "S2"
+        ],
+        [
+          "AMX-047",
+          "Celery worker + tasks",
+          1,
+          "doing",
+          "S2"
+        ],
+        [
+          "AMX-048",
+          "Rectification scan",
+          3,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-049",
+          "Panchang endpoint",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-050",
+          "Accuracy validation suite",
+          2,
+          "todo",
+          "S2"
+        ],
+        [
+          "AMX-051",
+          "AGPL compliance",
+          0.5,
+          "done",
+          "S3"
+        ]
+      ]
+    },
+    {
+      "id": "E5",
+      "name": "Free Kundali (web)",
+      "tickets": [
+        [
+          "AMX-060",
+          "Birthplace combobox",
+          1.5,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-061",
+          "Kundali form",
+          1.5,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-062",
+          "Kundali API + polling",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-063",
+          "Result page",
+          2.5,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-064",
+          "Kundali email",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-180",
+          "Phalit report engine (Lagna/Rashi/Nakshatra/houses/dasha)",
+          2,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-181",
+          "Remedies, gemstone & lucky factors in report",
+          0.5,
+          "done",
+          "S5"
+        ]
+      ]
+    },
+    {
+      "id": "E6",
+      "name": "Booking Funnel",
+      "tickets": [
+        [
+          "AMX-070",
+          "Cal.com self-host + event types",
+          1.5,
+          "todo",
+          "S4"
+        ],
+        [
+          "AMX-071",
+          "Zoom integration",
+          1,
+          "doing",
+          "S4"
+        ],
+        [
+          "AMX-072",
+          "Funnel shell + stepper + store",
+          1.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-073",
+          "Step 1 Problem cards",
+          1,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-074",
+          "Step 2 Mode & duration",
+          0.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-075",
+          "Step 3 Contextual intake",
+          2.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-076",
+          "Step 4 Slot picker + hold",
+          2,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-077",
+          "Hold expiry job",
+          0.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-078",
+          "Calendly adapter (fallback)",
+          1,
+          "done",
+          "S5"
+        ]
+      ]
+    },
+    {
+      "id": "E7",
+      "name": "Payments",
+      "tickets": [
+        [
+          "AMX-080",
+          "Razorpay order + checkout",
+          2,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-081",
+          "Payment page UI",
+          1.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-082",
+          "Webhook handler",
+          1.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-083",
+          "Split plan + balance link",
+          1.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-084",
+          "Success/failure pages",
+          0.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-085",
+          "GST invoice PDF",
+          1,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-086",
+          "Refunds",
+          1,
+          "done",
+          "S5"
+        ]
+      ]
+    },
+    {
+      "id": "E8",
+      "name": "Confirmation & Notifications",
+      "tickets": [
+        [
+          "AMX-090",
+          "Confirmation orchestrator",
+          1.5,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-091",
+          "Email templates (hi/en)",
+          1.5,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-092",
+          "Reminders",
+          0.5,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-093",
+          "Reschedule/cancel via link",
+          1,
+          "done",
+          "S5"
+        ]
+      ]
+    },
+    {
+      "id": "E9",
+      "name": "WhatsApp",
+      "tickets": [
+        [
+          "AMX-100",
+          "Floating WhatsApp + context messages",
+          0.5,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-101",
+          "WhatsApp Cloud API (phase 2)",
+          2,
+          "todo",
+          "S5"
+        ]
+      ]
+    },
+    {
+      "id": "E10",
+      "name": "Shop (enquiry)",
+      "tickets": [
+        [
+          "AMX-110",
+          "Shop listing + filters",
+          1.5,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-111",
+          "Product detail",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-112",
+          "Enquiry modal → DB → WhatsApp",
+          1,
+          "done",
+          "S3"
+        ]
+      ]
+    },
+    {
+      "id": "E11",
+      "name": "Newsletter & Panchang",
+      "tickets": [
+        [
+          "AMX-120",
+          "Listmonk + double opt-in",
+          1,
+          "doing",
+          "S4"
+        ],
+        [
+          "AMX-121",
+          "Weekly panchang job",
+          1.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-122",
+          "Daily panchang widget",
+          1,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-190",
+          "Shubh Samay: choghadiya, Rahu Kaal, Abhijit, when-to-start",
+          1,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-191",
+          "Kundali Milan (Ashtakoot 36 + doshas)",
+          1,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-192",
+          "Report dashboard (7 cards) + quick/full",
+          1,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-193",
+          "Marg Darshan rebrand",
+          0.5,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-194",
+          "Numerology: Mulank, Bhagyank, Namank, lucky factors",
+          0.5,
+          "done",
+          "S5"
+        ]
+      ]
+    },
+    {
+      "id": "E12",
+      "name": "Birth Time Finder",
+      "tickets": [
+        [
+          "AMX-130",
+          "Page + questionnaire",
+          1.5,
+          "done",
+          "S4"
+        ],
+        [
+          "AMX-131",
+          "Scan → dossier → booking",
+          1,
+          "done",
+          "S4"
+        ]
+      ]
+    },
+    {
+      "id": "E13",
+      "name": "Admin",
+      "tickets": [
+        [
+          "AMX-140",
+          "Admin auth & roles",
+          1,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-141",
+          "Bookings dashboard",
+          2,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-142",
+          "Payments & enquiries + CSV",
+          1,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-143",
+          "Settings",
+          0.5,
+          "done",
+          "S5"
+        ]
+      ]
+    },
+    {
+      "id": "E14",
+      "name": "QA & Launch",
+      "tickets": [
+        [
+          "AMX-150",
+          "E2E tests (Playwright)",
+          2,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-151",
+          "Accessibility & performance",
+          1,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-152",
+          "Device QA (UPI, WhatsApp)",
+          1,
+          "todo",
+          "S5"
+        ],
+        [
+          "AMX-153",
+          "Go-live",
+          1,
+          "todo",
+          "S5"
+        ]
+      ]
+    },
+    {
+      "id": "E15",
+      "name": "Autonomous extras (no client dependency)",
+      "tickets": [
+        [
+          "AMX-160",
+          "Printable kundali PDF + chart SVG download",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-161",
+          "Cron routes + Vercel cron config",
+          0.5,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-162",
+          "Licensed product photos (Wikimedia) + credits",
+          0.5,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-163",
+          "Light/dark theme toggle + WCAG contrast pass",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-164",
+          "Animated stroke icon system (54 icons)",
+          1,
+          "done",
+          "S3"
+        ],
+        [
+          "AMX-165",
+          "Birthplace search fallback (OSM) without engine",
+          0.5,
+          "done",
+          "S3"
+        ]
+      ]
+    },
+    {
+      "id": "E16",
+      "name": "Customer Accounts",
+      "tickets": [
+        [
+          "AMX-170",
+          "Customer auth: email+password (signup, login, reset)",
+          1.5,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-171",
+          "Google sign-in (OAuth, env-gated)",
+          0.5,
+          "doing",
+          "S5"
+        ],
+        [
+          "AMX-172",
+          "My Account: kundalis, bookings, payments, invoices",
+          1.5,
+          "done",
+          "S5"
+        ],
+        [
+          "AMX-173",
+          "Saved birth profiles + link past activity",
+          1,
+          "done",
+          "S5"
+        ]
+      ]
+    }
+  ],
+  "notes": {
+    "AMX-002": "Workflow file written; runs on first push to GitHub",
+    "AMX-003": ".env.example done; real secrets pending from client",
+    "AMX-005": "docker-compose written; Docker not installed locally",
+    "AMX-041": "Verified live: pyswisseph built, 57 engine tests pass, kundali generated end to end",
+    "AMX-042": "Verified live: pyswisseph built, 57 engine tests pass, kundali generated end to end",
+    "AMX-043": "Verified live: pyswisseph built, 57 engine tests pass, kundali generated end to end",
+    "AMX-004": "Migrations applied + seeded on local PGlite",
+    "AMX-013": "Done; not yet seen in browser",
+    "AMX-014": "Done; not yet seen in browser",
+    "AMX-023": "Done; not yet seen in browser",
+    "AMX-031": "Done; content has TODO(client)/legal review markers",
+    "AMX-038": "Done; 52 share images verified, a11y fixes applied",
+    "AMX-044": "40 pytest pass; swisseph paths untested locally",
+    "AMX-060": "Done; untested live (no DB/engine)",
+    "AMX-062": "Done; untested live (no DB/engine)",
+    "AMX-072": "Done; untested live (no DB/Cal.com)",
+    "AMX-076": "Done; untested live (no DB/Cal.com)",
+    "AMX-080": "Done; untested live (needs Razorpay test keys + DB)",
+    "AMX-110": "Done; untested against live DB",
+    "AMX-120": "Web side done; Listmonk opt-in template pending",
+    "AMX-071": "Zoom client done+tested; Cal.com creates links today",
+    "AMX-085": "Auto-issued on capture; HTML invoice (print to PDF)",
+    "AMX-140": "Done; untested against a live DB",
+    "AMX-141": "Done; untested against a live DB",
+    "AMX-142": "Done; untested against a live DB",
+    "AMX-143": "Editable; booking wizard UI prices still catalog defaults (follow-up)",
+    "AMX-100": "Done; not yet seen in browser",
+    "AMX-047": "Logic done; needs swisseph to verify, PDF/DB TODO",
+    "AMX-048": "Live scan works; scoring needs tuning with real cases; dossier PDF with AMX-046",
+    "AMX-049": "Verified live (New Delhi panchang, sunrise 06:32)",
+    "AMX-111": "Done; untested against live DB",
+    "AMX-112": "Done; untested against live DB",
+    "AMX-130": "Done; untested against live DB",
+    "AMX-131": "Done; untested against live DB",
+    "AMX-061": "Done; untested live (no DB/engine)",
+    "AMX-063": "Done; print/SVG need browser check",
+    "AMX-064": "Email with view + PDF links after compute (attachment with AMX-046)",
+    "AMX-081": "Done; untested live (needs Razorpay test keys + DB)",
+    "AMX-082": "Done; untested live (needs Razorpay test keys + DB)",
+    "AMX-083": "Done; untested live (needs Razorpay test keys + DB)",
+    "AMX-084": "Done; untested live (needs Razorpay test keys + DB)",
+    "AMX-086": "Done; untested live (needs Razorpay test keys + DB)",
+    "AMX-091": "Done; untested live (needs Razorpay test keys + DB)",
+    "AMX-090": "Done; untested live",
+    "AMX-092": "Done; untested live",
+    "AMX-073": "Done; untested live (no DB/Cal.com)",
+    "AMX-074": "Done; untested live (no DB/Cal.com)",
+    "AMX-075": "Done; untested live (no DB/Cal.com)",
+    "AMX-077": "Done; untested live (no DB/Cal.com)",
+    "AMX-078": "Done; untested live (no DB/Cal.com)",
+    "AMX-032": "Done; content has TODO(client)/legal review markers",
+    "AMX-033": "Done; content has TODO(client)/legal review markers",
+    "AMX-034": "Done; content has TODO(client)/legal review markers",
+    "AMX-035": "Done; content has TODO(client)/legal review markers",
+    "AMX-036": "Done; content has TODO(client)/legal review markers",
+    "AMX-037": "Done; content has TODO(client)/legal review markers",
+    "AMX-093": "Done; untested live",
+    "AMX-121": "Done; widget hidden until engine has pyswisseph",
+    "AMX-122": "Verified live (New Delhi panchang, sunrise 06:32)",
+    "AMX-161": "Done; untested live",
+    "AMX-160": "Done; print/SVG need browser check",
+    "AMX-162": "6 photos, CC/PD; replace with client photos before launch",
+    "AMX-151": "Done; 52 share images verified, a11y fixes applied",
+    "AMX-150": "scripts/smoke.mjs — all flows pass live",
+    "AMX-170": "Verified live: signup, verify, login, 6 account pages, claim, logout",
+    "AMX-172": "Verified live: signup, verify, login, 6 account pages, claim, logout",
+    "AMX-173": "Verified live: signup, verify, login, 6 account pages, claim, logout",
+    "AMX-171": "Code complete; needs GOOGLE_CLIENT_ID/SECRET only",
+    "AMX-180": "Live on result tab + print PDF; DRAFT text pending Jyotish review",
+    "AMX-181": "Live on result tab + print PDF; DRAFT text pending Jyotish review",
+    "AMX-190": "Live at /shubh-samay, verified against today",
+    "AMX-193": "Name + emblem in header/footer/icons/emails/meta; PDF cover logo with AMX-192",
+    "AMX-191": "Live at /kundali-milan; tables DRAFT pending Jyotish check on known matches",
+    "AMX-194": "Live at /numerology; card reused on dashboard",
+    "AMX-192": "Dashboard tiles + personalised career/love/health/education; light PDF with emblem",
+    "AMX-045": "Superseded: charts drawn in TS (North/South, D1/D9)",
+    "AMX-051": "Engine LICENSE (AGPL) + footer link via NEXT_PUBLIC_ENGINE_SOURCE_URL",
+    "AMX-006": "Plausible env-gated done; Sentry needs account",
+    "AMX-046": "Light-theme print page with Save as PDF button at top of result; server-side PDF optional later"
+  }
+}

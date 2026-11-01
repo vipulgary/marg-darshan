@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "title": "Secure payment — Marg Darshan",
+    "description": "Pay securely for your consultation with Razorpay — UPI, GPay, PhonePe, net banking and cards.",
+    "successTitle": "Payment status — Marg Darshan"
+  },
+  "merchant": "Marg Darshan",
+  "merchantTagline": "Vedic Astrology · Vastu · Gemstones",
+  "summaryTitle": "Booking summary",
+  "problem": "Topic",
+  "service": "Service",
+  "mode": "Mode",
+  "online": "Online (Zoom)",
+  "visit": "Personal visit",
+  "date": "Date",
+  "time": "Time",
+  "istSuffix": "{range} IST",
+  "duration": "Duration",
+  "minutes": "{count} min",
+  "planLabel": "Payment plan",
+  "planFull": "Pay in full",
+  "planFullHint": "Full amount now",
+  "planSplit": "Split ({pct}%)",
+  "planSplitHint": "{advance} now, {balance} later",
+  "total": "Total",
+  "payNow": "Due now",
+  "balanceLater": "Balance (payment link before the session)",
+  "payCta": "Pay {amount} securely",
+  "creating": "Preparing payment…",
+  "verifying": "Confirming your payment…",
+  "methods": "Payment methods",
+  "methodUpi": "UPI",
+  "methodGpay": "GPay",
+  "methodPhonepe": "PhonePe",
+  "methodNetbanking": "Net Banking",
+  "methodCards": "Cards",
+  "secured": "Secured by Razorpay",
+  "securedNote": "Your card and bank details never reach us.",
+  "refundPolicy": "Refund & cancellation policy",
+  "hold": {
+    "chip": "Slot released in {time}",
+    "srMinutes": "Your slot will be released in {minutes} minutes",
+    "srLast": "Less than a minute left"
+  },
+  "expired": {
+    "title": "Your slot hold has expired",
+    "body": "Payment wasn't completed within 10 minutes, so the slot has been released. No worries — you can pick a time again.",
+    "cta": "Pick a new time"
+  },
+  "alreadyPaid": {
+    "title": "This booking is already paid",
+    "body": "Tap below to see the status of your booking.",
+    "cta": "View booking status"
+  },
+  "closed": {
+    "title": "This booking is no longer active",
+    "body": "This booking was cancelled or completed. Tap below to make a new booking.",
+    "cta": "Make a new booking"
+  },
+  "unavailable": {
+    "title": "Payment is unavailable right now",
+    "body": "We couldn't load your booking due to a technical issue. Please try again shortly or reach us on WhatsApp."
+  },
+  "errors": {
+    "generic": "We couldn't start the payment. Please try again.",
+    "notConfigured": "Online payments aren't switched on yet. Please contact us on WhatsApp.",
+    "sdk": "Razorpay couldn't load. Check your connection and try again.",
+    "failed": "Payment failed: {reason}",
+    "failedGeneric": "Payment failed. If money was debited, it will be returned automatically.",
+    "signature": "We couldn't verify the payment. Please contact us.",
+    "dismissed": "Payment window closed. You can try again."
+  },
+  "status": {
+    "checkingTitle": "Confirming your payment…",
+    "checkingBody": "Please keep this page open. This can take a few seconds.",
+    "successTitle": "Your booking is confirmed!",
+    "successBody": "A confirmation email with a calendar invite is on its way. We'll also remind you on WhatsApp before the session.",
+    "partialTitle": "Advance received — your slot is reserved!",
+    "partialBody": "A payment link for the balance of {balance} has been emailed to you.",
+    "paid": "Paid",
+    "balance": "Balance",
+    "addToCalendar": "Add to calendar",
+    "whatsapp": "Chat on WhatsApp",
+    "home": "Go to home page",
+    "failedTitle": "Payment not completed",
+    "failedBody": "Your payment failed or was cancelled. If any amount was debited, it will be refunded automatically in 5–7 days.",
+    "retry": "Try payment again",
+    "pendingTitle": "Confirmation is taking longer",
+    "pendingBody": "The bank is taking a while to confirm. You'll get an email as soon as it succeeds — please don't pay again.",
+    "checkAgain": "Check again",
+    "missingTitle": "Booking not found",
+    "missingBody": "This link looks incomplete or wrong. Please use the link from your email or message us on WhatsApp.",
+    "calendarTitle": "{service} — Marg Darshan"
+  }
+}

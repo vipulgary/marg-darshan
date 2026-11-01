@@ -1,0 +1,30 @@
+# Local stack: docker compose -f infra/docker-compose.yml up
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: astromax, POSTGRES_PASSWORD: astromax, POSTGRES_DB: astromax }
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  engine:
+    build: ../apps/engine
+    env_file: ../.env
+    environment: { REDIS_URL: redis://redis:6379/0 }
+    ports: ["8000:8000"]
+    depends_on: [redis]
+  worker:
+    build: ../apps/engine
+    command: celery -A app.worker worker --loglevel=info
+    env_file: ../.env
+    environment: { REDIS_URL: redis://redis:6379/0 }
+    depends_on: [redis]
+  listmonk:
+    image: listmonk/listmonk:v4.1.0
+    ports: ["9000:9000"]
+    depends_on: [postgres]
+    profiles: [full]
+  # Cal.com self-host is added in Sprint 4 (AMX-070).
+volumes:
+  pgdata:

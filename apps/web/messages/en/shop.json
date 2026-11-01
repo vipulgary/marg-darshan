@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "title": "Gemstone & Vastu Shop — Certified Gems, Rudraksha & Yantras",
+    "description": "Lab-certified Yellow Sapphire, Blue Sapphire, Ruby, Emerald, energised Rudraksha, Shri Yantra and Vastu remedies. Advice only after a chart review — enquire on WhatsApp.",
+    "detailTitle": "{title} — Gemstone & Vastu Shop",
+    "detailDescription": "{title}: {description} Ask on WhatsApp about suitability for your chart and the price."
+  },
+  "header": {
+    "eyebrow": "Gemstone & Vastu Shop",
+    "title": "Certified gemstones,",
+    "highlight": "with the right guidance",
+    "lead": "Every gem, Rudraksha and Yantra is recommended only after reading your Kundali. Pick an item, send an enquiry, and we'll advise on suitability, weight and price on WhatsApp.",
+    "trust1": "Lab-certified gems",
+    "trust2": "Ritually energised",
+    "trust3": "Chart-based advice"
+  },
+  "categories": {
+    "label": "Choose a category",
+    "all": "All",
+    "gems": "Gemstones",
+    "rudraksha": "Rudraksha",
+    "yantra": "Yantras",
+    "vastu": "Vastu"
+  },
+  "category": {
+    "GEM": "Gemstone",
+    "RUDRAKSHA": "Rudraksha",
+    "YANTRA": "Yantra",
+    "VASTU": "Vastu"
+  },
+  "count": "{count, plural, one {# item} other {# items}}",
+  "card": {
+    "enquire": "Enquire",
+    "certified": "Lab certified",
+    "priceHint": "Indicative price",
+    "artLabel": "{title} — photo coming soon"
+  },
+  "note": {
+    "title": "Wear a gemstone only as your Kundali advises — consult first",
+    "body": "The wrong gem can do more harm than good. The Jyotish reads your ascendant, dasha and planetary strength to recommend the right stone, weight and wearing method.",
+    "cta": "Book a gemstone consultation"
+  },
+  "empty": {
+    "title": "Nothing in this category yet",
+    "body": "New items are on their way. Meanwhile, browse everything or tell us what you need on WhatsApp.",
+    "cta": "View all items"
+  },
+  "detail": {
+    "breadcrumb": "Breadcrumb",
+    "sku": "SKU",
+    "description": "Description",
+    "suitableFor": "Who it suits",
+    "suitableNote": "The final call is always made after reading your Kundali.",
+    "certification": "Certification & purity",
+    "certifiedBody": "Every gemstone comes with a certificate from a recognised gemological lab, covering weight, colour, origin and any treatment.",
+    "uncertifiedBody": "Prepared the traditional way and ritually energised, with a guarantee on the purity of metal and materials.",
+    "priceHint": "Indicative price",
+    "priceNote": "The final price depends on weight, quality and availability. No online payment here — advice first, then you decide.",
+    "consultGems": "Book a gemstone consultation first",
+    "consultVastu": "Book a Vastu consultation first",
+    "consultAstro": "Book an astrology consultation first",
+    "howTitle": "How an enquiry works",
+    "how1Title": "Send an enquiry",
+    "how1Body": "Share your name and WhatsApp number — and your concern, if you like.",
+    "how2Title": "Chart check",
+    "how2Body": "The Jyotish reviews your Kundali for suitability and the right weight.",
+    "how3Title": "Price & wearing method",
+    "how3Body": "You receive the price, an auspicious muhurta and how to wear it, on WhatsApp.",
+    "related": "Related items",
+    "gallery": "Product images",
+    "viewMain": "Main view",
+    "viewMacro": "Close-up",
+    "viewCertificate": "Certificate",
+    "viewEnergised": "Energised & packed",
+    "showView": "Show {view}",
+    "placeholder": "Real photos coming soon"
+  },
+  "enquiry": {
+    "title": "Check suitability & price",
+    "lead": "Send your details and we'll advise on WhatsApp — the right option for your chart and its price.",
+    "product": "Item",
+    "name": "Your name",
+    "namePlaceholder": "e.g. Anita Sharma",
+    "phone": "WhatsApp number",
+    "phonePlaceholder": "98765 43210",
+    "phoneHint": "10-digit Indian mobile, with or without +91",
+    "problem": "Your concern (optional)",
+    "problemNone": "Nothing specific",
+    "note": "Message (optional)",
+    "notePlaceholder": "e.g. My ascendant is Sagittarius — can I wear Yellow Sapphire?",
+    "submit": "Send enquiry on WhatsApp",
+    "sending": "Sending…",
+    "privacy": "Your number is used only to reply to this enquiry.",
+    "successTitle": "Thank you! Your enquiry is saved.",
+    "successBody": "Opening WhatsApp… If it doesn't open automatically, tap the button below.",
+    "openWhatsapp": "Open WhatsApp",
+    "errors": {
+      "name": "Please enter your name (at least 2 characters)",
+      "phone": "Enter a valid 10-digit mobile number",
+      "note": "Keep the message under 1000 characters",
+      "rateLimit": "Too many enquiries sent. Please try again in a little while.",
+      "unavailable": "This item isn't available right now. Please contact us directly on WhatsApp.",
+      "server": "Something went wrong. Please try again or message us on WhatsApp.",
+      "network": "Check your internet connection and try again."
+    }
+  }
+}

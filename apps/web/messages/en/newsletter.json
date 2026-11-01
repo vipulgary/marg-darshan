@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "Hindi Newsletter & Weekly Panchang",
+    "description": "Every Sunday morning: tithi, nakshatra, fasts, festivals and auspicious muhurtas in your inbox. Free, in Hindi, unsubscribe any time."
+  },
+  "signup": {
+    "footerTitle": "Hindi newsletter",
+    "footerLead": "Weekly Panchang, festivals and muhurtas — free.",
+    "email": "Email",
+    "emailPlaceholder": "you@email.com",
+    "whatsapp": "WhatsApp number (optional)",
+    "whatsappPlaceholder": "98765 43210",
+    "whatsappHint": "For festival and eclipse reminders",
+    "submit": "Subscribe",
+    "submitPage": "Join the newsletter",
+    "sending": "Subscribing…",
+    "consent": "By subscribing you agree to our privacy policy. No spam — unsubscribe any time.",
+    "honeypot": "Leave this field empty",
+    "successTitle": "Almost there!",
+    "success": "Check your inbox and click the link to confirm.",
+    "successHint": "Can't see it? Look in your spam or promotions folder.",
+    "alreadyTitle": "You're already subscribed",
+    "already": "Thank you! Every Sunday issue will keep arriving in your inbox.",
+    "errors": {
+      "email": "Enter a valid email address",
+      "whatsapp": "Enter a valid 10-digit mobile number or leave it empty",
+      "rateLimit": "Too many attempts. Please try again in a little while.",
+      "server": "We couldn't subscribe you just now. Please try again shortly.",
+      "network": "Check your internet connection and try again."
+    }
+  },
+  "page": {
+    "eyebrow": "Hindi Newsletter & Panchang",
+    "title": "Your weekly",
+    "highlight": "Panchang & muhurtas",
+    "lead": "Every Sunday at 6 AM — the coming week's tithi, nakshatra, fasts, festivals and auspicious timings, in simple Hindi, straight to your inbox.",
+    "free": "Completely free",
+    "weekly": "Every Sunday, 6 AM IST",
+    "confirmedTitle": "Your subscription is confirmed!",
+    "confirmedBody": "Welcome aboard. Your first issue arrives this coming Sunday.",
+    "invalidTitle": "This confirmation link isn't valid",
+    "invalidBody": "It may have expired or already been used. Subscribe again below and we'll send a fresh link.",
+    "benefitsEyebrow": "What you get",
+    "benefitsTitle": "Every issue brings",
+    "benefitsHighlight": "three essentials",
+    "panchangTitle": "Weekly Panchang",
+    "panchangBody": "Each day's tithi, nakshatra, yoga, karana and sunrise–sunset at a glance.",
+    "festivalsTitle": "Fasts & festivals",
+    "festivalsBody": "Ekadashi, Pradosh, Purnima, Amavasya and major festivals — with the right dates and puja timings.",
+    "muhurtaTitle": "Auspicious muhurtas",
+    "muhurtaBody": "The week's good timings for griha pravesh, buying a vehicle or starting something new — plus Rahu Kaal.",
+    "archiveEyebrow": "Past issues",
+    "archiveTitle": "Newsletter",
+    "archiveHighlight": "archive",
+    "archiveEmptyTitle": "First issue coming soon",
+    "archiveEmptyBody": "The first issue will appear here soon. Subscribe now so it reaches your inbox first.",
+    "archiveCta": "Subscribe now"
+  }
+}

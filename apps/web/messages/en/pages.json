@@ -1,0 +1,505 @@
+{
+  "designSystem": {
+    "eyebrow": "QA only",
+    "title": "Design system",
+    "lead": "A living preview of buttons, forms, cards and other UI components."
+  },
+  "shared": {
+    "breadcrumbs": "You are here",
+    "helpTitle": "What we can help with",
+    "processTitle": "How the consultation works",
+    "plansTitle": "Fees and durations",
+    "faqTitle": "Common questions",
+    "allPricing": "See all pricing",
+    "splitInfo": "Split Plan: confirm your slot with just a {pct}% advance. A payment link for the balance is sent before the report or site visit.",
+    "gemNote": "Wear a gemstone only as your chart suggests — consult first, then choose the right stone.",
+    "toShop": "Browse the gemstone shop",
+    "pricing": {
+      "splitBadge": "Split Plan",
+      "fullUpfront": "Pay in full",
+      "advance": "{amount} advance ({pct}%), balance later",
+      "chipsLabel": "Duration and mode",
+      "minutes": "{count} min",
+      "online": "Online (Zoom)",
+      "visit": "In person",
+      "cta": "Choose this plan",
+      "durationName": "{minutes}-minute consultation",
+      "generic": {
+        "f1": "A dedicated {minutes}-minute session",
+        "f2": "Online (Zoom) or in person",
+        "f3": "Summary of remedies and next steps"
+      }
+    },
+    "modes": {
+      "eyebrow": "How you consult",
+      "title": "Online or",
+      "highlight": "in person",
+      "lead": "The same preparation, time and confidentiality either way — just pick what suits you.",
+      "cta": "Start booking",
+      "online": {
+        "title": "Online (Zoom)",
+        "body": "Join from home, anywhere in India or abroad.",
+        "p1": "Zoom link sent by email and WhatsApp after booking",
+        "p2": "Your chart is explained on a shared screen",
+        "p3": "No travel time or cost"
+      },
+      "visit": {
+        "title": "In person",
+        "body": "Sit face to face at our office and talk things through in detail.",
+        "p1": "Address and Google Maps link with your confirmation",
+        "p2": "Family members are welcome to join",
+        "p3": "On-site visits for Vastu consultations"
+      }
+    },
+    "compare": {
+      "title": "Online vs in person",
+      "feature": "Feature"
+    },
+    "side": {
+      "label": "Booking summary",
+      "from": "From",
+      "durations": "Durations: {list}",
+      "modes": "Online (Zoom) or in person",
+      "secure": "Secure payment via Razorpay"
+    },
+    "testimonials": {
+      "eyebrow": "Experiences",
+      "title": "What people",
+      "highlight": "say",
+      "lead": "Words from people who consulted us from cities across India.",
+      "rating": "{rating} out of 5 stars"
+    }
+  },
+  "about": {
+    "metaTitle": "About the Jyotish",
+    "metaDescription": "Meet our Vedic Jyotish — lineage, experience, expertise and the way he consults.",
+    "breadcrumbs": "You are here",
+    "eyebrow": "About the Jyotish",
+    "chipsLabel": "Expertise",
+    "languages": "Languages: {languages}",
+    "portraitLabel": "Portrait of {name} (coming soon)",
+    "index": "On this page",
+    "lineage": {
+      "title": "Lineage and journey"
+    },
+    "credentials": {
+      "title": "Credentials and expertise"
+    },
+    "media": {
+      "title": "Introduction video",
+      "videoTitle": "Introduction video of {name}",
+      "soon": "Introduction video coming soon",
+      "soonHint": "Meanwhile, you can start with your free Kundali."
+    },
+    "cta": {
+      "title": "Share your concern",
+      "highlight": "with Acharya Ji",
+      "lead": "Online or in person — your chart will be ready before you arrive."
+    }
+  },
+  "services": {
+    "astrology": {
+      "metaTitle": "Astrology Consultation — Online & In Person",
+      "metaDescription": "Kundali-based Vedic astrology consultations on career, marriage, health, finance and children — on Zoom or at our office.",
+      "eyebrow": "Vedic astrology",
+      "title": "Astrology",
+      "highlight": "consultation",
+      "lead": "Clear answers and practical remedies from your birth chart, dashas and transits — without fear or confusion.",
+      "about": {
+        "title": "What you get",
+        "body": "Before every session your birth chart, Navamsa and running Mahadasha–Antardasha are studied, so the conversation goes straight to your questions.",
+        "c1": {
+          "title": "Timing, read correctly",
+          "body": "Job, business, marriage or investment — which window is favourable, from dashas and transits."
+        },
+        "c2": {
+          "title": "Kundali matching",
+          "body": "Guna milan plus a balanced look at Manglik dosha, temperament and long-term compatibility."
+        },
+        "c3": {
+          "title": "Simple remedies",
+          "body": "Mantra, charity, fasting and small lifestyle changes — never pressure to buy expensive fixes."
+        }
+      },
+      "steps": {
+        "s1": { "title": "Share your details", "body": "Enter your date, time and place of birth and your main question while booking." },
+        "s2": { "title": "Chart preparation", "body": "Acharya Ji studies your chart and dashas before the session." },
+        "s3": { "title": "The session", "body": "Talk openly on Zoom or at the office and ask every question you have." },
+        "s4": { "title": "Summary and follow-up", "body": "Key points and remedies in writing, with a WhatsApp follow-up." }
+      },
+      "compare": {
+        "r1": { "label": "Where", "online": "On Zoom, from anywhere", "visit": "At our office" },
+        "r2": { "label": "Preparation", "online": "Chart studied in advance", "visit": "Chart studied in advance" },
+        "r3": { "label": "Seeing your chart", "online": "Via screen share", "visit": "Face to face, with a printout" },
+        "r4": { "label": "Best for", "online": "People in another city or abroad", "visit": "Those who prefer to meet in person" },
+        "r5": { "label": "Fee", "online": "Same", "visit": "Same" }
+      },
+      "cta": {
+        "title": "Get answers",
+        "highlight": "to your questions",
+        "lead": "Pick your concern and a time — we'll take care of the preparation."
+      }
+    },
+    "vastu": {
+      "metaTitle": "Vastu Shastra Consultation — Home, Office, Factory",
+      "metaDescription": "Vastu consultations for homes, shops, offices, factories and plots — online from your floor plan or on-site, remedies without demolition, 50% advance Split Plan.",
+      "eyebrow": "Vastu Shastra",
+      "title": "Vastu",
+      "highlight": "consultation",
+      "lead": "Orientation, floor plan and real-world use, read together — for practical remedies that rarely need any demolition.",
+      "about": {
+        "title": "For every kind of space",
+        "body": "Residential, commercial and industrial spaces have different needs, so the advice is tailored to each.",
+        "c1": {
+          "title": "Residential Vastu",
+          "body": "Homes, flats and new builds — the right direction for bedrooms, kitchen, prayer space and main door."
+        },
+        "c2": {
+          "title": "Commercial Vastu",
+          "body": "Offices and shops — cash counter, owner's seat, entrance and staff seating."
+        },
+        "c3": {
+          "title": "Industrial Vastu and plots",
+          "body": "Factories, warehouses and plot selection — placement of machinery, raw material, water source and slope."
+        }
+      },
+      "steps": {
+        "s1": { "title": "Send plan and facing", "body": "Upload your floor plan (PDF/JPG) while booking and tell us which way it faces." },
+        "s2": { "title": "Analysis", "body": "Acharya Ji studies the plan across the 16 directions and five elements." },
+        "s3": { "title": "Consultation or site visit", "body": "On a video call, or an on-site inspection with a compass." },
+        "s4": { "title": "Written report", "body": "Remedies in order of priority — what to do now and what can wait." }
+      },
+      "compare": {
+        "r1": { "label": "How", "online": "From your plan and a video call", "visit": "On-site inspection with a compass" },
+        "r2": { "label": "Duration", "online": "60 minutes", "visit": "120 minutes" },
+        "r3": { "label": "Report", "online": "Summary of key remedies", "visit": "Detailed written report" },
+        "r4": { "label": "Best for", "online": "Flats, smaller homes, other cities", "visit": "Large homes, factories, new builds" },
+        "r5": { "label": "Payment", "online": "Full or 50% advance", "visit": "50% advance, balance before the report" }
+      },
+      "cta": {
+        "title": "Balance the energy",
+        "highlight": "of your space",
+        "lead": "Upload your plan or book a site visit — with just a 50% advance."
+      }
+    },
+    "gems": {
+      "metaTitle": "Gemstone Consultation — The Right Stone and Weight",
+      "metaDescription": "The right gemstone, weight, metal and wearing method from your chart — expert advice on yellow sapphire, blue sapphire, ruby, emerald and lab-certified stones.",
+      "eyebrow": "Gemology",
+      "title": "Gemstone",
+      "highlight": "consultation",
+      "lead": "Gemstones are powerful — so the chart comes first. The right planet, weight, metal and muhurta.",
+      "about": {
+        "title": "How a stone is chosen",
+        "body": "Your Lagna, planetary strength (Shadbala), divisional charts and running dasha decide which stone will help and which will not.",
+        "c1": {
+          "title": "The right planet",
+          "body": "Strengthen the lord of favourable houses — never the stone of a malefic."
+        },
+        "c2": {
+          "title": "Weight and metal",
+          "body": "Ratti by body weight and planetary position, set in gold, silver or panchdhatu."
+        },
+        "c3": {
+          "title": "Wearing method",
+          "body": "Auspicious day, muhurta, finger and mantra — so you get the full benefit."
+        }
+      },
+      "steps": {
+        "s1": { "title": "Share birth details", "body": "Enter your date, time and place of birth while booking." },
+        "s2": { "title": "Chart review", "body": "Planetary strength, house lordship and dashas are studied." },
+        "s3": { "title": "Consultation", "body": "Which stone, what weight and which metal — with the reasons." },
+        "s4": { "title": "Certified stone (optional)", "body": "Buy a lab-certified stone from our shop, or from anywhere you prefer." }
+      },
+      "compare": {
+        "r1": { "label": "Where", "online": "On Zoom", "visit": "At our office" },
+        "r2": { "label": "Viewing stones", "online": "Shown on video", "visit": "Examined in hand" },
+        "r3": { "label": "Checking a stone you own", "online": "From photos and certificate", "visit": "Direct inspection" },
+        "r4": { "label": "Best for", "online": "People in another city or abroad", "visit": "Those bringing stones along" },
+        "r5": { "label": "Fee", "online": "Same", "visit": "Same" }
+      },
+      "cta": {
+        "title": "The right advice",
+        "highlight": "before the stone",
+        "lead": "A wrong gemstone can do harm — show us your chart first."
+      }
+    }
+  },
+  "pricing": {
+    "metaTitle": "Plans & Pricing",
+    "metaDescription": "Clear fees for astrology, Vastu, gemstone consultations and birth-time rectification — pay in full or with a 50% advance Split Plan.",
+    "crumb": "Plans & Pricing",
+    "eyebrow": "Plans & Pricing",
+    "title": "Clear fees,",
+    "highlight": "no hidden costs",
+    "lead": "Online and in-person sessions cost the same. Payments are fully secured by Razorpay.",
+    "plans": {
+      "eyebrow": "Popular plans",
+      "title": "Choose the plan",
+      "highlight": "that fits"
+    },
+    "services": {
+      "eyebrow": "By service",
+      "title": "Fees by",
+      "highlight": "duration",
+      "lead": "The durations available for each service and their fees.",
+      "tableCaption": "{service} — durations and fees",
+      "duration": "Duration",
+      "price": "Fee"
+    },
+    "types": {
+      "eyebrow": "Ways to pay",
+      "title": "Pay in full or",
+      "highlight": "Split Plan",
+      "full": {
+        "title": "Pay in full",
+        "body": "Pay the full amount when booking and your slot is confirmed instantly.",
+        "p1": "Applies to astrology and gemstone consultations",
+        "p2": "Instant confirmation by email and WhatsApp"
+      },
+      "split": {
+        "title": "Split Plan (part payment)",
+        "body": "For larger services, confirm your slot with a {pct}% advance and pay the rest later.",
+        "p1": "Available for Vastu consultations and site visits",
+        "p2": "A secure link for the balance arrives before the report or visit"
+      }
+    },
+    "secure": "UPI, GPay, PhonePe, net banking and cards — every payment is encrypted by Razorpay. Your card details never reach us.",
+    "refundLink": "Refund & cancellation policy",
+    "faqTitle": "Payment questions",
+    "cta": {
+      "title": "Get started",
+      "highlight": "today",
+      "lead": "Pick your concern and a time that suits you."
+    }
+  },
+  "contact": {
+    "metaTitle": "Contact Us",
+    "metaDescription": "Reach Marg Darshan on WhatsApp, by email or at our office. Hours: Monday to Saturday, 10 AM to 7 PM IST.",
+    "crumb": "Contact",
+    "eyebrow": "Contact",
+    "title": "Talk",
+    "highlight": "to us",
+    "lead": "Questions or help with a booking — we reply as soon as we can on working days.",
+    "whatsapp": {
+      "title": "Chat on WhatsApp",
+      "body": "The fastest way. Send your question — the team replies promptly during working hours."
+    },
+    "email": {
+      "title": "Email",
+      "body": "For detailed questions, documents or data requests."
+    },
+    "office": {
+      "title": "Office",
+      "note": "In-person sessions are by prior booking only."
+    },
+    "book": {
+      "title": "Book a consultation directly",
+      "body": "Pick your concern, choose a time and pay securely — in two minutes."
+    }
+  },
+  "faq": {
+    "metaTitle": "Frequently Asked Questions",
+    "metaDescription": "Answers to common questions about booking, payments, the free Kundali, Vastu, gemstones and privacy.",
+    "crumb": "FAQ",
+    "eyebrow": "Help",
+    "title": "Frequently asked",
+    "highlight": "questions",
+    "lead": "From booking to payments and privacy — answers to the most common questions.",
+    "jump": "Jump to a topic",
+    "categories": {
+      "booking": "Booking",
+      "services": "Services",
+      "kundali": "Free Kundali",
+      "payments": "Payments & refunds",
+      "privacy": "Privacy"
+    },
+    "cta": {
+      "title": "Didn't find your question?",
+      "lead": "Ask us on WhatsApp or book a consultation directly."
+    }
+  },
+  "legal": {
+    "toc": "On this page",
+    "breadcrumbs": "You are here",
+    "updated": "Last updated: {date}",
+    "disclaimer": "Questions about this policy? Get in touch via our",
+    "contactLink": "contact page",
+    "privacy": {
+      "title": "Privacy Policy",
+      "metaDescription": "How Marg Darshan collects, uses and protects your personal data, in line with India's Digital Personal Data Protection Act, 2023.",
+      "intro": "Marg Darshan (“we”) respects your privacy. This policy explains what information we collect when you use our website and services, why we collect it, and what rights you have. It is written in line with India's Digital Personal Data Protection Act, 2023 (DPDP Act).",
+      "sections": {
+        "collect": {
+          "title": "What we collect",
+          "items": {
+            "i1": "Contact details: name, email, WhatsApp number.",
+            "i2": "Birth details: date, time and place of birth (including latitude, longitude and time zone), gender.",
+            "i3": "Consultation details: your question, property address and floor plan for Vastu, and life events for birth-time rectification.",
+            "i4": "Payment records: order and transaction IDs. Card and UPI details are handled by Razorpay and never reach us.",
+            "i5": "Technical data: IP address, browser type and language preference (for security and abuse prevention)."
+          }
+        },
+        "use": {
+          "title": "How we use it",
+          "body": "We use your information only for these purposes, each based on your consent or another lawful ground:",
+          "items": {
+            "i1": "Preparing your Kundali and your consultation.",
+            "i2": "Bookings, payments, confirmations and reminders (email/WhatsApp).",
+            "i3": "Sending the weekly newsletter, if you have opted in.",
+            "i4": "Meeting legal, tax and accounting obligations."
+          },
+          "note": "We never sell your data and never share it with third parties for advertising."
+        },
+        "share": {
+          "title": "Service providers (data processors)",
+          "body": "To deliver our services we rely on a few trusted providers, who process data only on our instructions and under contract:",
+          "items": {
+            "i1": "Razorpay — payment processing.",
+            "i2": "Email service provider — confirmations and newsletter.",
+            "i3": "Calendar and Zoom — appointments and video consultations.",
+            "i4": "Cloud hosting and storage — website, database and uploaded floor plans."
+          }
+        },
+        "retention": {
+          "title": "How long we keep data",
+          "body": "Consultation and Kundali data is kept while you use our services or until you ask us to delete it. Payment records are kept for the period tax laws require. Data is erased once its purpose is fulfilled."
+        },
+        "rights": {
+          "title": "Your rights (DPDP Act, 2023)",
+          "items": {
+            "i1": "Obtain a summary of your personal data and how it is processed.",
+            "i2": "Correct and update inaccurate or incomplete data.",
+            "i3": "Request erasure of your data.",
+            "i4": "Withdraw consent at any time — for example, unsubscribe from the newsletter.",
+            "i5": "Grievance redressal, and nominate someone to exercise your rights on your behalf."
+          },
+          "note": "To make a request, write to {email}. We will respond within the prescribed time."
+        },
+        "security": {
+          "title": "Security",
+          "body": "Data travels over encrypted connections (HTTPS), access is limited to authorised staff, and payments run on PCI-DSS compliant Razorpay. No system on the internet is 100% secure; in case of a personal data breach we will notify you and the Data Protection Board as the law requires."
+        },
+        "cookies": {
+          "title": "Cookies",
+          "body": "We use only essential cookies — for example to remember your language choice (NEXT_LOCALE). Half-filled forms are kept in your browser's sessionStorage and cleared when you close the tab."
+        },
+        "children": {
+          "title": "Children's data",
+          "body": "Kundalis or consultations for anyone under 18 should be booked only with the consent of a parent or guardian."
+        },
+        "grievance": {
+          "title": "Grievance officer",
+          "body": "For privacy complaints, write to our grievance officer at {email}. If you are not satisfied with the response, you may approach the Data Protection Board of India."
+        },
+        "changes": {
+          "title": "Changes to this policy",
+          "body": "Any changes will be published on this page with a new date. Significant changes will also be emailed to you."
+        }
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "metaDescription": "Terms for using the Marg Darshan website, free Kundali, consultation bookings and shop enquiries.",
+      "intro": "By using the Marg Darshan website and services you agree to these terms. Please read them carefully.",
+      "sections": {
+        "nature": {
+          "title": "Nature of our services",
+          "body": "Astrology, Vastu and gemstone consultations are guidance based on traditional shastras. They do not guarantee any outcome and are not a substitute for professional medical, legal or financial advice. Always consult a qualified professional for health, legal or investment decisions."
+        },
+        "eligibility": {
+          "title": "Eligibility",
+          "body": "You must be 18 or older to book services. Bookings for minors should be made by a parent or guardian."
+        },
+        "booking": {
+          "title": "Bookings and slots",
+          "items": {
+            "i1": "When you choose a slot it is held for you for {holdMinutes} minutes; if payment is not completed in that time, the slot is released automatically.",
+            "i2": "A booking is confirmed only after our server verifies the payment.",
+            "i3": "Providing accurate birth details is your responsibility; incorrect details can affect the analysis.",
+            "i4": "The Zoom link for an online session is for the person who booked it."
+          }
+        },
+        "payments": {
+          "title": "Payments",
+          "body": "All fees are in Indian rupees (INR) and collected through Razorpay. Under the Split Plan, the advance confirms the slot and the balance is due before the report or site visit. Cancellations and refunds follow our refund policy."
+        },
+        "conduct": {
+          "title": "Your conduct",
+          "body": "Please ask before recording a session. Misuse of the website or its APIs, automated scraping, or using someone else's data is prohibited."
+        },
+        "kundali": {
+          "title": "Free Kundali",
+          "body": "The free Kundali is an automated calculation based on the details you provide. Use it for personal, non-commercial information."
+        },
+        "shop": {
+          "title": "Shop (enquiry only)",
+          "body": "Nothing is sold online in the shop. When you send an enquiry we share availability, price and certification details on WhatsApp; any purchase is agreed separately."
+        },
+        "ip": {
+          "title": "Intellectual property",
+          "body": "Website content, design and reports belong to Marg Darshan. Personal use is permitted; commercial use without written permission is not. The source code of the astrology calculation engine is available separately under the AGPL licence."
+        },
+        "liability": {
+          "title": "Limitation of liability",
+          "body": "To the extent permitted by law, Marg Darshan is not liable for the outcomes of decisions taken on the basis of any consultation. In any case, our liability will not exceed the amount paid for the service concerned."
+        },
+        "law": {
+          "title": "Governing law",
+          "body": "These terms are governed by the laws of India. Any dispute will first be addressed through good-faith discussion; thereafter the courts of the city of our office will have jurisdiction."
+        }
+      }
+    },
+    "refund": {
+      "title": "Refund & Cancellation Policy",
+      "metaDescription": "Everything about cancelling or rescheduling Marg Darshan consultations, Split Plan advances and refunds.",
+      "intro": "We want your experience to be smooth. This policy explains when you can reschedule, when refunds apply and how long they take.",
+      "sections": {
+        "reschedule": {
+          "title": "Rescheduling",
+          "items": {
+            "i1": "{hours} hours or more before the session: reschedule once, completely free.",
+            "i2": "Less than {hours} hours before the session: rescheduling and refunds are not possible.",
+            "i3": "To reschedule, message us on WhatsApp or email with your booking ID."
+          }
+        },
+        "cancel": {
+          "title": "Cancellation by you",
+          "items": {
+            "i1": "Cancelled {hours} hours or more before the session: full refund of the amount paid (less gateway charges, if any).",
+            "i2": "Cancelled less than {hours} hours before: no refund.",
+            "i3": "Not joining at the scheduled time (no-show): no refund."
+          }
+        },
+        "ours": {
+          "title": "Cancellation by us",
+          "body": "If we ever have to cancel a session for unavoidable reasons, you can choose a new time or take a full refund — your choice."
+        },
+        "split": {
+          "title": "Split Plan (part payment)",
+          "items": {
+            "i1": "The {pct}% advance confirms the slot. The {hours}-hour rules above apply to the advance as well.",
+            "i2": "A payment link for the balance is sent before the report or site visit; the report is delivered or the visit takes place after the balance is paid.",
+            "i3": "Once a site visit has taken place, the advance is non-refundable."
+          }
+        },
+        "failed": {
+          "title": "Failed or duplicate payments",
+          "body": "If money was debited but the booking was not confirmed, or you were charged twice by mistake, the extra amount is refunded in full — automatically or on request."
+        },
+        "timeline": {
+          "title": "How and when refunds arrive",
+          "body": "Approved refunds are returned through Razorpay to the original payment method (UPI, card or net banking). Depending on your bank, the amount appears within 5–7 working days."
+        },
+        "free": {
+          "title": "Free services and the shop",
+          "body": "The free Kundali costs nothing, so refunds do not apply. The shop is enquiry-only — no payments are taken on the website."
+        },
+        "contact": {
+          "title": "Requesting a refund",
+          "body": "Write to {email} or message us on WhatsApp with your booking ID. We reply within 2 working days."
+        }
+      }
+    }
+  }
+}

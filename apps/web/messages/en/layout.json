@@ -1,0 +1,90 @@
+{
+  "skipToContent": "Skip to main content",
+  "brand": {
+    "home": "Marg Darshan — home page",
+    "tagline": "Vedic Astrology · Vastu · Gems"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "home": "Home",
+    "services": "Services",
+    "kundali": "Free Kundali",
+    "shop": "Shop",
+    "pricing": "Pricing",
+    "about": "About",
+    "birthTime": "Birth Time Finder",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "newsletter": "Newsletter",
+    "muhurat": "Shubh Samay",
+    "milan": "Kundali Milan"
+  },
+  "mega": {
+    "intro": "Choose the service that fits your need",
+    "fromPrice": "From {price}",
+    "learnMore": "Learn more",
+    "allPricing": "See all services & pricing",
+    "kundaliPromo": "Start with your free Kundali",
+    "toolsIntro": "Free tools — instant results",
+    "free": "Free",
+    "tools": {
+      "kundali": {
+        "title": "Free Kundali",
+        "desc": "Birth chart + full report"
+      },
+      "milan": {
+        "title": "Kundali Milan",
+        "desc": "36-guna match for marriage"
+      },
+      "shubh": {
+        "title": "Shubh Samay",
+        "desc": "Today's choghadiya & Rahu Kaal"
+      },
+      "numerology": {
+        "title": "Numerology",
+        "desc": "Lucky numbers & colours"
+      },
+      "birthTime": {
+        "title": "Birth Time Finder",
+        "desc": "Estimate an unknown birth time"
+      }
+    }
+  },
+  "mobile": {
+    "open": "Open menu",
+    "close": "Close menu",
+    "title": "Menu",
+    "language": "Language",
+    "servicesHeading": "Services",
+    "moreHeading": "Explore",
+    "help": "Have a question? Ask us directly on WhatsApp."
+  },
+  "footer": {
+    "blurb": "Vedic astrology, Vastu Shastra and gemstone guidance from an experienced Jyotish — online over Zoom or in person at our office. Precise calculations, clear guidance and practical remedies.",
+    "services": "Services",
+    "quickLinks": "Quick links",
+    "legal": "Policies",
+    "privacy": "Privacy policy",
+    "terms": "Terms & conditions",
+    "refund": "Refund & cancellation policy",
+    "agpl": "Astro engine source (AGPL)",
+    "office": "Office",
+    "hours": "Consultation hours",
+    "hoursValue": "{days}, {start} – {end} (IST)",
+    "newsletterTitle": "Weekly Panchang & auspicious muhurtas",
+    "newsletterLead": "The weekly Panchang, festivals and auspicious muhurtas straight to your inbox. No spam.",
+    "language": "Choose language",
+    "rights": "© {year} Marg Darshan. All rights reserved.",
+    "disclaimer": "Astrological consultations offer guidance and are not a substitute for medical, legal or financial advice.",
+    "newTab": "(opens in a new tab)"
+  },
+  "cta": {
+    "barLabel": "Quick actions",
+    "whatsapp": "Chat on WhatsApp",
+    "floatHint": "Ask anything about a consultation"
+  },
+  "theme": {
+    "toLight": "Switch to light mode",
+    "toDark": "Switch to dark mode"
+  }
+}
