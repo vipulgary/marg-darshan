@@ -217,5 +217,46 @@
     "sessionsLead": "Signed in on a shared or lost device? Sign out everywhere.",
     "signOutAll": "Sign out of all devices",
     "linkedGoogle": "Google account linked"
+  },
+  "dash": {
+    "profilesBar": "Profiles",
+    "addProfile": "Add profile",
+    "emptyTitle": "Your personal astrology dashboard",
+    "emptyBody": "Add your birth details once — your kundali, predictions, doshas, lucky factors and more appear here automatically. Add family members too and switch between them anytime.",
+    "emptyCta": "Add birth details",
+    "openChart": "Open full kundali",
+    "pdf": "Download PDF",
+    "listen": "Listen",
+    "soon": "Coming soon",
+    "unavailable": "We couldn't prepare this kundali right now. Please try again in a minute.",
+    "approxTime": "Birth time not saved — the Lagna (ascendant) is approximate.",
+    "more": "More for {name}",
+    "tools": {
+      "milan": {
+        "title": "Kundali Milan",
+        "desc": "Check marriage compatibility"
+      },
+      "muhurat": {
+        "title": "Shubh Samay",
+        "desc": "Today's good and bad times"
+      },
+      "numerology": {
+        "title": "Numerology",
+        "desc": "Lucky numbers and colours"
+      },
+      "book": {
+        "title": "Talk to Acharya ji",
+        "desc": "Personal consultation"
+      }
+    },
+    "glance": "Today at a glance",
+    "nextGood": "Next good time",
+    "noneToday": "No more good windows today",
+    "rahu": "Rahu Kaal (avoid)",
+    "luckyColour": "Lucky colour",
+    "luckyNumber": "Lucky number",
+    "luckyDay": "Lucky day",
+    "luckyGem": "Lucky gem",
+    "forCity": "for {city}"
   }
 }

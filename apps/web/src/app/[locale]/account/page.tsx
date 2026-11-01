@@ -1,11 +1,14 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { BookingCard, KundaliCard, PageHead, goldLink, pillLink } from "@/components/account/parts";
 import { Link } from "@/i18n/navigation";
-import { countProfiles, listBookings, listKundalis, listPayments, splitBookings } from "@/lib/account/queries";
+import { ProfileDashboard } from "@/components/account/ProfileDashboard";
+import { pickProfile } from "@/lib/account/profile-kundali";
+import { listBookings, listKundalis, listPayments, listSavedProfiles, splitBookings } from "@/lib/account/queries";
 import { requireClient } from "@/lib/auth/require";
 
-export default async function AccountOverview({ params }: PageProps<"/[locale]/account">) {
+export default async function AccountOverview({ params, searchParams }: PageProps<"/[locale]/account">) {
   const { locale } = await params;
+  const sp = await searchParams;
   setRequestLocale(locale);
   const me = await requireClient(locale, "/account");
   const t = await getTranslations("account.overview");
@@ -13,15 +16,16 @@ export default async function AccountOverview({ params }: PageProps<"/[locale]/a
     listKundalis(me.id, 3),
     listBookings(me.id, locale),
     listPayments(me.id, locale),
-    countProfiles(me.id),
+    listSavedProfiles(me.id),
   ]);
+  const active = pickProfile(profiles, typeof sp.p === "string" ? sp.p : null);
   const kundaliCount = kundalis.length < 3 ? kundalis.length : (await listKundalis(me.id)).length;
   const { upcoming } = splitBookings(bookings);
   const stats = [
     { key: "kundalis", value: kundaliCount, href: "/account/kundalis" },
     { key: "upcoming", value: upcoming.length, href: "/account/bookings" },
     { key: "payments", value: payments.length, href: "/account/payments" },
-    { key: "profiles", value: profiles, href: "/account/profiles" },
+    { key: "profiles", value: profiles.length, href: "/account/profiles" },
   ];
 
   return (
@@ -37,6 +41,7 @@ export default async function AccountOverview({ params }: PageProps<"/[locale]/a
           </div>
         }
       />
+      <ProfileDashboard clientId={me.id} locale={locale} profiles={profiles} active={active} />
       <ul className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {stats.map((s) => (
           <li key={s.key}>
