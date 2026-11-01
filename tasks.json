@@ -774,6 +774,40 @@
           "S5"
         ]
       ]
+    },
+    {
+      "id": "E17",
+      "name": "Report accuracy, tone & voice",
+      "tickets": [
+        [
+          "AMX-200",
+          "Sade Sati & Dhaiya timeline: exact phase dates (rising/peak/setting, small panoti), current status, end date, and the free period in between — do not stretch into the Saturn Mahadasha",
+          2,
+          "todo",
+          "S5"
+        ],
+        [
+          "AMX-201",
+          "Predictions tone pass: encouraging, motivational wording; highlight strengths and earning potential (still honest)",
+          1,
+          "todo",
+          "S5"
+        ],
+        [
+          "AMX-202",
+          "Kundali Milan: filter saved profiles by gender (boy side shows male, girl side female)",
+          0.5,
+          "todo",
+          "S5"
+        ],
+        [
+          "AMX-203",
+          "Voice per report section: play/pause, progress + time left, 1x/1.5x/2x speed (needs HF_TOKEN + model)",
+          2,
+          "todo",
+          "S5"
+        ]
+      ]
     }
   ],
   "notes": {
