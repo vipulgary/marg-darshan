@@ -783,28 +783,28 @@
           "AMX-200",
           "Sade Sati & Dhaiya timeline: exact phase dates (rising/peak/setting, small panoti), current status, end date, and the free period in between — do not stretch into the Saturn Mahadasha",
           2,
-          "todo",
+          "done",
           "S5"
         ],
         [
           "AMX-201",
           "Predictions tone pass: encouraging, motivational wording; highlight strengths and earning potential (still honest)",
           1,
-          "todo",
+          "done",
           "S5"
         ],
         [
           "AMX-202",
           "Kundali Milan: filter saved profiles by gender (boy side shows male, girl side female)",
           0.5,
-          "todo",
+          "done",
           "S5"
         ],
         [
           "AMX-203",
           "Voice per report section: play/pause, progress + time left, 1x/1.5x/2x speed (needs HF_TOKEN + model)",
           2,
-          "todo",
+          "doing",
           "S5"
         ]
       ]
@@ -889,6 +889,10 @@
     "AMX-045": "Superseded: charts drawn in TS (North/South, D1/D9)",
     "AMX-051": "Engine LICENSE (AGPL) + footer link via NEXT_PUBLIC_ENGINE_SOURCE_URL",
     "AMX-006": "Plausible env-gated done; Sentry needs account",
-    "AMX-046": "Light-theme print page with Save as PDF button at top of result; server-side PDF optional later"
+    "AMX-046": "Light-theme print page with Save as PDF button at top of result; server-side PDF optional later",
+    "AMX-200": "Real Saturn transits from Swiss Ephemeris; matches published table",
+    "AMX-201": "Encouraging tone pass",
+    "AMX-202": "Strict gender filter",
+    "AMX-203": "Browser voice player fixed; natural Hindi voice needs server TTS"
   }
 }

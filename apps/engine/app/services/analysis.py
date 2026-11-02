@@ -14,4 +14,7 @@ def compute_core(dob, tob, tz_name: str, latitude: float, longitude: float) -> d
 
     chart = compute_chart(dob, tob, tz_name, latitude, longitude)
     chart["yogas_doshas"] = yogas_doshas(chart)
+    from app.services.sade_sati import periods
+
+    chart["sade_sati_periods"] = periods(chart["rashi"]["sign"], dob)
     return chart

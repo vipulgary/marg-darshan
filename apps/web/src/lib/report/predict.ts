@@ -52,11 +52,11 @@ const OPEN: Record<AreaKey, Record<Tone, Bi[]>> = {
       b("काम-काज के मामले में आपकी कुंडली अच्छा साथ देती है। आप ज़िम्मेदारी संभालने के लिए बने हैं और लोग आपकी काबिलियत पर भरोसा करते हैं।", "Your chart supports you well in work. You are built to carry responsibility, and people come to trust your ability."),
     ],
     mixed: [
-      b("करियर में आपकी तरक्की सीधी रेखा में नहीं, बल्कि सीढ़ी की तरह होती है — कुछ समय ठहराव, फिर अच्छी छलांग।", "Your career grows less like a straight line and more like a staircase — a pause, then a good step up."),
-      b("काम के मामले में आपकी कुंडली मिले-जुले संकेत देती है। सही दिशा चुनने पर आप अच्छी स्थिरता और सम्मान पा सकते हैं।", "Your chart gives mixed signals for work. Once you pick the right direction, solid stability and respect are within reach."),
+      b("करियर में आपकी तरक्की ज़रूर होती है — बस रास्ता सीधी रेखा की जगह सीढ़ी जैसा होता है। हर पड़ाव आपको पहले से ज़्यादा अनुभवी और मज़बूत बनाता है।", "Your career absolutely grows — the path is more like a staircase than a straight line. Each landing makes you more experienced and more capable."),
+      b("काम के मामले में आपकी कुंडली मिले-जुले संकेत देती है — और यही आपको अलग-अलग क्षेत्रों में ढलने की ताक़त देती है। सही दिशा चुनने पर आप अच्छी स्थिरता और सम्मान पा सकते हैं।", "Your chart gives you the flexibility to adapt across fields — choose the right direction and solid stability and real respect are yours."),
     ],
     challenging: [
-      b("करियर में आपको बाकी लोगों से थोड़ा ज़्यादा धैर्य रखना पड़ सकता है। शुरुआत धीमी हो सकती है, पर लगातार प्रयास से नींव बहुत पक्की बनती है।", "Your career may ask for more patience than most. The start can be slow, but steady effort builds a very solid base."),
+      b("करियर में आपकी नींव बहुत पक्की बनती है। शुरुआत की धीमी गति असल में आपको सोच-समझकर आगे बढ़ना सिखाती है — और जो इंसान गहरी नींव रखता है, उसकी इमारत ऊँची उठती है।", "Your career builds on a very solid foundation. The slower start is actually teaching you to move with intention — and those who lay deep foundations build tall."),
     ],
   },
   love: {
@@ -65,11 +65,11 @@ const OPEN: Record<AreaKey, Record<Tone, Bi[]>> = {
       b("रिश्तों के मामले में आपकी कुंडली गर्मजोशी भरी है। आप साथी को सम्मान देते हैं और बदले में अपनापन पाते हैं।", "Your chart is warm when it comes to relationships. You give your partner respect and receive real closeness in return."),
     ],
     mixed: [
-      b("आपका वैवाहिक जीवन समझ और बातचीत पर टिका है — जितना खुलकर आप बात करेंगे, रिश्ता उतना ही मज़बूत होगा।", "Your married life rests on understanding and conversation — the more openly you talk, the stronger the bond becomes."),
-      b("रिश्तों में आपकी कुंडली मिले-जुले संकेत देती है। अच्छे पल बहुत हैं, बस छोटी बातों को बड़ा न होने देना ज़रूरी है।", "Your chart gives mixed signals in relationships. There are many good moments; the key is not letting small things grow big."),
+      b("आपका वैवाहिक जीवन समझ और बातचीत पर टिका है — जितना खुलकर आप बात करेंगे, रिश्ता उतना ही मज़बूत और गहरा होगा।", "Your married life rests on understanding and open talk — the more honestly you communicate, the stronger and deeper the bond grows."),
+      b("रिश्तों में आपकी कुंडली मिले-जुले संकेत देती है, पर अच्छे पल कई हैं और आपमें रिश्ते को सँभालने की स्वाभाविक ताक़त है।", "Your chart gives mixed signals in relationships, but the good moments are many and you have the natural strength to nurture the bond."),
     ],
     challenging: [
-      b("रिश्तों में आपको धैर्य और समझदारी से चलना होगा। जल्दबाज़ी में लिए फ़ैसले बाद में भारी पड़ सकते हैं, इसलिए साथी चुनने में समय लें।", "Relationships ask you to move with patience and good sense. Hasty decisions can weigh on you later, so take your time choosing a partner."),
+      b("रिश्तों में आप धैर्य और गहरी समझ लेकर चलते हैं — यही गुण आपको एक भरोसेमंद और टिकाऊ साथी बनाते हैं। सही व्यक्ति के साथ यह रिश्ता बहुत सुंदर बनता है।", "In relationships you bring patience and deep understanding — these very qualities make you a dependable, lasting partner. With the right person this bond becomes something truly beautiful."),
     ],
   },
   health: {
@@ -80,7 +80,7 @@ const OPEN: Record<AreaKey, Record<Tone, Bi[]>> = {
       b("आपकी सेहत सामान्य रूप से ठीक रहती है, पर दिनचर्या बिगड़ने पर शरीर जल्दी संकेत देता है।", "Your health is generally fine, but your body signals quickly when your routine slips."),
     ],
     challenging: [
-      b("सेहत आपके लिए ऐसा क्षेत्र है जिस पर नियमित ध्यान देना ज़रूरी है। छोटी परेशानी को टालें नहीं — समय पर देखभाल से आप लंबे समय तक स्वस्थ रह सकते हैं।", "Health is an area that needs regular attention for you. Don't ignore small issues — timely care keeps you well for the long run."),
+      b("सेहत के मामले में आपका शरीर आपसे ध्यान माँगता है — और यह एक बड़ी ताक़त है, क्योंकि आप छोटे संकेतों को जल्दी पकड़ते हैं और समय पर कदम उठाते हैं।", "Your body asks for your attention with health — and that is a real strength, because you pick up early signals and take action in time."),
     ],
   },
   education: {
@@ -91,7 +91,7 @@ const OPEN: Record<AreaKey, Record<Tone, Bi[]>> = {
       b("पढ़ाई में आपकी सफलता रुचि पर बहुत निर्भर करती है — जिस विषय में मन लगे, उसमें आप बहुत आगे जा सकते हैं।", "Your success in studies depends a lot on interest — in a subject you enjoy, you can go very far."),
     ],
     challenging: [
-      b("पढ़ाई में बीच-बीच में रुकावटें या ध्यान भटकना संभव है। सही माहौल और एक तय दिनचर्या से आप अपनी पूरी क्षमता तक पहुँच सकते हैं।", "Studies may see breaks or lapses in focus at times. The right environment and a fixed routine help you reach your full ability."),
+      b("पढ़ाई में आपकी असली ताक़त तब दिखती है जब आप किसी विषय को अपने तरीके से समझते हैं। एक बार वह तरीका मिल जाए, तो आगे की राह आसान हो जाती है।", "Your real strength in studies shows when you find your own way to understand a subject. Once that clicks, the path ahead becomes clear and rewarding."),
     ],
   },
 };
@@ -143,22 +143,22 @@ const ADVICE: Record<AreaKey, Record<Tone, Bi>> = {
   career: {
     strong: b("सलाह: बड़े लक्ष्य रखें और ज़िम्मेदारी लेने से न हिचकें — आपकी कुंडली इसे संभालने की ताक़त देती है।", "Advice: aim high and don't hold back from responsibility — your chart gives you the strength to carry it."),
     mixed: b("सलाह: एक क्षेत्र चुनकर उसमें गहराई से कौशल बनाएँ; बार-बार दिशा बदलने से बचें।", "Advice: choose one field and build deep skill in it; avoid changing direction too often."),
-    challenging: b("सलाह: नौकरी या व्यवसाय बदलने से पहले अच्छी तैयारी करें, और शनिवार को ज़रूरतमंदों की सेवा करें — यह धैर्य और स्थिरता देता है।", "Advice: prepare well before changing jobs or business, and serve those in need on Saturdays — it builds patience and stability."),
+    challenging: b("सलाह: आपकी कमाई की क्षमता असली और मज़बूत है — बस उसे खुद पर भरोसे और एक स्थिर दिशा से जोड़ दें। शनिवार को ज़रूरतमंदों की सेवा करने से धैर्य और स्थिरता दोनों आते हैं।", "Advice: your earning potential is real and solid — pair it with self-belief and a steady direction. Serving those in need on Saturdays builds patience and stability."),
   },
   love: {
     strong: b("सलाह: अपने अच्छे योग का पूरा लाभ लें — साथी के साथ समय बिताएँ और आभार जताते रहें।", "Advice: make the most of this good placement — spend real time with your partner and keep expressing gratitude."),
     mixed: b("सलाह: गुस्से में कोई बात न कहें; ज़रूरी बातें शांत समय पर करें। विवाह से पहले कुंडली मिलान ज़रूर करें।", "Advice: don't say things in anger; keep important talks for calm moments. Do a proper kundali match before marriage."),
-    challenging: b("सलाह: विवाह से पहले कुंडली मिलान और किसी अनुभवी ज्योतिषी से सलाह ज़रूर लें; शुक्रवार को सफ़ेद वस्तुओं का दान शुभ रहेगा।", "Advice: always do a kundali match and consult an experienced Jyotish before marriage; donating white items on Fridays is helpful."),
+    challenging: b("सलाह: आपमें गहरे और टिकाऊ रिश्ते बनाने की ताक़त है — किसी अनुभवी ज्योतिषाचार्य से मार्गदर्शन और कुंडली मिलान ज़रूर लें; शुक्रवार को सफ़ेद वस्तुओं का दान शुभ रहेगा।", "Advice: you have the depth to build truly lasting bonds — do get guidance and a kundali match from an experienced Jyotish; donating white items on Fridays is auspicious."),
   },
   health: {
     strong: b("सलाह: अच्छी सेहत को आदत बनाए रखें — नियमित व्यायाम आपकी ताक़त को लंबे समय तक बनाए रखेगा।", "Advice: keep good health a habit — regular exercise will preserve your strength for years."),
     mixed: b("सलाह: रोज़ 20–30 मिनट टहलना या योग, और सोने-जागने का तय समय आपके लिए सबसे बड़ा उपाय है।", "Advice: a daily 20–30 minute walk or yoga, and fixed sleep and wake times, are your best remedy."),
-    challenging: b("सलाह: साल में एक बार पूरी जाँच करवाएँ, प्राणायाम करें और सूर्योदय के समय सूर्य को जल अर्पित करें।", "Advice: get a full check-up once a year, practise pranayama and offer water to the rising Sun."),
+    challenging: b("सलाह: आप अपनी सेहत के सबसे अच्छे रक्षक हैं — साल में एक बार पूरी जाँच करवाएँ, प्राणायाम करें और सूर्योदय के समय सूर्य को जल अर्पित करें। यह नियम आपको लंबे समय तक ऊर्जावान रखेगा।", "Advice: you are your own best health guardian — get a full check-up once a year, practise pranayama and offer water to the rising Sun. This routine keeps you energised long-term."),
   },
   education: {
     strong: b("सलाह: उच्च शिक्षा या विशेषज्ञता की ओर ज़रूर बढ़ें — आपकी कुंडली इसमें अच्छी सफलता दिखाती है।", "Advice: do pursue higher studies or specialisation — your chart shows good success there."),
     mixed: b("सलाह: अपनी रुचि का विषय चुनें और पढ़ाई के लिए रोज़ एक तय समय रखें।", "Advice: pick subjects you genuinely enjoy and keep a fixed daily study time."),
-    challenging: b("सलाह: पढ़ाई की जगह साफ़ और शांत रखें, बुधवार को गणेश जी का स्मरण करें और कठिन विषयों में मार्गदर्शन लेने से न झिझकें।", "Advice: keep your study space clean and quiet, remember Lord Ganesha on Wednesdays, and don't hesitate to get help with hard subjects."),
+    challenging: b("सलाह: आपकी बुद्धि में गहराई है — पढ़ाई की जगह साफ़ और शांत रखें, बुधवार को गणेश जी का स्मरण करें और कठिन विषयों में सही मार्गदर्शन लेने से आप अपनी पूरी क्षमता तक पहुँच सकते हैं।", "Advice: your mind has real depth — keep your study space clean and quiet, remember Lord Ganesha on Wednesdays, and with the right guidance you will reach your full potential."),
   },
 };
 

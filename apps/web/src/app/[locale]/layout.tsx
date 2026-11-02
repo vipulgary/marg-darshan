@@ -4,9 +4,9 @@ import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeScript } from "@/components/layout/ThemeScript";
 import { SpotlightTracker } from "@/components/effects/SpotlightTracker";
 import { Header } from "@/components/layout/Header";
-import { THEME_INIT_SCRIPT } from "@/components/layout/ThemeToggle";
 import { MobileCtaBar } from "@/components/layout/MobileCtaBar";
 import { MotionProvider } from "@/components/layout/MotionProvider";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
@@ -46,7 +46,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
     <html lang={locale} className={`${fontVariables} h-full`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
         {/* Applies the saved light/dark choice before first paint (no flash). */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <ThemeScript />
         <NextIntlClientProvider>
           <MotionProvider>
             <ToastProvider>

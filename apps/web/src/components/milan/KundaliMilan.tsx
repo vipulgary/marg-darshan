@@ -60,24 +60,27 @@ const VERDICT_TONE = { excellent: "success", good: "success", average: "warning"
 function PersonForm({ side, value, onChange, bad, profiles }: { side: "boy" | "girl"; value: Person; onChange: (p: Person) => void; bad: string[]; profiles: MilanProfile[] }) {
   const t = useTranslations("milan");
   const has = (k: string) => bad.some((b) => b === `${side}.${k}` || b.startsWith(`${side}.${k}.`));
+  // AMX-202: the boy's side never lists female profiles and vice versa ("other" fits either side).
+  const opposite = side === "boy" ? "female" : "male";
+  const visibleProfiles = profiles.filter((p) => p.gender !== opposite);
   return (
     <Card className="flex flex-col gap-4">
       <h2 className="flex items-center gap-2 text-xl">
         <Icon name="user" size={22} className="text-gold-300" /> {t(side)}
       </h2>
-      {profiles.length > 0 && (
+      {visibleProfiles.length > 0 && (
         <Field label={t("fromProfile")}>
           {(id) => (
             <Select
               id={id}
               defaultValue=""
               onChange={(e) => {
-                const p = profiles.find((x) => x.id === e.target.value);
+                const p = visibleProfiles.find((x) => x.id === e.target.value);
                 if (p) onChange({ name: p.name || p.label, dob: p.dob, tob: p.tob, place: p.place });
               }}
             >
               <option value="">{t("chooseProfile")}</option>
-              {profiles.map((p) => (
+              {visibleProfiles.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.label}
                   {p.name ? ` — ${p.name}` : ""}

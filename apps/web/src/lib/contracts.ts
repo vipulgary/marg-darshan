@@ -82,6 +82,8 @@ export interface ChartData {
   running_mahadasha: DashaPeriod | null;
   vargas?: { status: "ok" | "unavailable"; reason?: string; charts?: Record<string, unknown> };
   yogas_doshas?: { doshas: Dosha[]; yogas: Yoga[] };
+  /** Real Saturn-transit Sade Sati / small Panoti stretches (AMX-200). */
+  sade_sati_periods?: { kind: "sade_sati" | "small_panoti"; phase: "rising" | "peak" | "setting" | "4th" | "8th"; saturn_sign: number; start: string; end: string }[];
 }
 
 export interface BirthInput {

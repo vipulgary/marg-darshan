@@ -1,5 +1,5 @@
 /**
- * Phalit (interpretive) kundali report (AMX-180/181). Pure: ChartData → structured report in one
+ * Phalit (interpretive) kundali report (AMX-180/181/200). Pure: ChartData → structured report in one
  * locale. All text comes from ./content (DRAFT until the client's Jyotish approves it).
  */
 import { withGlyph } from "@/lib/zodiac";
@@ -14,6 +14,8 @@ import { DIGNITY_NOTE, PLANET_IN_HOUSE } from "./content/planets";
 import { RASHI } from "./content/rashi";
 import { type AreaKey, predictArea } from "./predict";
 import { DOSHA_GENERIC_REMEDY, DOSHA_REMEDIES, PLANET_LORE } from "./content/remedies";
+import { sadeSatiTimeline } from "./sade-sati";
+export type { SadeSatiCycle, SadeSatiRow } from "./sade-sati";
 
 export type Locale = "hi" | "en";
 export type Dignity = "exalted" | "debilitated" | "own" | "friend" | "enemy" | "neutral";
@@ -107,6 +109,30 @@ export function buildReport(chart: ChartData, locale: Locale, now = new Date()) 
     description: l === "hi" ? y.description_hi : y.description_en,
   }));
 
+  // AMX-200 — Sade Sati & small Panoti from the engine's real Saturn transits.
+  const sadeSati = sadeSatiTimeline(chart.sade_sati_periods, today);
+  const mon = (iso: string) => fmtDate(iso, l);
+  const sadeSatiText: string[] = !sadeSati
+    ? []
+    : sadeSati.status === "sade_sati"
+      ? [
+          l === "hi"
+            ? `अभी आपकी साढ़े साती का ${sadeSati.current ? { rising: "पहला (आरोही)", peak: "मध्य (शीर्ष)", setting: "अंतिम (अवरोही)" }[sadeSati.current.phase as "rising"] ?? "" : ""} चरण चल रहा है, जो ${mon(sadeSati.currentEnd!)} में पूरी तरह समाप्त होगी। यह समय मेहनत, धैर्य और ज़िम्मेदारी सिखाता है — और इसी दौरान बनी नींव आगे सबसे ज़्यादा फल देती है।`
+            : `You are in the ${sadeSati.current ? { rising: "first (rising)", peak: "middle (peak)", setting: "final (setting)" }[sadeSati.current.phase as "rising"] ?? "" : ""} phase of Sade Sati, which ends completely in ${mon(sadeSati.currentEnd!)}. This period teaches effort, patience and responsibility — and the foundation you build now pays off the most later.`,
+          ...(sadeSati.freeFrom
+            ? [l === "hi"
+                ? `इसके बाद ${mon(sadeSati.freeFrom)}${sadeSati.freeUntil ? ` से ${mon(sadeSati.freeUntil)} तक` : " से"} शनि का दबाव हट जाता है — यह खुलकर आगे बढ़ने, नई शुरुआत और मेहनत का पूरा फल पाने का समय है।`
+                : `After that, from ${mon(sadeSati.freeFrom)}${sadeSati.freeUntil ? ` until ${mon(sadeSati.freeUntil)}` : ""}, Saturn's pressure lifts — a time to move ahead freely, start new things and enjoy the full reward of your effort.`]
+            : []),
+        ]
+      : sadeSati.status === "small_panoti"
+        ? [l === "hi"
+            ? `अभी शनि की छोटी पनोती (ढैय्या) चल रही है, जो ${mon(sadeSati.currentEnd!)} तक है। यह साढ़े साती से हल्की होती है — अनुशासन और धैर्य से यह समय आसानी से निकल जाता है।${sadeSati.freeUntil ? ` इसके बाद ${mon(sadeSati.freeFrom!)} से ${mon(sadeSati.freeUntil)} तक अच्छा, खुला समय है।` : ""}`
+            : `Saturn's small Panoti (Dhaiya) is running until ${mon(sadeSati.currentEnd!)}. It is much lighter than Sade Sati — discipline and patience carry you through it easily.${sadeSati.freeUntil ? ` Then ${mon(sadeSati.freeFrom!)} to ${mon(sadeSati.freeUntil)} is a good, open stretch.` : ""}`]
+        : [l === "hi"
+            ? `अभी आप साढ़े साती और ढैय्या दोनों से मुक्त हैं — यह आगे बढ़ने, निवेश और नई शुरुआत के लिए अच्छा समय है${sadeSati.freeUntil ? ` (${mon(sadeSati.freeUntil)} तक)` : ""}।${sadeSati.nextSadeSati ? ` अगली साढ़े साती ${mon(sadeSati.nextSadeSati.start)} में शुरू होगी।` : ""}`
+            : `You are free of both Sade Sati and Dhaiya right now — a good time to grow, invest and begin new things${sadeSati.freeUntil ? ` (until ${mon(sadeSati.freeUntil)})` : ""}.${sadeSati.nextSadeSati ? ` The next Sade Sati begins in ${mon(sadeSati.nextSadeSati.start)}.` : ""}`];
+
   // Life areas: plain-language paragraphs composed from this chart's own factors (see ./predict).
   const manglik = (chart.yogas_doshas?.doshas ?? []).find((d) => d.key === "manglik");
   const dashaLords = [maha?.lord, antar?.lord].filter(Boolean) as PlanetKey[];
@@ -157,6 +183,8 @@ export function buildReport(chart: ChartData, locale: Locale, now = new Date()) 
 
   return {
     reviewed: REPORT_REVIEWED,
+    sadeSati,
+    sadeSatiText,
     overview,
     summary: {
       lagna: signName(lagnaSign, l),

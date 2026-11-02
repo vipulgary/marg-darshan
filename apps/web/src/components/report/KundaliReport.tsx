@@ -2,11 +2,13 @@ import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icons";
 import { CopyPara } from "./CopyPara";
+import { VoiceSectionPlayer } from "./VoiceSectionPlayer";
 import { NorthIndianChart } from "@/components/kundali/NorthIndianChart";
 import { Badge } from "@/components/ui/Display";
 import { cn } from "@/lib/cn";
 import type { ChartData } from "@/lib/contracts";
 import { type Dignity, buildReport } from "@/lib/report/build";
+import type { SadeSatiCycle } from "@/lib/report/sade-sati";
 import { NumerologyCard } from "@/components/numerology/Numerology";
 import { numerology } from "@/lib/numerology";
 
@@ -19,13 +21,28 @@ const DIGNITY_TONE: Record<Dignity, "success" | "gold" | "violet" | "neutral" | 
   debilitated: "error",
 };
 
-function Section({ id, icon, title, children }: { id: string; icon: IconName; title: string; children: ReactNode }) {
+function Section({
+  id,
+  icon,
+  title,
+  action,
+  children,
+}: {
+  id: string;
+  icon: IconName;
+  title: string;
+  action?: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <section id={id} aria-labelledby={`${id}-h`} className="report-section scroll-mt-28 rounded-lg border border-line bg-night-s1 p-5 md:p-6 print:break-inside-avoid">
-      <h3 id={`${id}-h`} className="mb-4 flex items-center gap-2 text-xl">
-        <Icon name={icon} size={22} animate="draw" className="text-gold-300" />
-        {title}
-      </h3>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h3 id={`${id}-h`} className="flex items-center gap-2 text-xl font-semibold">
+          <Icon name={icon} size={22} animate="draw" className="text-gold-300" />
+          {title}
+        </h3>
+        {action && <div className="no-print flex items-center gap-2 print:hidden">{action}</div>}
+      </div>
       {children}
     </section>
   );
@@ -36,6 +53,76 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
     <div className="grid gap-1 py-2 sm:grid-cols-[150px_1fr] sm:gap-4">
       <dt className="text-sm font-semibold text-gold-300">{label}</dt>
       <dd className="text-ink-2">{children}</dd>
+    </div>
+  );
+}
+
+// ─── AMX-200 Sade Sati & small Panoti timeline (real Saturn transits) ───────
+const SIGNS_EN = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+const SIGNS_HI = ["मेष", "वृषभ", "मिथुन", "कर्क", "सिंह", "कन्या", "तुला", "वृश्चिक", "धनु", "मकर", "कुंभ", "मीन"];
+const PHASE_LABEL: Record<string, [string, string]> = {
+  rising: ["Rising", "आरोही"],
+  peak: ["Peak", "शीर्ष"],
+  setting: ["Setting", "अवरोही"],
+  "4th": ["Small Panoti (4th)", "छोटी पनोती (4था)"],
+  "8th": ["Small Panoti (8th)", "छोटी पनोती (8वाँ)"],
+};
+const dmy = (iso: string, locale: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString(locale === "en" ? "en-IN" : "hi-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+
+function SadeSatiTimeline({ timeline, text, locale }: { timeline: SadeSatiCycle; text: string[]; locale: string }) {
+  const hi = locale !== "en";
+  const today = new Date().toISOString().slice(0, 10);
+  const status = timeline.status === "sade_sati" ? (hi ? "साढ़े साती चल रही है" : "Sade Sati running") : timeline.status === "small_panoti" ? (hi ? "छोटी पनोती चल रही है" : "Small Panoti running") : hi ? "मुक्त काल" : "Free period";
+  return (
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-wrap items-center gap-3">
+        <Badge tone={timeline.status === "free" ? "success" : "warning"}>{status}</Badge>
+        {timeline.currentEnd && <span className="text-sm text-ink-2">{hi ? "पूर्ण समाप्ति" : "Fully ends"}: <strong className="text-ink-1">{dmy(timeline.currentEnd, locale)}</strong></span>}
+      </div>
+      <div className="flex flex-col gap-3 leading-relaxed">
+        {text.map((p, i) => (
+          <p key={i} className={i === 0 ? "text-ink-1" : undefined}>{p}</p>
+        ))}
+      </div>
+      {timeline.freeFrom && timeline.status !== "free" && (
+        <p className="rounded-md border border-success/30 bg-success/8 px-4 py-3 text-sm text-ink-1">
+          <strong className="text-success">{hi ? "अच्छा, मुक्त समय" : "Good, free period"}:</strong> {dmy(timeline.freeFrom, locale)}
+          {timeline.freeUntil ? ` – ${dmy(timeline.freeUntil, locale)}` : ""}
+        </p>
+      )}
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[520px] text-sm">
+          <thead>
+            <tr className="border-b border-line text-left text-ink-3">
+              <th className="py-2 pr-3 font-semibold">{hi ? "प्रकार" : "Type"}</th>
+              <th className="py-2 pr-3 font-semibold">{hi ? "शनि राशि" : "Saturn in"}</th>
+              <th className="py-2 pr-3 font-semibold">{hi ? "से" : "From"}</th>
+              <th className="py-2 font-semibold">{hi ? "तक" : "To"}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {timeline.rows.map((r) => {
+              const now = r.start <= today && today <= r.end;
+              return (
+                <tr key={r.start} className={cn("border-b border-line-subtle", now && "bg-warning/8 font-semibold")}>
+                  <td className="py-2 pr-3 text-ink-1">
+                    {r.kind === "sade_sati" ? (hi ? "साढ़े साती · " : "Sade Sati · ") : ""}
+                    {PHASE_LABEL[r.phase][hi ? 1 : 0]}
+                    {now && <Badge tone="warning" className="ml-2">{hi ? "अभी" : "Now"}</Badge>}
+                  </td>
+                  <td className="py-2 pr-3 text-ink-2">{(hi ? SIGNS_HI : SIGNS_EN)[r.saturn_sign - 1]}</td>
+                  <td className="py-2 pr-3 tabular-nums text-ink-2">{dmy(r.start, locale)}</td>
+                  <td className="py-2 tabular-nums text-ink-2">{dmy(r.end, locale)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-xs text-ink-3">
+        {hi ? "तिथियाँ स्विस एफ़ेमेरिस (लाहिड़ी) से शनि की वास्तविक गति पर आधारित हैं; वक्री शनि की वापसी अलग पंक्ति में दिखाई गई है।" : "Dates come from Saturn's actual motion (Swiss Ephemeris, Lahiri); retrograde returns are shown as separate rows."}
+      </p>
     </div>
   );
 }
@@ -54,6 +141,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
     ["rep-health", t("health"), "heart-pulse"],
     ["rep-education", t("education"), "book"],
     ["rep-dasha", t("dasha"), "clock"],
+    ["rep-sade-sati", t("sadeSati"), "hourglass"],
     ["rep-doshas", t("doshas"), "diya"],
     ["rep-lucky", t("lucky"), "gem"],
     ...(num ? ([["rep-numerology", t("numerology"), "sparkle"]] as [string, string, IconName][]) : []),
@@ -93,9 +181,18 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
         </nav>
       )}
 
-      <Section id="rep-overview" icon="sparkle" title={t("overviewTitle")}>
-        <div className="relative flex flex-col gap-3 pr-9 leading-relaxed">
-          <CopyPara text={r.overview.join("\n\n")} label={t("copy")} />
+      <Section
+        id="rep-overview"
+        icon="sparkle"
+        title={t("overviewTitle")}
+        action={
+          <div className="flex items-center gap-2">
+            <VoiceSectionPlayer text={r.overview.join(". ")} locale={locale} title={t("overviewTitle")} />
+            <CopyPara text={r.overview.join("\n\n")} label={t("copy")} />
+          </div>
+        }
+      >
+        <div className="relative flex flex-col gap-3 leading-relaxed">
           {r.overview.map((para, i) => (
             <p key={i} className={i === 0 ? "text-ink-1" : undefined}>
               {para}
@@ -117,7 +214,18 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
         </section>
       )}
 
-      <Section id="rep-lagna" icon="sunrise" title={t("lagnaTitle", { sign: r.lagna.sign })}>
+      <Section
+        id="rep-lagna"
+        icon="sunrise"
+        title={t("lagnaTitle", { sign: r.lagna.sign })}
+        action={
+          <VoiceSectionPlayer
+            text={`${r.lagna.personality}. ${t("strengths")}: ${r.lagna.strengths}. ${t("challenges")}: ${r.lagna.challenges}.`}
+            locale={locale}
+            title={t("lagnaTitle", { sign: r.lagna.sign })}
+          />
+        }
+      >
         <p className="mb-3 text-ink-1">{r.lagna.personality}</p>
         <dl className="divide-y divide-line-subtle">
           <Row label={t("strengths")}>{r.lagna.strengths}</Row>
@@ -126,7 +234,18 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
       </Section>
 
       {areas.map(([id, key, icon, a]) => (
-        <Section key={id} id={id} icon={icon} title={t(`${key}Title`)}>
+        <Section
+          key={id}
+          id={id}
+          icon={icon}
+          title={t(`${key}Title`)}
+          action={
+            <div className="flex items-center gap-2">
+              <VoiceSectionPlayer text={a.paragraphs.join(". ")} locale={locale} title={t(`${key}Title`)} />
+              <CopyPara text={a.paragraphs.join("\n\n")} label={t("copy")} />
+            </div>
+          }
+        >
           {"manglik" in a && a.manglik && (
             <p className="mb-3 text-sm">
               <Badge tone={!a.manglik.present ? "success" : a.manglik.cancelled ? "neutral" : "warning"}>
@@ -134,8 +253,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
               </Badge>
             </p>
           )}
-          <div className="relative flex flex-col gap-3 pr-9 leading-relaxed">
-            <CopyPara text={a.paragraphs.join("\n\n")} label={t("copy")} />
+          <div className="relative flex flex-col gap-3 leading-relaxed">
             {a.paragraphs.map((para, i) => (
               <p key={i} className={i === 0 ? "text-ink-1" : undefined}>
                 {para}
@@ -145,7 +263,18 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
         </Section>
       ))}
 
-      <Section id="rep-mind" icon="moon" title={t("mindTitle", { sign: r.rashi.sign, nakshatra: r.nakshatra.name })}>
+      <Section
+        id="rep-mind"
+        icon="moon"
+        title={t("mindTitle", { sign: r.rashi.sign, nakshatra: r.nakshatra.name })}
+        action={
+          <VoiceSectionPlayer
+            text={`${r.rashi.mind}. ${t("tip")}: ${r.rashi.tip}. ${r.nakshatra.name}: ${r.nakshatra.traits}`}
+            locale={locale}
+            title={t("mindTitle", { sign: r.rashi.sign, nakshatra: r.nakshatra.name })}
+          />
+        }
+      >
         <p className="mb-3 text-ink-1">{r.rashi.mind}</p>
         <p className="mb-3">
           <span className="font-semibold text-gold-300">{t("tip")}: </span>
@@ -206,6 +335,13 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
           </>
         )}
       </Section>
+
+      {/* AMX-200 — Sade Sati & small Panoti timeline */}
+      {r.sadeSati && (
+        <Section id="rep-sade-sati" icon="hourglass" title={t("sadeSatiTitle")} action={<VoiceSectionPlayer text={r.sadeSatiText.join(" ")} locale={locale} title={t("sadeSatiTitle")} />}>
+          <SadeSatiTimeline timeline={r.sadeSati} text={r.sadeSatiText} locale={locale} />
+        </Section>
+      )}
 
       <Section id="rep-doshas" icon="diya" title={t("doshas")}>
         {r.doshas.length === 0 && <p className="text-ink-3">{t("noDoshaData")}</p>}
