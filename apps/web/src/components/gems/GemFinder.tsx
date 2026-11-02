@@ -1,14 +1,15 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/icons";
 import { BirthplaceCombobox } from "@/components/kundali/BirthplaceCombobox";
 import { EnquiryButton } from "@/components/shop/EnquiryModal";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Display";
 import { Field, Input, Select } from "@/components/ui/Field";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useViewer } from "@/components/account/useViewer";
 import { cn } from "@/lib/cn";
 import type { PlaceValue } from "@/lib/contracts";
 import { CONCERNS, type Concern } from "@/lib/gems/finder";
@@ -58,6 +59,34 @@ export function GemFinder({ profiles }: { profiles: GemProfile[] }) {
   const [error, setError] = useState("");
   const [result, setResult] = useState<Result | null>(null);
 
+  const viewer = useViewer();
+  const router = useRouter();
+  const resume = useRef(false);
+  // Back from login: restore the details and find the gems once.
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("md-gem-draft");
+      if (!raw) return;
+      const d = JSON.parse(raw) as { dob: string; tob: string; place: PlaceValue; weight: string; concerns: Concern[] };
+      // Restoring a saved session after mount (storage isn't readable during SSR).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDob(d.dob);
+      setTob(d.tob);
+      setPlace(d.place);
+      setWeight(d.weight);
+      setConcerns(d.concerns);
+      resume.current = true;
+    } catch {
+      // storage blocked
+    }
+  }, []);
+  useEffect(() => {
+    if (!resume.current || !viewer || !place) return;
+    resume.current = false;
+    sessionStorage.removeItem("md-gem-draft");
+    document.querySelector<HTMLFormElement>("form[data-gem-form]")?.requestSubmit();
+  }, [viewer, place]);
+
   const unit = (u: "ratti" | "carat") => t(`unit.${u}`);
   const toggle = (c: Concern) => setConcerns((cs) => (cs.includes(c) ? cs.filter((x) => x !== c) : [...cs, c]));
 
@@ -65,6 +94,15 @@ export function GemFinder({ profiles }: { profiles: GemProfile[] }) {
     e.preventDefault();
     if (!dob || !tob || !place) {
       setError(t("fill"));
+      return;
+    }
+    if (viewer === null) {
+      try {
+        sessionStorage.setItem("md-gem-draft", JSON.stringify({ dob, tob, place, weight, concerns }));
+      } catch {
+        // storage blocked: they'll re-enter after login
+      }
+      router.push(`/login?next=${encodeURIComponent("/gem-finder")}`);
       return;
     }
     setBusy(true);
@@ -85,7 +123,7 @@ export function GemFinder({ profiles }: { profiles: GemProfile[] }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <form onSubmit={submit} noValidate className="flex flex-col gap-6">
+      <form data-gem-form onSubmit={submit} noValidate className="flex flex-col gap-6">
         <Card className="flex flex-col gap-4">
           <h2 className="flex items-center gap-2 text-xl">
             <Icon name="sparkle" size={20} className="text-gold-300" /> {t("step1")}

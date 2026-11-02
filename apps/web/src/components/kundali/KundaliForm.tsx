@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { type FormEvent, type ReactNode, useEffect, useState } from "react";
+import { type FormEvent, type ReactNode, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Checkbox, Radio, SelectableCard } from "@/components/ui/Choice";
 import { Skeleton } from "@/components/ui/Display";
@@ -12,6 +12,8 @@ import { cn } from "@/lib/cn";
 import type { PlaceValue } from "@/lib/contracts";
 import { type KundaliField, MIN_YEAR, fieldErrors, joinDob, joinTob, kundaliRequestSchema, splitDob, splitTob } from "@/lib/kundali/schema";
 import { useFormDraft, useDraftField } from "@/stores/formDraft";
+import { api } from "@/components/account/api";
+import { useViewer } from "@/components/account/useViewer";
 import { BirthplaceCombobox } from "./BirthplaceCombobox";
 import { KundaliLoader } from "./KundaliLoader";
 import { Turnstile } from "./Turnstile";
@@ -111,6 +113,8 @@ function KundaliFormInner() {
   const [formError, setFormError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [token, setToken] = useState("");
+  const viewer = useViewer();
+  const resumed = useRef(false);
 
   // ?name=&dob=&tob=&place= deep link (home quick form). Applied once per distinct link so a
   // language switch (which keeps the query) doesn't overwrite later edits.
@@ -166,6 +170,13 @@ function KundaliFormInner() {
     if (serverErrors[f]) setServerErrors((s) => ({ ...s, [f]: undefined }));
   };
 
+  // Back from login with ?resume=1: submit the saved details once, automatically.
+  useEffect(() => {
+    if (search.get("resume") !== "1" || !viewer || resumed.current || !parsed.success) return;
+    resumed.current = true;
+    document.querySelector<HTMLFormElement>("form[data-kundali-form]")?.requestSubmit();
+  }, [search, viewer, parsed.success]);
+
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - MIN_YEAR + 1 }, (_, i) => String(currentYear - i));
 
@@ -187,6 +198,11 @@ function KundaliFormInner() {
       setFormError(t("errors.captcha"));
       return;
     }
+    // Logged out: the typed details are already kept as a draft — sign in, then come back and finish.
+    if (viewer === null) {
+      router.push(`/login?next=${encodeURIComponent("/free-kundali?resume=1")}`);
+      return;
+    }
     setBusy(true);
     try {
       const res = await fetch("/api/kundali", {
@@ -196,6 +212,27 @@ function KundaliFormInner() {
       });
       const body = (await res.json().catch(() => ({}))) as { id?: string; fields?: Partial<Record<KundaliField, string>>; retryAfterSec?: number };
       if (res.ok && body.id) {
+        // Signed in: keep this person as a saved profile and open them on the dashboard.
+        if (viewer) {
+          const d = parsed.data;
+          const same = viewer.profiles.find((p) => p.dob === d.dob && (p.tob || "") === (d.tob || "") && p.place.placeName === d.place.placeName);
+          let pid = same?.id;
+          if (!pid) {
+            const r = await api("/api/account/profiles", "POST", {
+              label: viewer.profiles.length ? d.name.split(" ")[0] : locale === "hi" ? "स्वयं" : "Self",
+              name: d.name,
+              gender: d.gender ?? "other",
+              dob: d.dob,
+              tob: d.tob ?? "",
+              place: d.place,
+            });
+            pid = (r.data as { id?: string } | undefined)?.id;
+          }
+          if (pid) {
+            router.push(`/account?p=${pid}`);
+            return;
+          }
+        }
         router.push(`/kundali/${body.id}`);
         return; // keep the loader up until navigation completes
       }
@@ -223,7 +260,7 @@ function KundaliFormInner() {
 
   return (
     <div className="relative">
-      <form noValidate onSubmit={onSubmit} className="flex flex-col gap-6" aria-busy={busy || undefined}>
+      <form data-kundali-form noValidate onSubmit={onSubmit} className="flex flex-col gap-6" aria-busy={busy || undefined}>
         {formError && (
           <div role="alert" className="rounded-md border border-error/40 bg-error/10 px-4 py-3 text-sm text-ink-1">
             <Icon name="alert-triangle" size={14} animate="none" className="mr-1 inline-block align-[-2px]" />{formError}

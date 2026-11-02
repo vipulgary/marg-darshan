@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useViewer } from "@/components/account/useViewer";
 import { BrandMark } from "./BrandMark";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -23,6 +24,7 @@ const navClass = (active: boolean) =>
 
 /** design.md §6.1–6.2 — sticky header, transparent → glass after 24px, mega-menu on desktop, sheet on mobile. */
 export function Header() {
+  const viewer = useViewer();
   const t = useTranslations("layout");
   const tRoot = useTranslations();
   const pathname = usePathname();
@@ -60,7 +62,9 @@ export function Header() {
         <nav className="hidden xl:block" aria-label={t("nav.label")}>
           <ul className="flex items-center gap-5 2xl:gap-7">
             <MegaMenu navClass={navClass} />
-            {PRIMARY_NAV.map((item) => {
+            {PRIMARY_NAV.map((navItem) => {
+              // Signed in: "Free Kundali" becomes "My Kundali" and opens the dashboard.
+              const item = viewer && navItem.href === "/free-kundali" ? { ...navItem, href: "/account", key: "myKundali" } : navItem;
               const active = isActivePath(pathname, item.href);
               return (
                 <li key={item.href} className={"wide" in item ? "hidden 2xl:list-item" : undefined}>

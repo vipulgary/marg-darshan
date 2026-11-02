@@ -2,13 +2,14 @@
 
 import { glyphName } from "@/lib/zodiac";
 import { useLocale, useTranslations } from "next-intl";
-import { type FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/icons";
 import { BirthplaceCombobox } from "@/components/kundali/BirthplaceCombobox";
 import { Button } from "@/components/ui/Button";
 import { Badge, Card } from "@/components/ui/Display";
 import { Field, Input, Select } from "@/components/ui/Field";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useViewer } from "@/components/account/useViewer";
 import { cn } from "@/lib/cn";
 import type { PlaceValue } from "@/lib/contracts";
 import type { MatchResult } from "@/lib/engine/client";
@@ -152,6 +153,7 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
   const [error, setError] = useState("");
   const [result, setResult] = useState<MatchResult | null>(null);
   const [resetKey, setResetKey] = useState({ boy: 0, girl: 0 });
+  const pendingRun = useRef<{ boy: Person; girl: Person } | null>(null);
   const clearSide = (side: "boy" | "girl") => {
     (side === "boy" ? setBoy : setGirl)(EMPTY);
     setResetKey((k) => ({ ...k, [side]: k[side] + 1 }));
@@ -186,8 +188,16 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
       setError((data as { issues?: string[] }).issues ? t("fixFields") : t("error"));
     }
   };
+  const viewer = useViewer();
+  const router = useRouter();
   const submit = (e: FormEvent) => {
     e.preventDefault();
+    // Logged out: keep both sides (marked "match pending"), sign in, and the match runs on return.
+    if (viewer === null) {
+      saveDraft(boy, girl, true);
+      router.push(`/login?next=${encodeURIComponent("/kundali-milan")}`);
+      return;
+    }
     void run(boy, girl);
   };
 
@@ -200,13 +210,22 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setBoy(saved.boy);
     setGirl(saved.girl);
-    if (saved.matched) void run(saved.boy, saved.girl, true);
+    if (saved.matched) pendingRun.current = saved;
     // Runs once on mount only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (boy !== EMPTY || girl !== EMPTY) saveDraft(boy, girl, !!result);
+    if (boy !== EMPTY || girl !== EMPTY) saveDraft(boy, girl, !!result || !!pendingRun.current);
   }, [boy, girl, result]);
+  // A saved "match pending" runs once we know the visitor is signed in.
+  useEffect(() => {
+    const p = pendingRun.current;
+    if (!p || !viewer) return;
+    pendingRun.current = null;
+    void run(p.boy, p.girl, true);
+    // run is stable enough for a one-shot resume
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewer]);
 
   // Printing always uses the light theme (users save the result as a PDF).
   useEffect(() => {
