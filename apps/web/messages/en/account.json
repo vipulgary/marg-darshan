@@ -132,7 +132,9 @@
       "RUNNING": "Calculating",
       "DONE": "Ready",
       "FAILED": "Failed"
-    }
+    },
+    "delete": "Delete",
+    "deleteConfirm": "Delete this kundali? This can't be undone."
   },
   "bookings": {
     "title": "My bookings",

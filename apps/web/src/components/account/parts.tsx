@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
+import { DeleteKundali } from "./DeleteKundali";
 import { Icon, type IconName } from "@/components/icons";
 import { Badge } from "@/components/ui/Display";
 import { Link } from "@/i18n/navigation";
@@ -65,6 +66,7 @@ export async function KundaliCard({ k, locale }: { k: KundaliRow; locale: string
             <Icon name="printer" size={16} animate="none" /> {t("print")}
           </Link>
         )}
+        <DeleteKundali id={k.id} />
       </div>
     </li>
   );

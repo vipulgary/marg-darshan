@@ -85,6 +85,32 @@ export async function POST(req: Request) {
         },
       });
 
+    // Signed in and already have this person's kundali (same birth date/time/place)? Reuse it —
+    // clicking "make kundali" again must not create duplicates. Outdated charts are refreshed in place.
+    if (me) {
+      const mine = await db.horoscope.findFirst({
+        where: { inputHash, status: "DONE", birthProfile: { clientId: me.id } },
+        orderBy: { createdAt: "desc" },
+        select: { id: true, chartJson: true, chartStyle: true },
+      });
+      const chart = mine?.chartJson as StoredChart | null | undefined;
+      if (mine && chart?.ascendant) {
+        if ((chart.calc_version ?? 0) < 3 && isEngineConfigured()) {
+          const { vargas, ...fresh } = await computeHoroscope(input);
+          await db.horoscope.update({
+            where: { id: mine.id },
+            data: {
+              chartJson: { ...fresh, subject } as unknown as Prisma.InputJsonValue,
+              vargasJson: vargas ? (vargas as unknown as Prisma.InputJsonValue) : undefined,
+              yogasDoshas: fresh.yogas_doshas ? (fresh.yogas_doshas as unknown as Prisma.InputJsonValue) : undefined,
+            },
+          });
+        }
+        if (mine.chartStyle !== data.chartStyle) await db.horoscope.update({ where: { id: mine.id }, data: { chartStyle: data.chartStyle } });
+        return json({ id: mine.id, cached: true });
+      }
+    }
+
     const cached = await db.horoscope.findFirst({
       where: { inputHash, status: "DONE", createdAt: { gte: new Date(Date.now() - CACHE_MAX_AGE_MS) } },
       orderBy: { createdAt: "desc" },

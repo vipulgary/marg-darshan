@@ -14,13 +14,16 @@ export interface KundaliRow {
   createdAt: Date;
 }
 
+/** One card per person: kundalis with the same birth date, time and place (inputHash) collapse to the newest. */
 export async function listKundalis(clientId: string, take = 100): Promise<KundaliRow[]> {
-  const rows = await db.horoscope.findMany({
+  const all = await db.horoscope.findMany({
     where: { birthProfile: { clientId } },
     orderBy: { createdAt: "desc" },
-    take,
-    select: { id: true, status: true, createdAt: true, chartJson: true, birthProfile: { select: { fullName: true, placeName: true, dob: true } } },
+    take: take * 5,
+    select: { id: true, status: true, createdAt: true, chartJson: true, inputHash: true, birthProfile: { select: { fullName: true, placeName: true, dob: true } } },
   });
+  const seen = new Set<string>();
+  const rows = all.filter((h) => !seen.has(h.inputHash) && !!seen.add(h.inputHash)).slice(0, take);
   return rows.map((h) => {
     const subject = (h.chartJson as StoredChart | null)?.subject;
     return {

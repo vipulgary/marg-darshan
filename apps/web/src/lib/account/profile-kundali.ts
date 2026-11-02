@@ -48,19 +48,19 @@ export async function ensureProfileKundali(
   };
   try {
     const { vargas, ...chart } = await computeHoroscope(input);
-    const row = await db.horoscope.create({
-      data: {
-        birthProfileId: p.id,
-        inputHash: normalizedInputHash(input),
-        lang,
-        chartStyle: "north",
-        status: "DONE",
-        chartJson: { ...chart, subject } as unknown as Prisma.InputJsonValue,
-        vargasJson: vargas ? (vargas as unknown as Prisma.InputJsonValue) : undefined,
-        yogasDoshas: chart.yogas_doshas ? (chart.yogas_doshas as unknown as Prisma.InputJsonValue) : undefined,
-      },
-      select: { id: true },
-    });
+    const data = {
+      inputHash: normalizedInputHash(input),
+      lang,
+      chartStyle: "north" as const,
+      status: "DONE" as const,
+      chartJson: { ...chart, subject } as unknown as Prisma.InputJsonValue,
+      vargasJson: vargas ? (vargas as unknown as Prisma.InputJsonValue) : undefined,
+      yogasDoshas: chart.yogas_doshas ? (chart.yogas_doshas as unknown as Prisma.InputJsonValue) : undefined,
+    };
+    // An outdated chart for this profile is refreshed in place, never duplicated.
+    const row = existing
+      ? await db.horoscope.update({ where: { id: existing.id }, data, select: { id: true } })
+      : await db.horoscope.create({ data: { birthProfileId: p.id, ...data }, select: { id: true } });
     return { id: row.id, chart };
   } catch (e) {
     console.error("[account] profile kundali failed", e);

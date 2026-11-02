@@ -1,7 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Empty, KundaliCard, PageHead, goldLink } from "@/components/account/parts";
 import { Link } from "@/i18n/navigation";
-import { listKundalis } from "@/lib/account/queries";
+import { ensureProfileKundali } from "@/lib/account/profile-kundali";
+import { listKundalis, listSavedProfiles } from "@/lib/account/queries";
 import { requireClient } from "@/lib/auth/require";
 
 export default async function AccountKundalis({ params }: PageProps<"/[locale]/account/kundalis">) {
@@ -9,6 +10,8 @@ export default async function AccountKundalis({ params }: PageProps<"/[locale]/a
   setRequestLocale(locale);
   const me = await requireClient(locale, "/account/kundalis");
   const t = await getTranslations("account");
+  // Every saved profile has its kundali here automatically (made once, reused afterwards).
+  for (const p of await listSavedProfiles(me.id)) await ensureProfileKundali(me.id, p, locale === "en" ? "en" : "hi");
   const rows = await listKundalis(me.id);
   return (
     <>

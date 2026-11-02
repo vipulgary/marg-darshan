@@ -8,6 +8,7 @@ import { cn } from "@/lib/cn";
 import { getPanchang } from "@/lib/engine/client";
 import { dayMuhurat, nextGoodWindow } from "@/lib/muhurat/choghadiya";
 import { buildReport } from "@/lib/report/build";
+import { VoiceSectionPlayer } from "@/components/report/VoiceSectionPlayer";
 import { goldLink, pillLink } from "./parts";
 
 /** Today's next good choghadiya and Rahu Kaal at the profile's place; null if the engine is unreachable. */
@@ -128,9 +129,7 @@ export async function ProfileDashboard({ clientId, locale, profiles, active }: {
               <Link href={`/kundali/${k.id}/print`} className={goldLink}>
                 <Icon name="download" size={16} /> {t("pdf")}
               </Link>
-              <span aria-disabled className={cn(pillLink, "cursor-not-allowed opacity-60")} title={t("soon")}>
-                <Icon name="play" size={16} /> {t("listen")} · {t("soon")}
-              </span>
+              <VoiceSectionPlayer text={buildReport(k.chart, lang).overview.join(" ")} locale={locale} title={t("listen")} spokenId="say-overview" className="h-11" />
             </div>
           )}
         </div>
