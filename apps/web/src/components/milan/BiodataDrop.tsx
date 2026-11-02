@@ -127,7 +127,6 @@ export function BiodataDrop({ onFill }: { onFill: (f: BiodataFill) => void }) {
           )}
         </div>
       )}
-      <p className="text-[11px] text-ink-3">{t("privacy")}</p>
     </div>
   );
 }

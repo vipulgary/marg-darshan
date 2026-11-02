@@ -121,7 +121,6 @@
     "filled": "Filled from the biodata — please check the details.",
     "missing": "Not found in the biodata: {fields}",
     "error": "Couldn't read enough from this file. Try a clearer photo, a PDF, or paste the text.",
-    "privacy": "Read on this device to fill the form; the file is not uploaded or stored.",
     "field": {
       "name": "name",
       "dob": "date of birth",
