@@ -88,7 +88,7 @@ function ConsultToast() {
       role="status"
       aria-hidden={!show}
       className={cn(
-        "no-print fixed bottom-24 right-4 z-30 w-[min(340px,calc(100vw-32px))] rounded-lg border border-line-gold bg-night-s1 p-4 shadow-e3 transition-[transform,opacity] duration-500 md:bottom-6 md:right-6",
+        "no-print fixed bottom-24 right-4 z-30 w-[min(340px,calc(100vw-32px))] rounded-lg border border-line-gold bg-night-s1 p-4 shadow-e3 transition-[transform,opacity] duration-500 md:bottom-24 md:right-6",
         show ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-[110%] opacity-0",
       )}
     >
@@ -199,7 +199,7 @@ export function KundaliResult({ id, chart, chartStyle, name = "", dob }: { id: s
           { id: "report", label: tReport("tab"), content: <KundaliReport chart={chart} locale={locale} name={name} dob={dob} /> },
           { id: "chart", label: t("tabChart"), content: chartTab },
           { id: "planets", label: t("tabPlanets"), content: <PlanetTable chart={chart} lang={lang} /> },
-          { id: "dasha", label: t("tabDasha"), content: <DashaTimeline vimshottari={chart.vimshottari ?? []} lang={lang} /> },
+          { id: "dasha", label: t("tabDasha"), content: <DashaTimeline vimshottari={chart.vimshottari ?? []} lang={lang} sadeSati={chart.sade_sati_periods} /> },
           { id: "doshas", label: t("tabDoshas"), content: <DoshaYogaCards data={chart.yogas_doshas} lang={lang} /> },
         ]}
       />

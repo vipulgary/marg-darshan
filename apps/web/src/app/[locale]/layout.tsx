@@ -9,7 +9,7 @@ import { SpotlightTracker } from "@/components/effects/SpotlightTracker";
 import { Header } from "@/components/layout/Header";
 import { MobileCtaBar } from "@/components/layout/MobileCtaBar";
 import { MotionProvider } from "@/components/layout/MotionProvider";
-import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { BookFloat } from "@/components/layout/BookFloat";
 import { ToastProvider } from "@/components/ui/Interactive";
 import { routing } from "@/i18n/routing";
 import { fontVariables } from "@/lib/fonts";
@@ -72,7 +72,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
               />
             )}
               <MobileCtaBar />
-              <WhatsAppFloat />
+              <BookFloat />
             </ToastProvider>
           </MotionProvider>
         </NextIntlClientProvider>

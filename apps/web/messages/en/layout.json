@@ -81,7 +81,9 @@
   "cta": {
     "barLabel": "Quick actions",
     "whatsapp": "Chat on WhatsApp",
-    "floatHint": "Ask anything about a consultation"
+    "floatHint": "Ask anything about a consultation",
+    "book": "Book a consultation",
+    "bookHint": "Talk to Acharya ji online or in person"
   },
   "theme": {
     "toLight": "Switch to light mode",
