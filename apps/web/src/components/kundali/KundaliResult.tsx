@@ -88,8 +88,8 @@ function ConsultToast() {
       role="status"
       aria-hidden={!show}
       className={cn(
-        "no-print fixed bottom-24 right-4 z-30 w-[min(340px,calc(100vw-32px))] rounded-lg border border-line-gold bg-night-s1 p-4 shadow-e3 transition-[transform,opacity] duration-500 md:bottom-24 md:right-6",
-        show ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-[110%] opacity-0",
+        "no-print fixed bottom-24 left-4 z-30 w-[min(340px,calc(100vw-32px))] rounded-xl border border-white/40 bg-night-s1/60 p-4 shadow-e3 ring-1 ring-line-gold/40 backdrop-blur-xl backdrop-saturate-150 transition-[transform,opacity] duration-500 md:bottom-6 md:left-6",
+        show ? "translate-x-0 opacity-100" : "pointer-events-none -translate-x-[110%] opacity-0",
       )}
     >
       <button
