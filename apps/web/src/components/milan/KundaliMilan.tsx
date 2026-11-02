@@ -13,6 +13,7 @@ import { cn } from "@/lib/cn";
 import type { PlaceValue } from "@/lib/contracts";
 import type { MatchResult } from "@/lib/engine/client";
 import { SIGN_NAMES } from "@/lib/kundali/chart-layout";
+import { BiodataDrop } from "./BiodataDrop";
 import { MilanCompare } from "./MilanCompare";
 
 export interface MilanProfile {
@@ -53,6 +54,7 @@ interface Person {
   dob: string;
   tob: string;
   place: PlaceValue | null;
+  timeUnknown?: boolean;
 }
 const EMPTY: Person = { name: "", dob: "", tob: "", place: null };
 
@@ -69,6 +71,7 @@ function PersonForm({ side, value, onChange, bad, profiles }: { side: "boy" | "g
       <h2 className="flex items-center gap-2 text-xl">
         <Icon name="user" size={22} className="text-gold-300" /> {t(side)}
       </h2>
+      <BiodataDrop onFill={(f) => onChange({ ...value, ...f, place: f.place ?? value.place })} />
       {visibleProfiles.length > 0 && (
         <Field label={t("fromProfile")}>
           {(id) => (
@@ -98,10 +101,14 @@ function PersonForm({ side, value, onChange, bad, profiles }: { side: "boy" | "g
         <Field label={t("dob")} required error={has("dob") ? t("required") : undefined}>
           {(id, d) => <Input id={id} type="date" aria-describedby={d} aria-invalid={has("dob")} value={value.dob} onChange={(e) => onChange({ ...value, dob: e.target.value })} />}
         </Field>
-        <Field label={t("tob")} required error={has("tob") ? t("required") : undefined}>
-          {(id, d) => <Input id={id} type="time" aria-describedby={d} aria-invalid={has("tob")} value={value.tob} onChange={(e) => onChange({ ...value, tob: e.target.value })} />}
+        <Field label={t("tob")} required={!value.timeUnknown} error={has("tob") ? t("required") : undefined}>
+          {(id, d) => <Input id={id} type="time" disabled={value.timeUnknown} aria-describedby={d} aria-invalid={has("tob")} value={value.timeUnknown ? "" : value.tob} onChange={(e) => onChange({ ...value, tob: e.target.value })} />}
         </Field>
       </div>
+      <label className="-mt-2 flex items-center gap-2 text-sm text-ink-2">
+        <input type="checkbox" className="h-4 w-4 accent-[var(--accent-saffron-400)]" checked={!!value.timeUnknown} onChange={(e) => onChange({ ...value, timeUnknown: e.target.checked, tob: e.target.checked ? "" : value.tob })} />
+        {t("timeUnknown")}
+      </label>
       <BirthplaceCombobox label={t("place")} required value={value.place} onChange={(place) => onChange({ ...value, place })} error={has("place") ? t("required") : undefined} />
     </Card>
   );
@@ -227,9 +234,27 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
               {result.boy.name} × {result.girl.name}
             </p>
             <p className="font-display text-6xl text-ink-1">
+              {result.certainty && !result.certainty.exact && <span className="mr-2 align-middle text-xl text-ink-3">{t("likely")}</span>}
               {result.total}
               <span className="text-2xl text-ink-3">/36</span>
             </p>
+            {result.certainty && (
+              <div className="w-full max-w-xl rounded-lg border border-warning/40 bg-warning/10 p-3 text-left text-sm text-ink-1">
+                <p className="font-semibold">
+                  {result.certainty.exact ? t("timeExact") : t("timeRange", { min: result.certainty.min, max: result.certainty.max })}
+                </p>
+                {!result.certainty.exact && (
+                  <ul className="mt-1.5 flex flex-col gap-0.5 text-xs text-ink-2">
+                    {result.certainty.options.slice(0, 4).map((o) => (
+                      <li key={`${o.boy_nakshatra_en}-${o.girl_nakshatra_en}`}>
+                        {hi ? o.boy_nakshatra_hi : o.boy_nakshatra_en} × {hi ? o.girl_nakshatra_hi : o.girl_nakshatra_en}: <strong>{o.total}</strong> ({Math.round(o.weight * 100)}%)
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <p className="mt-1.5 text-xs text-ink-3">{t("timeNote")}</p>
+              </div>
+            )}
             <div className="h-3 w-full max-w-md overflow-hidden rounded-full bg-night-s3">
               <div className="h-full bg-grad-gold" style={{ width: `${pct}%` }} />
             </div>
@@ -309,7 +334,7 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
                 <p>
                   {t("rashi")}: {nm(result[s], "rashi")} · {t("nakshatra")}: {nm(result[s], "nakshatra")} · {t("lagna")}: {nm(result[s], "lagna")}
                 </p>
-                <p className="mt-1">{result[s].manglik ? t("isManglik") : t("notManglik")}</p>
+                <p className="mt-1">{result[s].manglik === null ? t("manglikNeedsTime") : result[s].manglik ? t("isManglik") : t("notManglik")}</p>
               </Card>
             ))}
           </div>
@@ -322,7 +347,10 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
                 return (
                   <li key={k.key}>
                     <div className="mb-1 flex items-baseline justify-between gap-3">
-                      <span className="font-semibold text-ink-1">{t(`koot.${k.key}.name`)}</span>
+                      <span className="font-semibold text-ink-1">
+                        {t(`koot.${k.key}.name`)}
+                        {result.certainty?.uncertain_koots.includes(k.key) && <span className="ml-1.5 rounded-full bg-warning/15 px-1.5 text-[11px] font-bold text-warning" title={t("kootUncertain")}>?</span>}
+                      </span>
                       <span className="tabular-nums text-ink-2">
                         {k.score}/{k.max}
                       </span>
@@ -355,7 +383,7 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
             </p>
             <p>
               <strong className="text-ink-1">{t("manglik")}: </strong>
-              {t(`manglikMatch.${result.manglik}`)}
+              {result.manglik === "unknown" ? t("manglikNeedsTime") : t(`manglikMatch.${result.manglik}`)}
             </p>
           </Card>
 

@@ -153,17 +153,26 @@ export interface MatchResult {
   verdict: "excellent" | "good" | "average" | "low";
   nadi_dosha: { present: boolean; cancelled: boolean };
   bhakoot_dosha: { present: boolean; cancelled: boolean; distance: number };
-  manglik: "none" | "one" | "both";
+  manglik: "none" | "one" | "both" | "unknown";
   boy: MatchPerson;
   girl: MatchPerson;
   /** Both full charts (web API adds them) for the side-by-side comparison. */
   charts?: { boy: ChartData; girl: ChartData };
+  /** Set when a birth time is unknown: the score range over the possible Moon nakshatras that day. */
+  certainty?: {
+    min: number;
+    max: number;
+    likely: number;
+    exact: boolean;
+    uncertain_koots: string[];
+    options: { total: number; weight: number; boy_nakshatra_en: string; boy_nakshatra_hi: string; girl_nakshatra_en: string; girl_nakshatra_hi: string }[];
+  } | null;
   /** Next marriage muhurats (only for a workable match). */
   vivah_muhurats?: { date: string; weekday_en: string; weekday_hi: string; tithi_en: string; tithi_hi: string; nakshatra_en: string; nakshatra_hi: string; from: string; to: string }[];
 }
 
 /** Ashtakoot Guna Milan for two birth inputs (engine computes both charts). */
-export async function matchCharts(boy: BirthInput, girl: BirthInput): Promise<MatchResult> {
+export async function matchCharts(boy: BirthInput, girl: BirthInput, known: { boy: boolean; girl: boolean } = { boy: true, girl: true }): Promise<MatchResult> {
   const body = (p: BirthInput) => ({
     name: p.name,
     gender: p.gender,
@@ -177,7 +186,7 @@ export async function matchCharts(boy: BirthInput, girl: BirthInput): Promise<Ma
   });
   return call<MatchResult>(
     "/api/v1/match",
-    { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ boy: body(boy), girl: body(girl) }) },
+    { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ boy: body(boy), girl: body(girl), boy_time_known: known.boy, girl_time_known: known.girl }) },
     60_000,
   );
 }

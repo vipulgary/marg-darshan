@@ -7,7 +7,8 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
 const person = z.object({
   name: z.string().trim().min(2).max(80),
   dob: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  tob: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),
+  tob: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/).or(z.literal("")),
+  timeUnknown: z.boolean().default(false),
   place: placeSchema,
 });
 const bodySchema = z.object({ boy: person, girl: person, lang: z.enum(["hi", "en"]).default("hi") });
@@ -21,10 +22,12 @@ export async function POST(req: Request) {
   if (!isEngineConfigured()) return NextResponse.json({ error: "engine_unavailable" }, { status: 503 });
   const { boy, girl, lang } = parsed.data;
   try {
-    const b = { ...boy, gender: "male" as const, lang };
-    const g = { ...girl, gender: "female" as const, lang };
+    // Unknown birth time: noon stands in for the chart; the engine scans the whole day for gunas.
+    const b = { ...boy, tob: boy.timeUnknown || !boy.tob ? "12:00" : boy.tob, gender: "male" as const, lang };
+    const g = { ...girl, tob: girl.timeUnknown || !girl.tob ? "12:00" : girl.tob, gender: "female" as const, lang };
+    const known = { boy: !(boy.timeUnknown || !boy.tob), girl: !(girl.timeUnknown || !girl.tob) };
     // Both full charts too, so the result can compare the two people side by side.
-    const [result, boyChart, girlChart] = await Promise.all([matchCharts(b, g), computeHoroscope(b), computeHoroscope(g)]);
+    const [result, boyChart, girlChart] = await Promise.all([matchCharts(b, g, known), computeHoroscope(b), computeHoroscope(g)]);
     const strip = ({ vargas: _v, ...c }: typeof boyChart) => c;
     return NextResponse.json({ ...result, charts: { boy: strip(boyChart), girl: strip(girlChart) } });
   } catch (err) {

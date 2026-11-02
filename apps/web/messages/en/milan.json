@@ -106,5 +106,28 @@
   "muhuratTitle": "Next auspicious wedding dates",
   "muhuratLead": "The next four marriage muhurats for this couple, at the bride's birthplace.",
   "nextDay": "into next morning",
-  "muhuratNote": "DRAFT — checked for marriage nakshatra, tithi, weekday, Kharmas/Chaturmas, Jupiter & Venus not combust, and both partners' Moon. Please confirm the exact lagna time with our Jyotish."
+  "muhuratNote": "DRAFT — checked for marriage nakshatra, tithi, weekday, Kharmas/Chaturmas, Jupiter & Venus not combust, and both partners' Moon. Please confirm the exact lagna time with our Jyotish.",
+  "timeUnknown": "Birth time not known",
+  "likely": "likely",
+  "timeExact": "Birth time missing — but the guna score is exact: the Moon stayed in one nakshatra that whole day.",
+  "timeRange": "Birth time missing — likely score shown; it can be anywhere from {min} to {max}.",
+  "timeNote": "With the exact birth time the score becomes 100% accurate (and Manglik can be checked). Don't know it? Try our Birth Time Finder.",
+  "manglikNeedsTime": "Manglik check needs the birth time",
+  "kootUncertain": "Depends on the unknown birth time",
+  "biodata": {
+    "drop": "Drop the biodata here, or tap to upload",
+    "types": "PDF, JPG or PNG — we read name, birth date, time and place",
+    "reading": "Reading the biodata…",
+    "filled": "Filled from the biodata — please check the details.",
+    "missing": "Not found in the biodata: {fields}",
+    "off": "Biodata reading is not switched on yet — please fill the details by hand.",
+    "error": "Couldn't read this file. Try a clearer photo or a PDF.",
+    "privacy": "The file is only read to fill the form and is not stored.",
+    "field": {
+      "name": "name",
+      "dob": "date of birth",
+      "tob": "birth time",
+      "place": "birthplace"
+    }
+  }
 }
