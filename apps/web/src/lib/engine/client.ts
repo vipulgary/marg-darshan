@@ -156,6 +156,8 @@ export interface MatchResult {
   manglik: "none" | "one" | "both";
   boy: MatchPerson;
   girl: MatchPerson;
+  /** Both full charts (web API adds them) for the side-by-side comparison. */
+  charts?: { boy: ChartData; girl: ChartData };
 }
 
 /** Ashtakoot Guna Milan for two birth inputs (engine computes both charts). */

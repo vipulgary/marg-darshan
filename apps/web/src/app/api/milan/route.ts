@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { EngineError, isEngineConfigured, matchCharts } from "@/lib/engine/client";
+import { EngineError, computeHoroscope, isEngineConfigured, matchCharts } from "@/lib/engine/client";
 import { placeSchema } from "@/lib/kundali/schema";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 
@@ -21,8 +21,12 @@ export async function POST(req: Request) {
   if (!isEngineConfigured()) return NextResponse.json({ error: "engine_unavailable" }, { status: 503 });
   const { boy, girl, lang } = parsed.data;
   try {
-    const result = await matchCharts({ ...boy, gender: "male", lang }, { ...girl, gender: "female", lang });
-    return NextResponse.json(result);
+    const b = { ...boy, gender: "male" as const, lang };
+    const g = { ...girl, gender: "female" as const, lang };
+    // Both full charts too, so the result can compare the two people side by side.
+    const [result, boyChart, girlChart] = await Promise.all([matchCharts(b, g), computeHoroscope(b), computeHoroscope(g)]);
+    const strip = ({ vargas: _v, ...c }: typeof boyChart) => c;
+    return NextResponse.json({ ...result, charts: { boy: strip(boyChart), girl: strip(girlChart) } });
   } catch (err) {
     console.error("[milan]", err);
     return NextResponse.json({ error: "engine_unavailable" }, { status: err instanceof EngineError && err.status === 422 ? 400 : 503 });

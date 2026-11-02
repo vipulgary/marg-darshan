@@ -13,6 +13,7 @@ import { cn } from "@/lib/cn";
 import type { PlaceValue } from "@/lib/contracts";
 import type { MatchResult } from "@/lib/engine/client";
 import { SIGN_NAMES } from "@/lib/kundali/chart-layout";
+import { MilanCompare } from "./MilanCompare";
 
 export interface MilanProfile {
   id: string;
@@ -267,6 +268,12 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
               })}
             </ul>
           </Card>
+
+          {result.charts && (
+            <div className="no-print">
+              <MilanCompare boy={result.charts.boy} girl={result.charts.girl} names={{ boy: result.boy.name, girl: result.girl.name }} locale={locale} />
+            </div>
+          )}
 
           <Card className="flex flex-col gap-3">
             <h2 className="text-xl">{t("doshaTitle")}</h2>
