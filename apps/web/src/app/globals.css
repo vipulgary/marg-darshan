@@ -322,3 +322,11 @@
     radial-gradient(90px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.42), transparent 70%),
     var(--grad-gold);
 }
+/* Inside the brown header/footer band: one soft pill glow for keyboard focus, not a double gold ring. */
+.light .md-band {
+  --bg-0: transparent;
+}
+.light .md-band :focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 236, 214, 0.75) !important;
+}

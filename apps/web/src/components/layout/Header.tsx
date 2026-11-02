@@ -16,8 +16,8 @@ import { Icon } from "@/components/icons";
 
 const navClass = (active: boolean) =>
   cn(
-    "relative whitespace-nowrap rounded-sm py-1 text-[15px] font-medium transition-colors focus-visible:ring-focus",
-    "after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:rounded-full after:bg-saffron-400 after:transition-transform after:duration-200",
+    "relative -mx-2 whitespace-nowrap rounded-full px-2 py-1 text-[15px] font-medium transition-colors focus-visible:ring-focus",
+    "after:absolute after:inset-x-2 after:-bottom-0.5 after:h-0.5 after:origin-center after:rounded-full after:bg-saffron-400 after:transition-transform after:duration-200",
     active ? "text-gold-300 after:scale-x-100" : "text-ink-2 after:scale-x-0 hover:text-ink-1 hover:after:scale-x-100",
   );
 
