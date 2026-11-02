@@ -21,6 +21,8 @@ const DIGNITY_TONE: Record<Dignity, "success" | "gold" | "violet" | "neutral" | 
   debilitated: "error",
 };
 
+const NoControl = () => null;
+
 function Section({
   id,
   icon,
@@ -130,6 +132,9 @@ function SadeSatiTimeline({ timeline, text, locale }: { timeline: SadeSatiCycle;
 /** AMX-180/181 — interpretive report (phalit). Used on the result page tab and in the A4 print view. */
 export function KundaliReport({ chart, locale, print = false, name, dob, showCharts = false }: { chart: ChartData; locale: string; print?: boolean; name?: string; dob?: string; showCharts?: boolean }) {
   const t = useTranslations("report");
+  // The printable page (always light) gets no Listen/Copy controls.
+  const Voice = print ? NoControl : VoiceSectionPlayer;
+  const Copy = print ? NoControl : CopyPara;
   const tk = useTranslations("kundali.result");
   const r = buildReport(chart, locale === "en" ? "en" : "hi");
   const num = name && dob && /^d{4}-d{2}-d{2}$/.test(dob) ? numerology(name, dob) : null;
@@ -187,8 +192,8 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
         title={t("overviewTitle")}
         action={
           <div className="flex items-center gap-2">
-            <VoiceSectionPlayer text={r.overview.join(". ")} locale={locale} title={t("overviewTitle")} />
-            <CopyPara text={r.overview.join("\n\n")} label={t("copy")} />
+            <Voice text={r.overview.join(". ")} locale={locale} title={t("overviewTitle")} />
+            <Copy text={r.overview.join("\n\n")} label={t("copy")} />
           </div>
         }
       >
@@ -219,7 +224,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
         icon="sunrise"
         title={t("lagnaTitle", { sign: r.lagna.sign })}
         action={
-          <VoiceSectionPlayer
+          <Voice
             text={`${r.lagna.personality}. ${t("strengths")}: ${r.lagna.strengths}. ${t("challenges")}: ${r.lagna.challenges}.`}
             locale={locale}
             title={t("lagnaTitle", { sign: r.lagna.sign })}
@@ -241,8 +246,8 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
           title={t(`${key}Title`)}
           action={
             <div className="flex items-center gap-2">
-              <VoiceSectionPlayer text={a.paragraphs.join(". ")} locale={locale} title={t(`${key}Title`)} />
-              <CopyPara text={a.paragraphs.join("\n\n")} label={t("copy")} />
+              <Voice text={a.paragraphs.join(". ")} locale={locale} title={t(`${key}Title`)} />
+              <Copy text={a.paragraphs.join("\n\n")} label={t("copy")} />
             </div>
           }
         >
@@ -268,7 +273,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
         icon="moon"
         title={t("mindTitle", { sign: r.rashi.sign, nakshatra: r.nakshatra.name })}
         action={
-          <VoiceSectionPlayer
+          <Voice
             text={`${r.rashi.mind}. ${t("tip")}: ${r.rashi.tip}. ${r.nakshatra.name}: ${r.nakshatra.traits}`}
             locale={locale}
             title={t("mindTitle", { sign: r.rashi.sign, nakshatra: r.nakshatra.name })}
@@ -338,7 +343,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
 
       {/* AMX-200 — Sade Sati & small Panoti timeline */}
       {r.sadeSati && (
-        <Section id="rep-sade-sati" icon="hourglass" title={t("sadeSatiTitle")} action={<VoiceSectionPlayer text={r.sadeSatiText.join(" ")} locale={locale} title={t("sadeSatiTitle")} />}>
+        <Section id="rep-sade-sati" icon="hourglass" title={t("sadeSatiTitle")} action={<Voice text={r.sadeSatiText.join(" ")} locale={locale} title={t("sadeSatiTitle")} />}>
           <SadeSatiTimeline timeline={r.sadeSati} text={r.sadeSatiText} locale={locale} />
         </Section>
       )}

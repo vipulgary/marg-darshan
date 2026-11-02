@@ -1,3 +1,4 @@
+import { Starfield } from "@/components/effects/Starfield";
 import type { Metadata } from "next";
 import { withGlyph } from "@/lib/zodiac";
 import { notFound } from "next/navigation";
@@ -87,10 +88,11 @@ export default async function KundaliPrintPage({ params, searchParams }: PagePro
   ];
 
   return (
-    <div className="bg-night-1 px-4 py-8 print:bg-white print:p-0">
+    <div className="relative isolate overflow-hidden bg-night-0 px-4 py-8 print:bg-white print:p-0">
+      <Starfield className="-z-10 opacity-90 print:hidden" density={140} />
       <style>{PRINT_CSS}</style>
       <PrintToolbar id={id} />
-      <article lang={locale} className="kundali-print mx-auto max-w-[210mm] rounded-lg p-[12mm] shadow-e3">
+      <article lang={locale} className="light kundali-print relative mx-auto max-w-[210mm] rounded-lg p-[12mm] shadow-e3">
         <header className="avoid-break mb-4 flex items-start justify-between gap-4 border-b-2 border-[#b45309] pb-3">
           <div>
             <p className="flex items-center gap-2 text-[20px] font-bold tracking-wide text-[#92400e]">
