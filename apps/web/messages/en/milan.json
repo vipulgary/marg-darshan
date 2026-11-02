@@ -116,18 +116,21 @@
   "kootUncertain": "Depends on the unknown birth time",
   "biodata": {
     "drop": "Drop the biodata here, or tap to upload",
-    "types": "PDF, JPG or PNG — we read name, birth date, time and place",
+    "types": "PDF, JPG or PNG — read on your device; nothing is uploaded",
     "reading": "Reading the biodata…",
     "filled": "Filled from the biodata — please check the details.",
     "missing": "Not found in the biodata: {fields}",
-    "off": "Biodata reading is not switched on yet — please fill the details by hand.",
-    "error": "Couldn't read this file. Try a clearer photo or a PDF.",
-    "privacy": "The file is only read to fill the form and is not stored.",
+    "error": "Couldn't read enough from this file. Try a clearer photo, a PDF, or paste the text.",
+    "privacy": "Read on this device to fill the form; the file is not uploaded or stored.",
     "field": {
       "name": "name",
       "dob": "date of birth",
       "tob": "birth time",
       "place": "birthplace"
-    }
+    },
+    "readingPct": "Reading the biodata… {pct}%",
+    "pasteToggle": "Or paste biodata text (e.g. from WhatsApp)",
+    "pastePlaceholder": "Name: …\nDate of Birth: …\nTime of Birth: …\nPlace of Birth: …",
+    "pasteRead": "Read this text"
   }
 }

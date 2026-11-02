@@ -825,7 +825,7 @@
           "AMX-206",
           "Milan from biodata upload (PDF/image): read name, DOB, time, place; unknown birth time handled honestly",
           3,
-          "doing",
+          "done",
           "S5"
         ]
       ]
@@ -917,6 +917,6 @@
     "AMX-203": "Self-hosted Piper voices (Priyamvada hi, Jenny en), in-place speed, cache",
     "AMX-204": "Gem Finder live; sample stock DRAFT",
     "AMX-205": "Good periods, study direction, seva",
-    "AMX-206": "Built; biodata reading needs ANTHROPIC_API_KEY"
+    "AMX-206": "Free in-browser reading (pdf.js + Tesseract) + paste; Claude optional upgrade"
   }
 }
