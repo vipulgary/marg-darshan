@@ -43,10 +43,10 @@ const LABELS: [Key, RegExp][] = [
   ["name", /^(?:full\s*)?name$|^नाम$|^(?:boy|girl)'?s?\s*name|^(?:लड़के|लड़की)\s*का\s*नाम/i],
   ["gender", /^gender|^sex$|^लिंग/i],
   ["dob", /^(?:d\.?\s*o\.?\s*b\.?|date\s*of\s*birth|birth\s*date|जन्म\s*(?:तिथि|दिनांक|तारीख)|जन्मतिथि)/i],
-  ["tob", /^(?:t\.?\s*o\.?\s*b\.?|time\s*of\s*birth|birth\s*time|जन्म\s*(?:समय|का\s*समय))/i],
+  ["tob", /^(?:t\.?\s*o\.?\s*b\.?|time\s*of\s*birth|birth\s*time|time$|जन्म\s*(?:समय|का\s*समय)|समय$)/i],
   ["place", /^(?:p\.?\s*o\.?\s*b\.?|place\s*of\s*birth|birth\s*place|जन्म\s*स्थान|जन्मस्थान)/i],
   ["native", /^(?:native(?:\s*place)?|मूल\s*निवास|पैतृक\s*(?:गाँव|स्थान))/i],
-  ["residence", /^(?:residential\s*address|residence|address|current\s*address|निवास|पता)/i],
+  ["residence", /^(?:residential\s*address|residence|address|current\s*(?:address|residence)|निवास|पता|वर्तमान\s*निवास)/i],
   ["height", /^height|^कद|^ऊँचाई|^ऊंचाई|^लंबाई/i],
   ["complexion", /^(?:complexion|colou?r|रंग|वर्ण)/i],
   ["education", /^(?:education|qualification)|^शिक्षा|^योग्यता/i],
@@ -152,7 +152,7 @@ export function parseBiodata(text: string, headline?: string | null): BiodataFie
         f.tob ??= parseTime(value.replace(/^.*?\d{4}/, ""));
         break;
       case "name":
-        f.name ??= value.replace(/[^\p{L}\p{M}\s.]/gu, "").trim().slice(0, 80) || null;
+        f.name ??= value.replace(/[^\p{L}\p{M}\s.]/gu, "").replace(/^(?:mr|ms|mrs|miss|dr|shri|sri|smt|sushri|kumari|kum|श्री|सुश्री|कुमारी|श्रीमती)\.?\s+/i, "").trim().slice(0, 80) || null;
         break;
       case "gender":
         f.gender ??= /female|\bf\b|स्त्री|महिला|लड़की/i.test(value) ? "female" : /male|\bm\b|पुरुष|लड़का/i.test(value) ? "male" : null;

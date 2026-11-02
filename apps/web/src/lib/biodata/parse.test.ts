@@ -81,3 +81,17 @@ Sample Senior`,
   assert.equal(f.residence, "12, Sample Marg, Sample City");
   assert.equal(f.father, "Sample Senior");
 });
+
+test("plain 'Time:' label, 'Current Residence', and titles before names", () => {
+  const f = parseBiodata(`Name: Ms Sample Devi
+Date of Birth: 23rd February 1997
+Time: 01:05 P.M.
+Place of Birth: Sample Nagar, Nepal
+Native Place: Sample Gaon
+Current Residence: Jaipur, Rajasthan`);
+  assert.equal(f.name, "Sample Devi");
+  assert.equal(f.dob, "1997-02-23");
+  assert.equal(f.tob, "13:05");
+  assert.equal(f.place, "Sample Nagar, Nepal");
+  assert.equal(f.residence, "Jaipur, Rajasthan");
+});
