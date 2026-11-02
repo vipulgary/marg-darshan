@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icons";
 import { CopyPara } from "./CopyPara";
+import { SpokenText } from "./SpokenText";
 import { VoiceSectionPlayer } from "./VoiceSectionPlayer";
 import { NorthIndianChart } from "@/components/kundali/NorthIndianChart";
 import { Badge } from "@/components/ui/Display";
@@ -192,18 +193,12 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
         title={t("overviewTitle")}
         action={
           <div className="flex items-center gap-2">
-            <Voice text={r.overview.join(". ")} locale={locale} title={t("overviewTitle")} />
+            <Voice text={r.overview.join(" ")} locale={locale} title={t("overviewTitle")} spokenId="say-overview" />
             <Copy text={r.overview.join("\n\n")} label={t("copy")} />
           </div>
         }
       >
-        <div className="relative flex flex-col gap-3 leading-relaxed">
-          {r.overview.map((para, i) => (
-            <p key={i} className={i === 0 ? "text-ink-1" : undefined}>
-              {para}
-            </p>
-          ))}
-        </div>
+        <SpokenText id="say-overview" paragraphs={r.overview} />
       </Section>
 
       {showCharts && (
@@ -246,7 +241,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
           title={t(`${key}Title`)}
           action={
             <div className="flex items-center gap-2">
-              <Voice text={a.paragraphs.join(". ")} locale={locale} title={t(`${key}Title`)} />
+              <Voice text={a.paragraphs.join(" ")} locale={locale} title={t(`${key}Title`)} spokenId={`say-${key}`} />
               <Copy text={a.paragraphs.join("\n\n")} label={t("copy")} />
             </div>
           }
@@ -258,13 +253,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
               </Badge>
             </p>
           )}
-          <div className="relative flex flex-col gap-3 leading-relaxed">
-            {a.paragraphs.map((para, i) => (
-              <p key={i} className={i === 0 ? "text-ink-1" : undefined}>
-                {para}
-              </p>
-            ))}
-          </div>
+          <SpokenText id={`say-${key}`} paragraphs={a.paragraphs} />
         </Section>
       ))}
 

@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Icon, type IconName } from "@/components/icons";
 import { SummaryChips } from "@/components/kundali/SummaryChips";
+import { SpokenText } from "@/components/report/SpokenText";
 import { VoiceSectionPlayer } from "@/components/report/VoiceSectionPlayer";
 import { cn } from "@/lib/cn";
 import type { ChartData } from "@/lib/contracts";
@@ -74,14 +75,10 @@ export function MilanCompare({ boy, girl, names, locale }: { boy: ChartData; gir
                 <div key={who} className={cn("flex flex-col gap-2.5", i === 1 && "md:pl-4")}>
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     {side(who)}
-                    {paras.length > 0 && <VoiceSectionPlayer text={paras.join(" ")} locale={locale} title={`${row.title} — ${names[who]}`} />}
+                    {paras.length > 0 && <VoiceSectionPlayer text={paras.join(" ")} locale={locale} title={`${row.title} — ${names[who]}`} spokenId={`say-${row.key}-${who}`} />}
                   </div>
                   {paras.length ? (
-                    paras.map((p, k) => (
-                      <p key={k} className={cn("text-[15px] leading-relaxed", k === 0 ? "text-ink-1" : "text-ink-2")}>
-                        {p}
-                      </p>
-                    ))
+                    <SpokenText id={`say-${row.key}-${who}`} paragraphs={paras} className="gap-2.5 text-[15px] text-ink-2" />
                   ) : (
                     <p className="text-sm text-ink-3">—</p>
                   )}

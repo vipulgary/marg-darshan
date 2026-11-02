@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
+import { VOICE_EVENT, type VoiceProgress } from "./SpokenText";
 
 /**
  * AMX-203 — read a report section aloud.
@@ -102,7 +103,7 @@ const fmt = (s: number) => {
   return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`;
 };
 
-export function VoiceSectionPlayer({ text, locale, title, className }: { text: string; locale: string; title?: string; className?: string }) {
+export function VoiceSectionPlayer({ text, locale, title, className, spokenId }: { text: string; locale: string; title?: string; className?: string; /** ties the player to a <SpokenText id> for live highlighting */ spokenId?: string }) {
   const lang: "hi" | "en" = locale === "en" ? "en" : "hi";
   const [supported, setSupported] = useState(false);
   const [noVoice, setNoVoice] = useState(false);
@@ -146,6 +147,14 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
   const totalChars = () => chunks.current.reduce((n, c) => n + c.length, 0) || 1;
   const charsBefore = (i: number) => chunks.current.slice(0, i).reduce((n, c) => n + c.length, 0);
 
+  const broadcast = useCallback(
+    (frac: number | null) => {
+      if (spokenId) window.dispatchEvent(new CustomEvent<VoiceProgress>(VOICE_EVENT, { detail: { id: spokenId, frac } }));
+    },
+    [spokenId],
+  );
+  const raf = useRef(0);
+
   const update = useCallback(() => {
     const done = charsBefore(index.current);
     setProgress(Math.round((done / totalChars()) * 100));
@@ -159,10 +168,12 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
     audio.current = null;
     index.current = 0;
     seg.current = 0;
+    cancelAnimationFrame(raf.current);
     setState("idle");
     setProgress(0);
+    broadcast(null);
     if (stopOthers === self.current) stopOthers = null;
-  }, []);
+  }, [broadcast]);
   useEffect(() => {
     self.current = stop;
   }, [stop]);
@@ -186,6 +197,10 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
         u.rate = rateRef.current;
         u.onstart = () => {
           chunkStartedAt.current = performance.now();
+          broadcast(charsBefore(k) / totalChars());
+        };
+        u.onboundary = (e) => {
+          if (id === run.current) broadcast((charsBefore(k) + e.charIndex) / totalChars());
         };
         u.onend = () => {
           if (id !== run.current) return;
@@ -202,7 +217,7 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
       };
       next(i);
     },
-    [lang, stop, update],
+    [lang, stop, update, broadcast],
   );
 
   const fetchSeg = useCallback(
@@ -255,10 +270,17 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
       };
       audio.current = a;
       setState("playing");
+      const tick = () => {
+        if (id !== run.current) return;
+        if (a.duration && !a.paused) broadcast((segCharsBefore(i) + segChars(i) * (a.currentTime / a.duration)) / segTotal());
+        raf.current = requestAnimationFrame(tick);
+      };
+      cancelAnimationFrame(raf.current);
+      raf.current = requestAnimationFrame(tick);
       await a.play().catch(() => undefined);
       return true;
     },
-    [fetchSeg, stop],
+    [fetchSeg, stop, broadcast],
   );
 
   useEffect(() => {
