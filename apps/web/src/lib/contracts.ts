@@ -37,6 +37,18 @@ export interface PlanetPosition {
   d9_sign: number; // 1..12
 }
 
+export interface Muhurat {
+  date: string;
+  weekday_en: string;
+  weekday_hi: string;
+  tithi_en: string;
+  tithi_hi: string;
+  nakshatra_en: string;
+  nakshatra_hi: string;
+  from: string;
+  to: string;
+}
+
 export interface DashaPeriod {
   lord: PlanetKey;
   years?: number;
@@ -82,6 +94,10 @@ export interface ChartData {
   running_mahadasha: DashaPeriod | null;
   vargas?: { status: "ok" | "unavailable"; reason?: string; charts?: Record<string, unknown> };
   yogas_doshas?: { doshas: Dosha[]; yogas: Yoga[] };
+  /** Upcoming good dates for this person (engine calc_version 3): weddings and starting work. */
+  vivah_muhurats?: Muhurat[];
+  karya_muhurats?: Muhurat[];
+  calc_version?: number;
   /** Real Saturn-transit Sade Sati / small Panoti stretches (AMX-200). */
   sade_sati_periods?: { kind: "sade_sati" | "small_panoti"; phase: "rising" | "peak" | "setting" | "4th" | "8th"; saturn_sign: number; start: string; end: string }[];
 }

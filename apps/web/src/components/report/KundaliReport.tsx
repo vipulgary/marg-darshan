@@ -25,45 +25,50 @@ const DIGNITY_TONE: Record<Dignity, "success" | "gold" | "violet" | "neutral" | 
 const NoControl = () => null;
 
 const RANK_TONE = [
-  "border-success/50 bg-success/15 [--dot:var(--success)]",
-  "border-success/25 bg-success/7 [--dot:color-mix(in_oklab,var(--success)_60%,transparent)]",
-  "border-warning/35 bg-warning/10 [--dot:var(--warning)]",
+  "border-[#34a46a]/60 bg-[#34a46a]/18",
+  "border-[#34a46a]/30 bg-[#34a46a]/8",
+  "border-[#e3b23c]/50 bg-[#f2c94c]/16",
 ];
 
-/** Upcoming good periods as highlighted boxes: strongest deep green, then light green, then yellow. */
+/** Next good dates as highlighted boxes: soonest deep green, then light green, then yellow; weddings add a 12-month strip. */
 function GoodTimes({
   block,
   locale,
-  nowLabel,
 }: {
-  block: { area: string; title: string; items: { from: string; to: string; name: string; rank: number; now: boolean; monthsAway: number }[] };
+  block: { area: string; title: string; items: { date: string; weekday: string; nakshatra: string; from: string; to: string; rank: number }[]; months: [string, number][] };
   locale: string;
-  nowLabel: string;
 }) {
-  const fmt = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString(locale === "en" ? "en-IN" : "hi-IN", { month: "short", year: "numeric", timeZone: "UTC" });
-  const startsIn = (m: number) => {
-    if (locale === "en") return m < 12 ? `starts in ${m} month${m === 1 ? "" : "s"}` : `starts in ${Math.round(m / 12)} yr`;
-    return m < 12 ? `${m} महीने में शुरू` : `${Math.round(m / 12)} साल में शुरू`;
-  };
+  const hi = locale !== "en";
+  const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString(hi ? "hi-IN" : "en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+  const time = (iso: string) => new Date(iso).toLocaleTimeString(hi ? "hi-IN" : "en-IN", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: "Asia/Kolkata" });
+  const mon = (ym: string) => new Date(`${ym}-01T00:00:00Z`).toLocaleDateString(hi ? "hi-IN" : "en-IN", { month: "short", timeZone: "UTC" });
   return (
     <div className="mt-4 rounded-xl border border-line-subtle bg-night-s2/60 p-4">
       <p className="mb-3 flex items-center gap-2 text-sm font-semibold text-ink-1">
         <Icon name="calendar" size={16} className="text-gold-300" /> {block.title}
       </p>
-      <ol className="grid gap-2.5 sm:grid-cols-3">
+      <ol className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-5">
         {block.items.map((w) => (
-          <li key={w.from} className={cn("relative flex flex-col gap-1 rounded-lg border p-3", RANK_TONE[w.rank])}>
-            <span className="flex items-center gap-1.5 text-xs font-semibold text-ink-2">
-              <span aria-hidden className="h-2 w-2 rounded-full bg-[var(--dot)]" />
-              {w.name}
+          <li key={w.date} className={cn("flex flex-col gap-0.5 rounded-lg border p-3", RANK_TONE[w.rank])}>
+            <span className="text-[15px] font-semibold tabular-nums text-ink-1">{day(w.date)}</span>
+            <span className="text-xs font-semibold text-ink-2">{w.weekday}</span>
+            <span className="text-xs text-ink-3">{w.nakshatra}</span>
+            <span className="mt-1 text-xs tabular-nums text-ink-2">
+              {time(w.from)} – {time(w.to)}
+              {w.to.slice(0, 10) !== w.date && <span className="text-ink-3"> ({hi ? "अगली सुबह" : "next morning"})</span>}
             </span>
-            <span className="text-[15px] font-semibold tabular-nums text-ink-1">
-              {fmt(w.from)} – {fmt(w.to)}
-            </span>
-            <span className={cn("text-xs", w.now ? "font-bold text-success" : "text-ink-3")}>{w.now ? nowLabel : startsIn(w.monthsAway)}</span>
           </li>
         ))}
       </ol>
+      {block.months.length > 0 && (
+        <ul className="mt-3 flex flex-wrap gap-1.5" aria-label={hi ? "अगले 12 महीनों में मुहूर्त" : "Muhurats in the next 12 months"}>
+          {block.months.map(([ym, n]) => (
+            <li key={ym} className="rounded-full border border-success/30 bg-success/8 px-2.5 py-0.5 text-xs text-ink-1">
+              {mon(ym)} {ym.slice(0, 4)} · <strong>{n}</strong>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -300,7 +305,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
           )}
           <SpokenText id={`say-${key}`} paragraphs={a.paragraphs} />
           {a.timeline.map((tl) => (
-            <GoodTimes key={tl.area} block={tl} locale={locale} nowLabel={t("nowRunning")} />
+            <GoodTimes key={tl.area} block={tl} locale={locale} />
           ))}
         </Section>
       ))}

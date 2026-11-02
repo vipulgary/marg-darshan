@@ -14,6 +14,9 @@ from datetime import date, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
 VIVAH_NAKSHATRAS = {4, 5, 10, 12, 13, 15, 17, 19, 21, 26, 27}  # Rohini … Revati
+# Karya-arambh (starting a job / business): Ashwini, Rohini, Mrigashira, Pushya, U.Phalguni, Hasta,
+# Chitra, Swati, Anuradha, U.Ashadha, Shravana, Dhanishta, Shatabhisha, U.Bhadrapada, Revati.
+KARYA_NAKSHATRAS = {1, 4, 5, 8, 12, 13, 14, 15, 17, 21, 22, 23, 24, 26, 27}
 RIKTA = {4, 9, 14}
 NAK_SPAN = 360 / 27
 
@@ -34,12 +37,18 @@ def _nak(lon: float) -> int:
 
 
 def find(boy_moon_sign: int, girl_moon_sign: int, lat: float, lng: float, tz_name: str,
-         start: date | None = None, count: int = 4, horizon_days: int = 420) -> list[dict]:
+         start: date | None = None, count: int = 4, horizon_days: int = 420, kind: str = "vivah") -> list[dict]:
+    """kind="vivah" (marriage) or "karya" (start a job / business: other nakshatras, no
+    Tuesday/Saturday, no season or combustion limits)."""
     from app.services import chart as chart_mod
     from app.services.astro_constants import NAKSHATRAS_EN, NAKSHATRAS_HI
     from app.services.panchang import datetime_to_jd, jd_to_datetime, panchang_for
 
     swe = chart_mod.swe
+    vivah = kind == "vivah"
+    good_naks = VIVAH_NAKSHATRAS if vivah else KARYA_NAKSHATRAS
+    bad_days = (1,) if vivah else (1, 5)  # Tuesday; for work also Saturday
+    bad_suns = (9, 12, 4, 5, 6, 7) if vivah else ()
     tz = ZoneInfo(tz_name)
     day = (start or datetime.now(tz).date()) + timedelta(days=1)
     out: list[dict] = []
@@ -49,7 +58,7 @@ def find(boy_moon_sign: int, girl_moon_sign: int, lat: float, lng: float, tz_nam
         jd6 = datetime_to_jd(datetime.combine(day, time(6, 0), tzinfo=tz))
         sun6 = _lon(jd6, swe.SUN)
         near = {_nak(_lon(jd6 + dh / 24, swe.MOON)) for dh in (-1.5, 0, 1.5)}
-        if day.weekday() == 1 or int(sun6 // 30) + 1 in (9, 12, 4, 5, 6, 7) or not near & VIVAH_NAKSHATRAS:
+        if day.weekday() in bad_days or int(sun6 // 30) + 1 in bad_suns or not near & good_naks:
             day = day_next
             continue
         p = panchang_for(day, lat, lng, tz_name)
@@ -63,13 +72,13 @@ def find(boy_moon_sign: int, girl_moon_sign: int, lat: float, lng: float, tz_nam
         sun_sign = int(sun // 30) + 1
         moon_sign = int(moon // 30) + 1
         ok = (
-            p["nakshatra"]["index"] in VIVAH_NAKSHATRAS
+            p["nakshatra"]["index"] in good_naks
             and p["tithi"]["number_in_paksha"] not in RIKTA
             and p["tithi"]["index"] < 28  # no Krishna 13, 14 or Amavasya
-            and day.weekday() != 1  # Tuesday
-            and sun_sign not in (9, 12, 4, 5, 6, 7)
-            and not _combust(sun, _lon(jd, swe.JUPITER), 11)
-            and not _combust(sun, _lon(jd, swe.VENUS), 10)
+            and day.weekday() not in bad_days
+            and sun_sign not in bad_suns
+            and (not vivah or not _combust(sun, _lon(jd, swe.JUPITER), 11))
+            and (not vivah or not _combust(sun, _lon(jd, swe.VENUS), 10))
             and all((moon_sign - m) % 12 + 1 not in (4, 8, 12) for m in (boy_moon_sign, girl_moon_sign))
         )
         if ok:

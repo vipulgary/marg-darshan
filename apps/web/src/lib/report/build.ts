@@ -13,7 +13,7 @@ import { NAKSHATRA } from "./content/nakshatra";
 import { DIGNITY_NOTE, PLANET_IN_HOUSE } from "./content/planets";
 import { RASHI } from "./content/rashi";
 import { type AreaKey, predictArea } from "./predict";
-import { LINE, type TimingArea, goodWindows, sevaSuggestion, studyGuidance, windowsSentence } from "./timing";
+import { sevaSuggestion, studyGuidance } from "./timing";
 import { DOSHA_GENERIC_REMEDY, DOSHA_REMEDIES, PLANET_LORE } from "./content/remedies";
 import { sadeSatiTimeline } from "./sade-sati";
 export type { SadeSatiCycle, SadeSatiRow } from "./sade-sati";
@@ -139,17 +139,34 @@ export function buildReport(chart: ChartData, locale: Locale, now = new Date()) 
   const dashaLords = [maha?.lord, antar?.lord].filter(Boolean) as PlanetKey[];
   const dashaUntil = maha ? fmtDate(maha.end, l) : null;
   const predict = (area: AreaKey, fieldText: string) => predictArea(area, { lagnaSign, planets, dashaLords, dashaUntil, fieldText }, l);
-  // AMX-205: good periods ahead (from the dasha sequence), study direction and seva.
+  // AMX-205: next good dates, study direction and seva.
   const houseOf = (k: PlanetKey) => chart.planets[k].house;
-  const ahead = (area: TimingArea) => {
-    const items = goodWindows(area, lagnaSign, houseOf, chart.vimshottari, today);
-    const best = Math.max(0, ...items.map((w) => w.score));
+  // Next good dates (real muhurats from the engine) shown under each section.
+  const DATE_TITLE = {
+    work: { hi: "काम/व्यापार शुरू करने के अगले शुभ दिन", en: "Next good days to start a job or business" },
+    marriage: { hi: "विवाह के अगले शुभ मुहूर्त", en: "Next wedding muhurats" },
+    study: { hi: "नई पढ़ाई या कोर्स शुरू करने के अगले शुभ दिन", en: "Next good days to start a course or study" },
+  };
+  const dayLabel = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString(l === "hi" ? "hi-IN" : "en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+  const ahead = (key: keyof typeof DATE_TITLE, list: ChartData["vivah_muhurats"]) => {
+    const items = (list ?? []).filter((m) => m.date > today).slice(0, 5);
     return {
-      area,
-      title: LINE[area][l],
-      spoken: windowsSentence(area, items, l),
-      // rank 0 = strongest window (deep green), then lighter green, then yellow
-      items: items.map((w) => ({ ...w, name: pick(PLANET_NAME[w.lord], l), rank: w.score >= best ? 0 : w.score >= best - 1 ? 1 : 2, now: w.from <= today, monthsAway: Math.max(0, Math.round((Date.parse(w.from) - Date.parse(today)) / (30.44 * 864e5))) })),
+      area: key,
+      title: DATE_TITLE[key][l],
+      spoken: items.length ? `${DATE_TITLE[key][l]}: ${items.map((m) => `${dayLabel(m.date)} (${l === "hi" ? m.weekday_hi : m.weekday_en})`).join(", ")}${l === "hi" ? "।" : "."}` : null,
+      items: items.map((m, i) => ({
+        date: m.date,
+        weekday: l === "hi" ? m.weekday_hi : m.weekday_en,
+        nakshatra: l === "hi" ? m.nakshatra_hi : m.nakshatra_en,
+        from: m.from,
+        to: m.to,
+        rank: i === 0 ? 0 : i < 3 ? 1 : 2,
+      })),
+      // whole-year view for weddings: how many muhurats fall in each of the next 12 months
+      months:
+        key === "marriage"
+          ? Object.entries((list ?? []).reduce<Record<string, number>>((acc, m) => ((acc[m.date.slice(0, 7)] = (acc[m.date.slice(0, 7)] ?? 0) + 1), acc), {}))
+          : [],
     };
   };
   const withExtra = <T extends { paragraphs: string[] }>(a: T, extra: (string | null)[], timeline: ReturnType<typeof ahead>[] = []) => ({
@@ -158,10 +175,10 @@ export function buildReport(chart: ChartData, locale: Locale, now = new Date()) 
     timeline: timeline.filter((t) => t.items.length),
   });
   const life = {
-    career: withExtra(predict("career", `${l === "hi" ? "आपके लिए अनुकूल क्षेत्र" : "Fields that suit you"}: ${pick(lagnaText.career, l)}`), [], [ahead("career"), ahead("money")]),
-    love: { ...withExtra(predict("love", pick(lagnaText.relationships, l)), [], [ahead("marriage")]), manglik: manglik ? { present: manglik.present, cancelled: !!manglik.cancelled } : null },
+    career: withExtra(predict("career", `${l === "hi" ? "आपके लिए अनुकूल क्षेत्र" : "Fields that suit you"}: ${pick(lagnaText.career, l)}`), [], [ahead("work", chart.karya_muhurats)]),
+    love: { ...withExtra(predict("love", pick(lagnaText.relationships, l)), [], [ahead("marriage", chart.vivah_muhurats)]), manglik: manglik ? { present: manglik.present, cancelled: !!manglik.cancelled } : null },
     health: withExtra(predict("health", pick(lagnaText.health, l)), []),
-    education: withExtra(predict("education", pick(EDUCATION[lagnaSign], l)), [studyGuidance(lagnaSign, houseOf, l)], [ahead("education")]),
+    education: withExtra(predict("education", pick(EDUCATION[lagnaSign], l)), [studyGuidance(lagnaSign, houseOf, l)], [ahead("study", chart.karya_muhurats)]),
   };
   const seva = sevaSuggestion(maha?.lord ?? null, l);
 
