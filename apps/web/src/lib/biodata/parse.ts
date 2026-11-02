@@ -33,7 +33,7 @@ const MONTHS: Record<string, number> = {
   जनवरी: 1, फरवरी: 2, फ़रवरी: 2, मार्च: 3, अप्रैल: 4, अप्रेल: 4, मई: 5, जून: 6, जुलाई: 7, अगस्त: 8, सितंबर: 9, सितम्बर: 9, अक्टूबर: 10, अक्तूबर: 10, नवंबर: 11, नवम्बर: 11, दिसंबर: 12, दिसम्बर: 12,
 };
 
-type Key = Exclude<keyof BiodataFields, "placeIsNative"> | "dobtime" | "native";
+type Key = Exclude<keyof BiodataFields, "placeIsNative"> | "dobtime" | "native" | "physique" | "hobbies";
 // Field labels as they appear in biodatas (matched against the label part, case-insensitive).
 const LABELS: [Key, RegExp][] = [
   ["dobtime", /^(?:date\s*(?:and|&)\s*time\s*of\s*birth|जन्म\s*तिथि\s*(?:एवं|व|और|\/)\s*समय)/i],
@@ -48,6 +48,8 @@ const LABELS: [Key, RegExp][] = [
   ["native", /^(?:native(?:\s*place)?|मूल\s*निवास|पैतृक\s*(?:गाँव|स्थान))/i],
   ["residence", /^(?:residential\s*address|residence|address|current\s*(?:address|residence)|निवास|पता|वर्तमान\s*निवास)/i],
   ["height", /^height|^कद|^ऊँचाई|^ऊंचाई|^लंबाई/i],
+  ["physique", /^(?:physique|appearance|looks)|^शारीरिक/i],
+  ["hobbies", /^(?:hobb|interests)|^शौक|^रुचि/i],
   ["complexion", /^(?:complexion|colou?r|रंग|वर्ण)/i],
   ["education", /^(?:education|qualification)|^शिक्षा|^योग्यता/i],
   ["profession", /^(?:occupation|profession|job|work|service)|^व्यवसाय|^नौकरी|^पेशा|^कार्य/i],
@@ -61,10 +63,13 @@ const toAscii = (s: string) => s.replace(/[०-९]/g, (d) => String(HINDI_DIGIT
 const pad = (n: number) => String(n).padStart(2, "0");
 /** Section titles like "OFFICE ADDRESS", "FAMILY DETAILS" end a multi-line value. */
 const HEADING = /^[A-Z][A-Z &/]{5,}$/;
+/** Honorifics and professional titles: not part of the name (kundali and numerology use the given name). */
+const TITLES = /^(?:(?:mr|ms|mrs|miss|dr|prof|adv|advocate|er|engr|ca|cs|cma|capt|col|maj|lt|shri|sri|smt|sushri|kumari|kum|श्री|सुश्री|कुमारी|श्रीमती|डॉ|प्रो|एडवोकेट)\.?\s*)+(?=\p{L})/iu;
 const RELIGIOUS = /ॐ|नमः|गणेश|श्री\s*गणेशाय|जय\s|भिक्षु|ganesh|namah|shree|om\s/i;
 
 export function parseDate(raw: string): string | null {
-  const s = toAscii(raw).toLowerCase().replace(/(\d)\s*(?:st|nd|rd|th)\b/g, "$1");
+  // Ordinals may be glued to the month ("12thMarch"): drop them and leave a space.
+  const s = toAscii(raw).toLowerCase().replace(/(\d)\s*(?:st|nd|rd|th)(?=[\s,.a-zऀ-ॿ]|$)/g, "$1 ");
   let m = s.match(/(\d{1,2})\s*[\/.\-]\s*(\d{1,2})\s*[\/.\-]\s*(\d{4}|\d{2})/);
   if (m) {
     const y = m[3].length === 2 ? (Number(m[3]) > 30 ? 1900 : 2000) + Number(m[3]) : Number(m[3]);
@@ -72,7 +77,7 @@ export function parseDate(raw: string): string | null {
   }
   m = s.match(/(\d{4})\s*[\/.\-]\s*(\d{1,2})\s*[\/.\-]\s*(\d{1,2})/);
   if (m) return valid(Number(m[1]), Number(m[2]), Number(m[3]));
-  m = s.match(/(\d{1,2})\s+([a-zऀ-ॿ]+)[,\s]+(\d{4})/);
+  m = s.match(/(\d{1,2})\s*([a-zऀ-ॿ]+)[,.\s]+(\d{4})/);
   if (m) {
     const mon = MONTHS[m[2].slice(0, 3)] ?? MONTHS[m[2]];
     if (mon) return valid(Number(m[3]), mon, Number(m[1]));
@@ -152,7 +157,7 @@ export function parseBiodata(text: string, headline?: string | null): BiodataFie
         f.tob ??= parseTime(value.replace(/^.*?\d{4}/, ""));
         break;
       case "name":
-        f.name ??= value.replace(/[^\p{L}\p{M}\s.]/gu, "").replace(/^(?:mr|ms|mrs|miss|dr|shri|sri|smt|sushri|kumari|kum|श्री|सुश्री|कुमारी|श्रीमती)\.?\s+/i, "").trim().slice(0, 80) || null;
+        f.name ??= value.replace(/[^\p{L}\p{M}\s.]/gu, "").replace(TITLES, "").trim().slice(0, 80) || null;
         break;
       case "gender":
         f.gender ??= /female|\bf\b|स्त्री|महिला|लड़की/i.test(value) ? "female" : /male|\bm\b|पुरुष|लड़का/i.test(value) ? "male" : null;
@@ -170,6 +175,13 @@ export function parseBiodata(text: string, headline?: string | null): BiodataFie
         break;
       case "native":
         native ??= value.slice(0, 120);
+        break;
+      case "hobbies":
+        break; // recognised only so it isn't mistaken for another field
+      case "physique":
+        // e.g. "5’10”, Fair, Smart" → height + complexion
+        f.height ??= value.match(/\d\s*(?:['’]|ft|feet|फीट)\s*\d{0,2}\s*(?:["”″]|''|’’|in|inch)?/i)?.[0]?.trim() ?? null;
+        f.complexion ??= value.match(/\b(?:very\s+fair|fair|wheatish|dusky|dark|medium)\b|गोरा|गेहुँआ|गेहुआ|सांवला/i)?.[0] ?? null;
         break;
       case "mobile": {
         // "Contact details" blocks often mix phone numbers and the address: keep them apart.
@@ -190,7 +202,7 @@ export function parseBiodata(text: string, headline?: string | null): BiodataFie
   // Name: the big heading on PDFs, else the first short ALL-CAPS line that isn't a section title.
   if (!f.name) {
     const cand = headline && !RELIGIOUS.test(headline) ? headline : lines.slice(0, 10).find((l) => /^[A-Z][A-Z .]{3,40}$/.test(l) && l.split(/\s+/).length <= 4 && !/BIO\s*DATA|DETAILS|ABOUT|CONTACT|EDUCATION|FAMILY|HOBB/i.test(l));
-    if (cand) f.name = cand.replace(/\s+/g, " ").trim().replace(/\b(\w)(\w*)/g, (_, a: string, b: string) => a + b.toLowerCase());
+    if (cand) f.name = cand.replace(/\s+/g, " ").trim().replace(/\b(\w)(\w*)/g, (_, a: string, b: string) => a + b.toLowerCase()).replace(TITLES, "");
   }
   if (!f.place && native) {
     f.place = native;

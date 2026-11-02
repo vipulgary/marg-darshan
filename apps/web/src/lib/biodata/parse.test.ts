@@ -95,3 +95,27 @@ Current Residence: Jaipur, Rajasthan`);
   assert.equal(f.place, "Sample Nagar, Nepal");
   assert.equal(f.residence, "Jaipur, Rajasthan");
 });
+
+test("glued ordinal date, physique line, hobbies label, professional title", () => {
+  const f = parseBiodata(
+    `ADV. SAMPLE KUMAR
+Date of Birth:
+12thMarch, 1997
+Time of Birth:
+06:52 P.M.
+Place of Birth
+Jaipur
+Physique
+5’10”, Fair, Smart
+Residence:
+Hobbies:, Travelling, Reading`,
+    "ADV. SAMPLE KUMAR",
+  );
+  assert.equal(f.name, "Sample Kumar");
+  assert.equal(f.dob, "1997-03-12");
+  assert.equal(f.tob, "18:52");
+  assert.equal(f.height, "5’10”");
+  assert.equal(f.complexion, "Fair");
+  assert.equal(f.residence, null);
+  assert.equal(parseBiodata("Name: Dr. Prof. Sample Devi").name, "Sample Devi");
+});
