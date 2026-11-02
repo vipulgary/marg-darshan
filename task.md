@@ -1,17 +1,17 @@
 # Astromax — Task Tracker
 
-> Auto-generated from `tasks.json` by `node scripts/gen-tasks.mjs` · Last updated: 2026-11-02 06:32 UTC
+> Auto-generated from `tasks.json` by `node scripts/gen-tasks.mjs` · Last updated: 2026-11-02 06:46 UTC
 > Progress is weighted by estimate (dev-days): Done = 100%, In progress = 50%.
 
 ## Overall Project Progress
 
 ```
-Project  ███████████████████████████████████░░░░░ 86.6%
+Project  ███████████████████████████████████░░░░░ 88.1%
 ```
 
 | Total tickets | ✅ Done | 🔄 In progress | ⏳ Pending | Effort done / total |
 |---|---|---|---|---|
-| **103** | **87** | **8** | **8** | 114.3 / 132.0 days |
+| **103** | **88** | **8** | **7** | 116.3 / 132.0 days |
 
 ## Progress by Sprint
 
@@ -21,7 +21,7 @@ Project  ███████████████████████�
 | S2 | 15 | 11 | 2 | 2 | `████████████████░░░░ 78.4%` |
 | S3 | 20 | 20 | 0 | 0 | `████████████████████ 100.0%` |
 | S4 | 18 | 15 | 2 | 1 | `██████████████████░░ 89.4%` |
-| S5 | 35 | 29 | 1 | 5 | `████████████████░░░░ 79.0%` |
+| S5 | 35 | 30 | 1 | 4 | `█████████████████░░░ 83.5%` |
 
 ## Progress by Segment (Epic)
 
@@ -44,7 +44,7 @@ Project  ███████████████████████�
 | E14 | QA & Launch | 4 | 2 | 0 | 2 | `████████████░░░░░░░░ 60.0%` |
 | E15 | Autonomous extras (no client dependency) | 6 | 6 | 0 | 0 | `████████████████████ 100.0%` |
 | E16 | Customer Accounts | 4 | 3 | 1 | 0 | `███████████████████░ 94.4%` |
-| E17 | Report accuracy, tone & voice | 7 | 5 | 0 | 2 | `█████████████░░░░░░░ 63.0%` |
+| E17 | Report accuracy, tone & voice | 7 | 6 | 0 | 1 | `████████████████░░░░ 77.8%` |
 
 ## All Tickets
 
@@ -229,7 +229,7 @@ Project  ███████████████████████�
 | AMX-172 | My Account: kundalis, bookings, payments, invoices | 1.5 | S5 | ✅ Done | Verified live: signup, verify, login, 6 account pages, claim, logout |
 | AMX-173 | Saved birth profiles + link past activity | 1 | S5 | ✅ Done | Verified live: signup, verify, login, 6 account pages, claim, logout |
 
-### E17 — Report accuracy, tone & voice  ·  5/7 done
+### E17 — Report accuracy, tone & voice  ·  6/7 done
 
 | Ticket | Title | Est (d) | Sprint | Status | Notes |
 |---|---|---|---|---|---|
@@ -238,7 +238,7 @@ Project  ███████████████████████�
 | AMX-202 | Kundali Milan: filter saved profiles by gender (boy side shows male, girl side female) | 0.5 | S5 | ✅ Done | Strict gender filter |
 | AMX-203 | Voice per report section: play/pause, progress + time left, 1x/1.5x/2x speed (needs HF_TOKEN + model) | 2 | S5 | ✅ Done | Self-hosted Piper voices (Priyamvada hi, Jenny en), in-place speed, cache |
 | AMX-204 | Gem Finder: problem-based gem advice safe for the chart, ratti by body weight, buy in-stock ratti or request | 3 | S5 | ✅ Done | Gem Finder live; sample stock DRAFT |
-| AMX-205 | Report: next 2-3 favourable periods per area (career start, marriage), study-stream guidance, seva/CSR suggestion | 2 | S5 | ⏳ Pending |  |
+| AMX-205 | Report: next 2-3 favourable periods per area (career start, marriage), study-stream guidance, seva/CSR suggestion | 2 | S5 | ✅ Done | Good periods, study direction, seva |
 | AMX-206 | Milan from biodata upload (PDF/image): read name, DOB, time, place; unknown birth time handled honestly | 3 | S5 | ⏳ Pending |  |
 
 ---

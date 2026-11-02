@@ -818,7 +818,7 @@
           "AMX-205",
           "Report: next 2-3 favourable periods per area (career start, marriage), study-stream guidance, seva/CSR suggestion",
           2,
-          "todo",
+          "done",
           "S5"
         ],
         [
@@ -915,6 +915,7 @@
     "AMX-201": "Encouraging tone pass",
     "AMX-202": "Strict gender filter",
     "AMX-203": "Self-hosted Piper voices (Priyamvada hi, Jenny en), in-place speed, cache",
-    "AMX-204": "Gem Finder live; sample stock DRAFT"
+    "AMX-204": "Gem Finder live; sample stock DRAFT",
+    "AMX-205": "Good periods, study direction, seva"
   }
 }

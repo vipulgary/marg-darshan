@@ -152,6 +152,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
     ["rep-lucky", t("lucky"), "gem"],
     ...(num ? ([["rep-numerology", t("numerology"), "sparkle"]] as [string, string, IconName][]) : []),
     ["rep-mind", t("mind"), "moon"],
+    ["rep-seva", t("sevaTitle"), "lotus"],
     ["rep-planets", t("planets"), "astrology"],
   ];
   const areas = [
@@ -278,6 +279,10 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
           <span className="font-semibold text-gold-300">{t("nakshatraLine", { name: r.nakshatra.name, pada: r.nakshatra.pada, deity: r.nakshatra.deity })}: </span>
           {r.nakshatra.traits}
         </p>
+      </Section>
+
+      <Section id="rep-seva" icon="lotus" title={t("sevaTitle")} action={<Voice text={r.seva} locale={locale} title={t("sevaTitle")} spokenId="say-seva" />}>
+        <SpokenText id="say-seva" paragraphs={[r.seva]} />
       </Section>
 
       <Section id="rep-planets" icon="astrology" title={t("planets")}>

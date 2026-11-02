@@ -13,6 +13,7 @@ import { NAKSHATRA } from "./content/nakshatra";
 import { DIGNITY_NOTE, PLANET_IN_HOUSE } from "./content/planets";
 import { RASHI } from "./content/rashi";
 import { type AreaKey, predictArea } from "./predict";
+import { goodWindows, sevaSuggestion, studyGuidance, windowsSentence } from "./timing";
 import { DOSHA_GENERIC_REMEDY, DOSHA_REMEDIES, PLANET_LORE } from "./content/remedies";
 import { sadeSatiTimeline } from "./sade-sati";
 export type { SadeSatiCycle, SadeSatiRow } from "./sade-sati";
@@ -138,12 +139,17 @@ export function buildReport(chart: ChartData, locale: Locale, now = new Date()) 
   const dashaLords = [maha?.lord, antar?.lord].filter(Boolean) as PlanetKey[];
   const dashaUntil = maha ? fmtDate(maha.end, l) : null;
   const predict = (area: AreaKey, fieldText: string) => predictArea(area, { lagnaSign, planets, dashaLords, dashaUntil, fieldText }, l);
+  // AMX-205: good periods ahead (from the dasha sequence), study direction and seva.
+  const houseOf = (k: PlanetKey) => chart.planets[k].house;
+  const ahead = (area: "career" | "marriage" | "education" | "money") => windowsSentence(area, goodWindows(area, lagnaSign, houseOf, chart.vimshottari, today), l);
+  const withExtra = <T extends { paragraphs: string[] }>(a: T, ...extra: (string | null)[]): T => ({ ...a, paragraphs: [...a.paragraphs, ...extra.filter((x): x is string => !!x)] });
   const life = {
-    career: predict("career", `${l === "hi" ? "आपके लिए अनुकूल क्षेत्र" : "Fields that suit you"}: ${pick(lagnaText.career, l)}`),
-    love: { ...predict("love", pick(lagnaText.relationships, l)), manglik: manglik ? { present: manglik.present, cancelled: !!manglik.cancelled } : null },
+    career: withExtra(predict("career", `${l === "hi" ? "आपके लिए अनुकूल क्षेत्र" : "Fields that suit you"}: ${pick(lagnaText.career, l)}`), ahead("career"), ahead("money")),
+    love: { ...withExtra(predict("love", pick(lagnaText.relationships, l)), ahead("marriage")), manglik: manglik ? { present: manglik.present, cancelled: !!manglik.cancelled } : null },
     health: predict("health", pick(lagnaText.health, l)),
-    education: predict("education", pick(EDUCATION[lagnaSign], l)),
+    education: withExtra(predict("education", pick(EDUCATION[lagnaSign], l)), studyGuidance(lagnaSign, houseOf, l), ahead("education")),
   };
+  const seva = sevaSuggestion(maha?.lord ?? null, l);
 
   const gems = luckyGems(lagnaSign);
   const lore = PLANET_LORE[lagnaLord];
@@ -185,6 +191,7 @@ export function buildReport(chart: ChartData, locale: Locale, now = new Date()) 
     reviewed: REPORT_REVIEWED,
     sadeSati,
     sadeSatiText,
+    seva,
     overview,
     summary: {
       lagna: signName(lagnaSign, l),
