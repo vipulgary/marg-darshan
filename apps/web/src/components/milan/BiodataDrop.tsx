@@ -10,6 +10,7 @@ import type { PlaceValue } from "@/lib/contracts";
 
 export interface BiodataFill {
   name?: string;
+  gender?: "male" | "female";
   dob?: string;
   tob?: string;
   timeUnknown?: boolean;
@@ -42,7 +43,7 @@ export function BiodataDrop({ onFill }: { onFill: (f: BiodataFill) => void }) {
       const geo = await fetch(`/api/geo/search?q=${encodeURIComponent(d.place)}`).then((r) => (r.ok ? r.json() : [])).catch(() => []);
       place = (Array.isArray(geo) && geo[0]) || null;
     }
-    onFill({ name: d.name ?? undefined, dob: d.dob ?? undefined, tob: d.tob ?? "", timeUnknown: !d.tob, place });
+    onFill({ name: d.name ?? undefined, gender: d.gender ?? undefined, dob: d.dob ?? undefined, tob: d.tob ?? "", timeUnknown: !d.tob, place });
     setMissing([!d.name && "name", !d.dob && "dob", !d.tob && "tob", !place && "place"].filter(Boolean) as string[]);
     setFacts({ ...d, gender: undefined } as Facts);
     setState(d.name || d.dob ? "done" : "error");

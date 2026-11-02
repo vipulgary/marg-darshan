@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/Display";
 import { Field, Input } from "@/components/ui/Field";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { PlaceValue } from "@/lib/contracts";
+import { BiodataDrop } from "@/components/milan/BiodataDrop";
 import { api } from "./api";
 import { Empty } from "./parts";
 
@@ -47,6 +48,19 @@ function ProfileForm({ initial, onDone, onCancel }: { initial: Draft & { id?: st
 
   return (
     <form onSubmit={submit} noValidate className="flex flex-col gap-5">
+      {/* Drop a biodata to fill everything below; the label (Brother, Friend…) stays yours to choose. */}
+      <BiodataDrop
+        onFill={(f) =>
+          setD((cur) => ({
+            ...cur,
+            name: f.name ?? cur.name,
+            gender: f.gender ?? cur.gender,
+            dob: f.dob ?? cur.dob,
+            tob: f.tob ?? "",
+            place: f.place ?? cur.place,
+          }))
+        }
+      />
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label={t("profiles.label")} hint={t("profiles.labelHint")} required error={has("label") ? req : undefined}>
           {(id, ds) => <Input id={id} aria-describedby={ds} aria-invalid={has("label")} value={d.label} onChange={(e) => setD({ ...d, label: e.target.value })} />}
