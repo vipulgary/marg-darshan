@@ -10,3 +10,5 @@ apps/engine/output/
 .pytest_cache/
 src/generated/
 .pglite/
+apps/voice/voices/
+apps/voice/cache/

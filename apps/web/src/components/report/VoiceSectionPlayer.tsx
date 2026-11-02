@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 
 /**
- * AMX-203 — read a report section aloud with the browser's speech engine.
- * Play/pause, progress, time left and 1x/1.5x/2x. Prefers a natural female voice in the page
- * language; if the browser has no voice for that language it says so instead of mis-reading.
+ * AMX-203 — read a report section aloud.
+ * First choice: natural self-hosted voice (Piper via /api/tts) played as audio, in short
+ * pieces so it starts fast; speed changes apply in place and never restart. If the voice
+ * service is unreachable it falls back to the browser's speech engine (female voice preferred).
  *
  * Reliability notes (all of these broke the first version):
  *  - text is spoken in short sentence chunks (Chrome cuts long utterances at ~15 s);
@@ -56,6 +57,21 @@ function chunk(text: string): string[] {
   return out;
 }
 
+/** Group sentence chunks into ~400-char pieces for the voice service (fast first piece). */
+function segments(chunks: string[]): string[] {
+  const out: string[] = [];
+  let buf = "";
+  for (const c of chunks) {
+    const limit = out.length === 0 ? 160 : 420; // tiny first piece → audio starts almost at once
+    if (buf && (buf + " " + c).length > limit) {
+      out.push(buf);
+      buf = c;
+    } else buf = buf ? `${buf} ${c}` : c;
+  }
+  if (buf) out.push(buf);
+  return out;
+}
+
 function voicesReady(): Promise<SpeechSynthesisVoice[]> {
   const synth = window.speechSynthesis;
   const now = synth.getVoices();
@@ -90,7 +106,7 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
   const lang: "hi" | "en" = locale === "en" ? "en" : "hi";
   const [supported, setSupported] = useState(false);
   const [noVoice, setNoVoice] = useState(false);
-  const [state, setState] = useState<"idle" | "playing" | "paused">("idle");
+  const [state, setState] = useState<"idle" | "loading" | "playing" | "paused">("idle");
   const [rate, setRate] = useState<Rate>(1);
   const [progress, setProgress] = useState(0);
   const [left, setLeft] = useState(0);
@@ -103,15 +119,28 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
   const rateRef = useRef<Rate>(1);
   const chunkStartedAt = useRef(0);
   const self = useRef<() => void>(() => {});
+  // Natural-voice (server) mode
+  const mode = useRef<"server" | "browser" | null>(null);
+  const segs = useRef<string[]>([]);
+  const seg = useRef(0);
+  const urls = useRef<Map<number, Promise<string | null>>>(new Map());
+  const audio = useRef<HTMLAudioElement | null>(null);
+  const playNext = useRef<(i: number) => void>(() => {});
 
   useEffect(() => {
     // Feature detection has to wait for the browser.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSupported(typeof window !== "undefined" && "speechSynthesis" in window);
+    setSupported(typeof window !== "undefined" && ("speechSynthesis" in window || "Audio" in window));
   }, []);
 
   useEffect(() => {
     chunks.current = chunk(text);
+    segs.current = segments(chunks.current);
+    const cached = urls.current;
+    return () => {
+      cached.forEach((u) => u.then((x) => x && URL.revokeObjectURL(x)));
+      cached.clear();
+    };
   }, [text]);
 
   const totalChars = () => chunks.current.reduce((n, c) => n + c.length, 0) || 1;
@@ -126,7 +155,10 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
   const stop = useCallback(() => {
     run.current++;
     window.speechSynthesis?.cancel();
+    audio.current?.pause();
+    audio.current = null;
     index.current = 0;
+    seg.current = 0;
     setState("idle");
     setProgress(0);
     if (stopOthers === self.current) stopOthers = null;
@@ -173,21 +205,102 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
     [lang, stop, update],
   );
 
+  const fetchSeg = useCallback(
+    (i: number): Promise<string | null> => {
+      if (i >= segs.current.length) return Promise.resolve(null);
+      let p = urls.current.get(i);
+      if (!p) {
+        p = fetch("/api/tts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: segs.current[i], lang }) })
+          .then((r) => (r.ok ? r.blob() : null))
+          .then((b) => (b ? URL.createObjectURL(b) : null))
+          .catch(() => null);
+        urls.current.set(i, p);
+      }
+      return p;
+    },
+    [lang],
+  );
+
+  const segChars = (i: number) => segs.current[i]?.length ?? 0;
+  const segCharsBefore = (i: number) => segs.current.slice(0, i).reduce((n, c) => n + c.length, 0);
+  const segTotal = () => segs.current.reduce((n, c) => n + c.length, 0) || 1;
+
+  /** Plays the server audio from piece `i`; resolves false if the service gave nothing for it. */
+  const playSeg = useCallback(
+    async (i: number): Promise<boolean> => {
+      const id = ++run.current;
+      if (i >= segs.current.length) {
+        stop();
+        return true;
+      }
+      const url = await fetchSeg(i);
+      if (id !== run.current) return true;
+      if (!url) return false;
+      void fetchSeg(i + 1); // prepare the next piece while this one plays
+      seg.current = i;
+      const a = new Audio(url);
+      a.playbackRate = rateRef.current;
+      a.preservesPitch = true;
+      a.onloadedmetadata = () => {
+        if (a.duration > 0.3) cps.current = segChars(i) / a.duration;
+      };
+      a.ontimeupdate = () => {
+        if (id !== run.current || !a.duration) return;
+        const done = segCharsBefore(i) + segChars(i) * (a.currentTime / a.duration);
+        setProgress(Math.round((done / segTotal()) * 100));
+        setLeft((segTotal() - done) / (cps.current * rateRef.current));
+      };
+      a.onended = () => {
+        if (id === run.current) playNext.current(i + 1);
+      };
+      audio.current = a;
+      setState("playing");
+      await a.play().catch(() => undefined);
+      return true;
+    },
+    [fetchSeg, stop],
+  );
+
+  useEffect(() => {
+    playNext.current = (i) => void playSeg(i);
+  }, [playSeg]);
+
   useEffect(() => () => stop(), [stop]);
 
   const play = async () => {
+    if (state === "loading") return;
     if (state === "playing") {
-      // Pause = stop speaking but keep our place (pause()/resume() is unreliable across voices).
-      run.current++;
-      window.speechSynthesis.cancel();
+      if (mode.current === "server") audio.current?.pause();
+      else {
+        // Pause = stop speaking but keep our place (pause()/resume() is unreliable across voices).
+        run.current++;
+        window.speechSynthesis.cancel();
+      }
       setState("paused");
+      return;
+    }
+    if (state === "paused" && mode.current === "server" && audio.current) {
+      audio.current.playbackRate = rateRef.current;
+      await audio.current.play().catch(() => undefined);
+      setState("playing");
       return;
     }
     if (stopOthers && stopOthers !== self.current) stopOthers();
     stopOthers = self.current;
+
+    if (mode.current !== "browser") {
+      setState("loading");
+      setLeft(segTotal() / (cps.current * rateRef.current));
+      if (await playSeg(state === "paused" ? seg.current : 0)) {
+        mode.current = "server";
+        return;
+      }
+      mode.current = "browser"; // voice service unavailable → browser speech
+    }
     if (!voice.current) {
       voice.current = pickVoice(await voicesReady(), lang);
       if (!voice.current) {
+        setState("idle");
         setNoVoice(true);
         return;
       }
@@ -200,6 +313,11 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
     const nextRate = RATES[(RATES.indexOf(rate) + 1) % RATES.length];
     setRate(nextRate);
     rateRef.current = nextRate;
+    if (mode.current === "server") {
+      // Audio speeds up in place — it continues from exactly where it was.
+      if (audio.current) audio.current.playbackRate = nextRate;
+      return;
+    }
     update();
     if (state === "playing") speakFrom(index.current);
   };
@@ -214,7 +332,11 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
     );
   }
 
-  const label = state === "playing" ? (lang === "hi" ? "रोकें" : "Pause") : state === "paused" ? (lang === "hi" ? "जारी रखें" : "Resume") : lang === "hi" ? "सुनें" : "Listen";
+  const label =
+    state === "loading" ? (lang === "hi" ? "तैयार हो रहा है…" : "Preparing…")
+    : state === "playing" ? (lang === "hi" ? "रोकें" : "Pause")
+    : state === "paused" ? (lang === "hi" ? "जारी रखें" : "Resume")
+    : lang === "hi" ? "सुनें" : "Listen";
 
   return (
     <div
@@ -233,11 +355,17 @@ export function VoiceSectionPlayer({ text, locale, title, className }: { text: s
         className="inline-flex h-8 items-center gap-1.5 rounded-full px-2.5 font-semibold text-gold-300 hover:bg-gold-300/10 focus-visible:ring-focus"
       >
         <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4 fill-current">
-          {state === "playing" ? <path d="M6 5h4v14H6zM14 5h4v14h-4z" /> : <path d="M8 5v14l11-7z" />}
+          {state === "loading" ? (
+            <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray="30 20" className="origin-center animate-spin" />
+          ) : state === "playing" ? (
+            <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+          ) : (
+            <path d="M8 5v14l11-7z" />
+          )}
         </svg>
         {label}
       </button>
-      {state !== "idle" && (
+      {(state === "playing" || state === "paused") && (
         <>
           <div className="hidden h-1.5 w-20 overflow-hidden rounded-full bg-night-s3 sm:block" aria-hidden>
             <div className="h-full bg-grad-gold transition-[width] duration-300" style={{ width: `${Math.max(4, progress)}%` }} />
