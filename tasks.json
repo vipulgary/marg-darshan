@@ -804,7 +804,7 @@
           "AMX-203",
           "Voice per report section: play/pause, progress + time left, 1x/1.5x/2x speed (needs HF_TOKEN + model)",
           2,
-          "doing",
+          "done",
           "S5"
         ]
       ]
@@ -893,6 +893,6 @@
     "AMX-200": "Real Saturn transits from Swiss Ephemeris; matches published table",
     "AMX-201": "Encouraging tone pass",
     "AMX-202": "Strict gender filter",
-    "AMX-203": "Browser voice player fixed; natural Hindi voice needs server TTS"
+    "AMX-203": "Self-hosted Piper voices (Priyamvada hi, Jenny en), in-place speed, cache"
   }
 }
