@@ -24,6 +24,50 @@ const DIGNITY_TONE: Record<Dignity, "success" | "gold" | "violet" | "neutral" | 
 
 const NoControl = () => null;
 
+const RANK_TONE = [
+  "border-success/50 bg-success/15 [--dot:var(--success)]",
+  "border-success/25 bg-success/7 [--dot:color-mix(in_oklab,var(--success)_60%,transparent)]",
+  "border-warning/35 bg-warning/10 [--dot:var(--warning)]",
+];
+
+/** Upcoming good periods as highlighted boxes: strongest deep green, then light green, then yellow. */
+function GoodTimes({
+  block,
+  locale,
+  nowLabel,
+}: {
+  block: { area: string; title: string; items: { from: string; to: string; name: string; rank: number; now: boolean; monthsAway: number }[] };
+  locale: string;
+  nowLabel: string;
+}) {
+  const fmt = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString(locale === "en" ? "en-IN" : "hi-IN", { month: "short", year: "numeric", timeZone: "UTC" });
+  const startsIn = (m: number) => {
+    if (locale === "en") return m < 12 ? `starts in ${m} month${m === 1 ? "" : "s"}` : `starts in ${Math.round(m / 12)} yr`;
+    return m < 12 ? `${m} महीने में शुरू` : `${Math.round(m / 12)} साल में शुरू`;
+  };
+  return (
+    <div className="mt-4 rounded-xl border border-line-subtle bg-night-s2/60 p-4">
+      <p className="mb-3 flex items-center gap-2 text-sm font-semibold text-ink-1">
+        <Icon name="calendar" size={16} className="text-gold-300" /> {block.title}
+      </p>
+      <ol className="grid gap-2.5 sm:grid-cols-3">
+        {block.items.map((w) => (
+          <li key={w.from} className={cn("relative flex flex-col gap-1 rounded-lg border p-3", RANK_TONE[w.rank])}>
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-ink-2">
+              <span aria-hidden className="h-2 w-2 rounded-full bg-[var(--dot)]" />
+              {w.name}
+            </span>
+            <span className="text-[15px] font-semibold tabular-nums text-ink-1">
+              {fmt(w.from)} – {fmt(w.to)}
+            </span>
+            <span className={cn("text-xs", w.now ? "font-bold text-success" : "text-ink-3")}>{w.now ? nowLabel : startsIn(w.monthsAway)}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function Section({
   id,
   icon,
@@ -242,7 +286,7 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
           title={t(`${key}Title`)}
           action={
             <div className="flex items-center gap-2">
-              <Voice text={a.paragraphs.join(" ")} locale={locale} title={t(`${key}Title`)} spokenId={`say-${key}`} />
+              <Voice text={[...a.paragraphs, ...a.timeline.map((x) => x.spoken ?? "")].join(" ")} locale={locale} title={t(`${key}Title`)} spokenId={`say-${key}`} />
               <Copy text={a.paragraphs.join("\n\n")} label={t("copy")} />
             </div>
           }
@@ -255,6 +299,9 @@ export function KundaliReport({ chart, locale, print = false, name, dob, showCha
             </p>
           )}
           <SpokenText id={`say-${key}`} paragraphs={a.paragraphs} />
+          {a.timeline.map((tl) => (
+            <GoodTimes key={tl.area} block={tl} locale={locale} nowLabel={t("nowRunning")} />
+          ))}
         </Section>
       ))}
 

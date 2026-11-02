@@ -28,6 +28,8 @@ export interface Window {
   from: string; // YYYY-MM-DD
   to: string;
   lord: PlanetKey;
+  /** Strength for this area (higher = better); used to colour the cards. */
+  score: number;
 }
 
 /** Best upcoming antardasha windows for an area (2–3, in date order). */
@@ -55,7 +57,7 @@ export function goodWindows(area: TimingArea, lagna: number, houseOf: (p: Planet
     .sort((x, y) => x.from.localeCompare(y.from));
 }
 
-const LINE: Record<TimingArea, Bi> = {
+export const LINE: Record<TimingArea, Bi> = {
   career: { hi: "करियर शुरू करने, नौकरी बदलने या तरक्की के लिए अच्छे समय", en: "Good times to start a career, change jobs or move up" },
   marriage: { hi: "विवाह और रिश्ते के लिए शुभ समय", en: "Favourable times for marriage and commitment" },
   education: { hi: "पढ़ाई, परीक्षा और नए कोर्स के लिए अच्छे समय", en: "Good times for studies, exams and new courses" },

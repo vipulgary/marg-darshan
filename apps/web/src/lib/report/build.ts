@@ -13,7 +13,7 @@ import { NAKSHATRA } from "./content/nakshatra";
 import { DIGNITY_NOTE, PLANET_IN_HOUSE } from "./content/planets";
 import { RASHI } from "./content/rashi";
 import { type AreaKey, predictArea } from "./predict";
-import { goodWindows, sevaSuggestion, studyGuidance, windowsSentence } from "./timing";
+import { LINE, type TimingArea, goodWindows, sevaSuggestion, studyGuidance, windowsSentence } from "./timing";
 import { DOSHA_GENERIC_REMEDY, DOSHA_REMEDIES, PLANET_LORE } from "./content/remedies";
 import { sadeSatiTimeline } from "./sade-sati";
 export type { SadeSatiCycle, SadeSatiRow } from "./sade-sati";
@@ -141,13 +141,27 @@ export function buildReport(chart: ChartData, locale: Locale, now = new Date()) 
   const predict = (area: AreaKey, fieldText: string) => predictArea(area, { lagnaSign, planets, dashaLords, dashaUntil, fieldText }, l);
   // AMX-205: good periods ahead (from the dasha sequence), study direction and seva.
   const houseOf = (k: PlanetKey) => chart.planets[k].house;
-  const ahead = (area: "career" | "marriage" | "education" | "money") => windowsSentence(area, goodWindows(area, lagnaSign, houseOf, chart.vimshottari, today), l);
-  const withExtra = <T extends { paragraphs: string[] }>(a: T, ...extra: (string | null)[]): T => ({ ...a, paragraphs: [...a.paragraphs, ...extra.filter((x): x is string => !!x)] });
+  const ahead = (area: TimingArea) => {
+    const items = goodWindows(area, lagnaSign, houseOf, chart.vimshottari, today);
+    const best = Math.max(0, ...items.map((w) => w.score));
+    return {
+      area,
+      title: LINE[area][l],
+      spoken: windowsSentence(area, items, l),
+      // rank 0 = strongest window (deep green), then lighter green, then yellow
+      items: items.map((w) => ({ ...w, name: pick(PLANET_NAME[w.lord], l), rank: w.score >= best ? 0 : w.score >= best - 1 ? 1 : 2, now: w.from <= today, monthsAway: Math.max(0, Math.round((Date.parse(w.from) - Date.parse(today)) / (30.44 * 864e5))) })),
+    };
+  };
+  const withExtra = <T extends { paragraphs: string[] }>(a: T, extra: (string | null)[], timeline: ReturnType<typeof ahead>[] = []) => ({
+    ...a,
+    paragraphs: [...a.paragraphs, ...extra.filter((x): x is string => !!x)],
+    timeline: timeline.filter((t) => t.items.length),
+  });
   const life = {
-    career: withExtra(predict("career", `${l === "hi" ? "आपके लिए अनुकूल क्षेत्र" : "Fields that suit you"}: ${pick(lagnaText.career, l)}`), ahead("career"), ahead("money")),
-    love: { ...withExtra(predict("love", pick(lagnaText.relationships, l)), ahead("marriage")), manglik: manglik ? { present: manglik.present, cancelled: !!manglik.cancelled } : null },
-    health: predict("health", pick(lagnaText.health, l)),
-    education: withExtra(predict("education", pick(EDUCATION[lagnaSign], l)), studyGuidance(lagnaSign, houseOf, l), ahead("education")),
+    career: withExtra(predict("career", `${l === "hi" ? "आपके लिए अनुकूल क्षेत्र" : "Fields that suit you"}: ${pick(lagnaText.career, l)}`), [], [ahead("career"), ahead("money")]),
+    love: { ...withExtra(predict("love", pick(lagnaText.relationships, l)), [], [ahead("marriage")]), manglik: manglik ? { present: manglik.present, cancelled: !!manglik.cancelled } : null },
+    health: withExtra(predict("health", pick(lagnaText.health, l)), []),
+    education: withExtra(predict("education", pick(EDUCATION[lagnaSign], l)), [studyGuidance(lagnaSign, houseOf, l)], [ahead("education")]),
   };
   const seva = sevaSuggestion(maha?.lord ?? null, l);
 
