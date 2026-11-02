@@ -158,6 +158,8 @@ export interface MatchResult {
   girl: MatchPerson;
   /** Both full charts (web API adds them) for the side-by-side comparison. */
   charts?: { boy: ChartData; girl: ChartData };
+  /** Next marriage muhurats (only for a workable match). */
+  vivah_muhurats?: { date: string; weekday_en: string; weekday_hi: string; tithi_en: string; tithi_hi: string; nakshatra_en: string; nakshatra_hi: string; from: string; to: string }[];
 }
 
 /** Ashtakoot Guna Milan for two birth inputs (engine computes both charts). */
@@ -176,6 +178,6 @@ export async function matchCharts(boy: BirthInput, girl: BirthInput): Promise<Ma
   return call<MatchResult>(
     "/api/v1/match",
     { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ boy: body(boy), girl: body(girl) }) },
-    30_000,
+    60_000,
   );
 }

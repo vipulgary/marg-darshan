@@ -20,6 +20,7 @@ def saturn_sign_on(day: date) -> int:
     from app.services.chart import FLAGS
 
     jd = swe.julday(day.year, day.month, day.day, 0.0, swe.GREG_CAL)
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
     pos, _ = swe.calc_ut(jd, swe.SATURN, FLAGS)
     return int((pos[0] % 360) // 30) + 1
 
@@ -31,15 +32,27 @@ def periods(moon_sign: int, start: date, years: int = 100) -> list[dict]:
     cur_sign = saturn_sign_on(start)
     seg_start = start
     day = start
-    step = timedelta(days=1)
+    coarse = timedelta(days=5)  # Saturn never changes sign twice within 5 days
+    one = timedelta(days=1)
+
+    def close(until: date) -> None:
+        house = (cur_sign - moon_sign) % 12 + 1
+        if house in PHASE:
+            kind, phase = PHASE[house]
+            out.append({"kind": kind, "phase": phase, "saturn_sign": cur_sign,
+                        "start": seg_start.isoformat(), "end": until.isoformat()})
+
     while day < end:
-        day += step
-        sign = saturn_sign_on(day)
-        if sign != cur_sign or day >= end:
-            house = (cur_sign - moon_sign) % 12 + 1
-            if house in PHASE:
-                kind, phase = PHASE[house]
-                out.append({"kind": kind, "phase": phase, "saturn_sign": cur_sign,
-                            "start": seg_start.isoformat(), "end": (day - step).isoformat()})
-            cur_sign, seg_start = sign, day
+        nxt = min(day + coarse, end)
+        sign = saturn_sign_on(nxt)
+        if sign != cur_sign:
+            d = day + one  # find the exact day of the change
+            while saturn_sign_on(d) == cur_sign:
+                d += one
+            close(d - one)
+            cur_sign, seg_start = saturn_sign_on(d), d
+            day = d
+            continue
+        day = nxt
+    close(end)
     return out

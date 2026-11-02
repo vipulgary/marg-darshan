@@ -2,6 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { Icon, type IconName } from "@/components/icons";
+import { useState } from "react";
+import { NorthIndianChart } from "@/components/kundali/NorthIndianChart";
+import { SouthIndianChart } from "@/components/kundali/SouthIndianChart";
 import { SummaryChips } from "@/components/kundali/SummaryChips";
 import { SpokenText } from "@/components/report/SpokenText";
 import { VoiceSectionPlayer } from "@/components/report/VoiceSectionPlayer";
@@ -10,6 +13,50 @@ import type { ChartData } from "@/lib/contracts";
 import { type KundaliReport, buildReport } from "@/lib/report/build";
 
 type Row = { key: string; icon: IconName; title: string; paras: (r: KundaliReport) => string[] };
+
+/** Both kundali charts side by side, with North/South style and D1/D9 switches shared by the pair. */
+function ChartPair({ boy, girl, names, lang }: { boy: ChartData; girl: ChartData; names: { boy: string; girl: string }; lang: "hi" | "en" }) {
+  const tk = useTranslations("kundali.result");
+  const [style, setStyle] = useState<"north" | "south">("north");
+  const [division, setDivision] = useState<"d1" | "d9">("d1");
+  const seg = (on: boolean) => cn("h-10 rounded-full px-4 text-sm font-semibold transition-colors focus-visible:ring-focus", on ? "bg-grad-gold text-ink-ongold" : "text-ink-2 hover:text-ink-1");
+  return (
+    <section className="flex flex-col gap-4 rounded-xl border border-line bg-night-s1/70 p-4 shadow-e1 backdrop-blur-xl sm:p-5">
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <div role="radiogroup" aria-label={tk("styleLabel")} className="inline-flex rounded-full border border-line bg-night-s2 p-1">
+          {(["north", "south"] as const).map((s) => (
+            <button key={s} type="button" role="radio" aria-checked={style === s} onClick={() => setStyle(s)} className={seg(style === s)}>
+              {tk(s)}
+            </button>
+          ))}
+        </div>
+        <div role="radiogroup" aria-label={tk("divisionLabel")} className="inline-flex rounded-full border border-line bg-night-s2 p-1">
+          {(["d1", "d9"] as const).map((d) => (
+            <button key={d} type="button" role="radio" aria-checked={division === d} onClick={() => setDivision(d)} className={seg(division === d)}>
+              {tk(d)}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="grid gap-5 md:grid-cols-2">
+        {(["boy", "girl"] as const).map((who) => {
+          const chart = who === "boy" ? boy : girl;
+          return (
+            <figure key={who} className="flex flex-col items-center gap-2">
+              <figcaption className="flex items-center gap-2 text-sm font-semibold text-ink-1">
+                <span className={cn("h-2.5 w-2.5 rounded-full", who === "boy" ? "bg-info" : "bg-saffron-400")} aria-hidden />
+                {names[who]}
+              </figcaption>
+              <div className="w-full max-w-[420px] rounded-lg border border-line-gold bg-night-s1 p-2 sm:p-3">
+                {style === "north" ? <NorthIndianChart chart={chart} lang={lang} division={division} /> : <SouthIndianChart chart={chart} lang={lang} division={division} />}
+              </div>
+            </figure>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
 
 /** Both people's readings side by side (50/50 on desktop), one row per life area, each half with its own Listen button. */
 export function MilanCompare({ boy, girl, names, locale }: { boy: ChartData; girl: ChartData; names: { boy: string; girl: string }; locale: string }) {
@@ -63,6 +110,7 @@ export function MilanCompare({ boy, girl, names, locale }: { boy: ChartData; gir
           </div>
         ))}
       </div>
+      <ChartPair boy={boy} girl={girl} names={names} lang={l} />
       {rows.map((row) => (
         <article key={row.key} className="rounded-xl border border-line bg-night-s1/70 p-4 shadow-e1 backdrop-blur-xl sm:p-5">
           <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">

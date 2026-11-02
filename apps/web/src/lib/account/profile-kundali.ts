@@ -30,8 +30,8 @@ export async function ensureProfileKundali(
     select: { id: true, chartJson: true },
   });
   const stored = existing?.chartJson as StoredChart | null | undefined;
-  // Charts saved before AMX-200 lack the real Sade Sati periods: recompute those once.
-  if (existing && stored?.ascendant && stored.sade_sati_periods) return { id: existing.id, chart: stored };
+  // Recompute charts saved before AMX-200 (no Sade Sati periods) or before the Lahiri fix (calc_version < 2).
+  if (existing && stored?.ascendant && stored.sade_sati_periods && (stored as { calc_version?: number }).calc_version === 2) return { id: existing.id, chart: stored };
 
   if (!isEngineConfigured() || !p.dob) return null;
   // Unknown birth time: noon is the conventional stand-in; the Lagna is then approximate.

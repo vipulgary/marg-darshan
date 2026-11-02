@@ -18,7 +18,7 @@ class MatchRequest(BaseModel):
 def _person(b: BirthData) -> dict:
     from app.services.analysis import compute_core
 
-    chart = compute_core(b.dob, b.tob, b.tz_name, b.latitude, b.longitude)
+    chart = compute_core(b.dob, b.tob, b.tz_name, b.latitude, b.longitude, sade_sati=False)
     moon = chart["planets"]["moon"]
     manglik = next((d for d in chart["yogas_doshas"]["doshas"] if d["key"] == "manglik"), None)
     return {
@@ -50,4 +50,11 @@ async def match(body: MatchRequest):
     except ImportError as exc:
         raise HTTPException(status_code=503, detail=f"ephemeris unavailable: {exc}") from exc
     result = guna_milan(boy, girl)
-    return {**result, "boy": boy, "girl": girl, "manglik": manglik_match(boy["manglik"], girl["manglik"])}
+    # A workable match (18+ of 36) also gets the next marriage muhurats, at the bride's birthplace.
+    muhurats = []
+    if result["total"] >= 18:
+        from app.services.vivah import find
+
+        g = body.girl
+        muhurats = await asyncio.to_thread(find, boy["sign"], girl["sign"], g.latitude, g.longitude, g.tz_name)
+    return {**result, "boy": boy, "girl": girl, "manglik": manglik_match(boy["manglik"], girl["manglik"]), "vivah_muhurats": muhurats}

@@ -8,13 +8,15 @@ def yogas_doshas(chart: dict, on_date: date | None = None) -> dict:
     return {"doshas": doshas.evaluate(chart, on_date=on_date), "yogas": yogas.detect(chart)}
 
 
-def compute_core(dob, tob, tz_name: str, latitude: float, longitude: float) -> dict:
+def compute_core(dob, tob, tz_name: str, latitude: float, longitude: float, sade_sati: bool = True) -> dict:
     """compute_chart + yogas_doshas. Needs swisseph (imported lazily)."""
     from app.services.chart import compute_chart
 
     chart = compute_chart(dob, tob, tz_name, latitude, longitude)
     chart["yogas_doshas"] = yogas_doshas(chart)
-    from app.services.sade_sati import periods
+    chart["calc_version"] = 2  # 2 = Lahiri forced on every calculation (earlier charts could drift ~1°)
+    if sade_sati:
+        from app.services.sade_sati import periods
 
-    chart["sade_sati_periods"] = periods(chart["rashi"]["sign"], dob)
+        chart["sade_sati_periods"] = periods(chart["rashi"]["sign"], dob)
     return chart

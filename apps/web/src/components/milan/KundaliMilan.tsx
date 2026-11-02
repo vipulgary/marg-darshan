@@ -107,6 +107,23 @@ function PersonForm({ side, value, onChange, bad, profiles }: { side: "boy" | "g
   );
 }
 
+const DRAFT_KEY = "md-milan-draft";
+function saveDraft(boy: Person, girl: Person, matched: boolean) {
+  try {
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ boy, girl, matched }));
+  } catch {
+    // storage blocked: nothing to keep
+  }
+}
+function loadDraft(): { boy: Person; girl: Person; matched: boolean } | null {
+  try {
+    const raw = sessionStorage.getItem(DRAFT_KEY);
+    return raw ? (JSON.parse(raw) as { boy: Person; girl: Person; matched: boolean }) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
   const t = useTranslations("milan");
   const locale = useLocale();
@@ -118,22 +135,43 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
   const [error, setError] = useState("");
   const [result, setResult] = useState<MatchResult | null>(null);
 
-  const submit = async (e: FormEvent) => {
-    e.preventDefault();
+  const run = async (b: Person, g: Person, scroll = true) => {
     setBusy(true);
     setError("");
-    const res = await fetch("/api/milan", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ boy, girl, lang: hi ? "hi" : "en" }) }).catch(() => null);
+    const res = await fetch("/api/milan", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ boy: b, girl: g, lang: hi ? "hi" : "en" }) }).catch(() => null);
     const data = res ? await res.json().catch(() => ({})) : {};
     setBusy(false);
     if (res?.ok) {
       setResult(data as MatchResult);
       setBad([]);
-      requestAnimationFrame(() => document.getElementById("milan-result")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+      saveDraft(b, g, true);
+      if (scroll) requestAnimationFrame(() => document.getElementById("milan-result")?.scrollIntoView({ behavior: "smooth", block: "start" }));
     } else {
       setBad((data as { issues?: string[] }).issues ?? []);
       setError((data as { issues?: string[] }).issues ? t("fixFields") : t("error"));
     }
   };
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    void run(boy, girl);
+  };
+
+  // Keep the form (and whether a match was shown) for this browser tab, so switching language —
+  // which reloads the page — brings everything back and re-runs the match in the new language.
+  useEffect(() => {
+    const saved = loadDraft();
+    if (!saved) return;
+    // Restoring a saved session after mount (storage isn't readable during SSR).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setBoy(saved.boy);
+    setGirl(saved.girl);
+    if (saved.matched) void run(saved.boy, saved.girl, true);
+    // Runs once on mount only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (boy !== EMPTY || girl !== EMPTY) saveDraft(boy, girl, !!result);
+  }, [boy, girl, result]);
 
   // Printing always uses the light theme (users save the result as a PDF).
   useEffect(() => {
@@ -198,6 +236,36 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
             <Badge tone={VERDICT_TONE[result.verdict]}>{t(`verdict.${result.verdict}`)}</Badge>
             <p className="max-w-[60ch] text-ink-2">{t(`verdictText.${result.verdict}`)}</p>
           </Card>
+
+          {result.vivah_muhurats && result.vivah_muhurats.length > 0 && (
+            <Card className="flex flex-col gap-4">
+              <div>
+                <h2 className="flex items-center gap-2 text-xl">
+                  <Icon name="rings" size={22} className="text-gold-300" /> {t("muhuratTitle")}
+                </h2>
+                <p className="text-sm text-ink-3">{t("muhuratLead")}</p>
+              </div>
+              <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {result.vivah_muhurats.map((m) => {
+                  const d = new Date(`${m.date}T00:00:00Z`);
+                  const time = (iso: string) => new Date(iso).toLocaleTimeString(hi ? "hi-IN" : "en-IN", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: "Asia/Kolkata" });
+                  const nextDay = m.to.slice(0, 10) !== m.date;
+                  return (
+                    <li key={m.date} className="flex flex-col gap-1 rounded-lg border border-line-gold bg-saffron-500/8 p-4">
+                      <span className="font-display text-2xl text-ink-1">{d.toLocaleDateString(hi ? "hi-IN" : "en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })}</span>
+                      <span className="text-sm font-semibold text-ink-2">{hi ? m.weekday_hi : m.weekday_en}</span>
+                      <span className="text-xs text-ink-3">{hi ? m.tithi_hi : m.tithi_en} · {hi ? m.nakshatra_hi : m.nakshatra_en}</span>
+                      <span className="mt-1 text-sm tabular-nums text-ink-1">
+                        {time(m.from)} – {time(m.to)}
+                        {nextDay ? ` (${t("nextDay")})` : ""}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="text-xs text-ink-3">{t("muhuratNote")}</p>
+            </Card>
+          )}
 
           <Card>
             <h2 className="mb-4 text-xl">{t("aspectsTitle")}</h2>

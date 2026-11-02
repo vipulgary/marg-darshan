@@ -47,6 +47,8 @@ def julian_day(utc: datetime) -> float:
 
 
 def sidereal_longitude(jd: float, planet_id: int) -> tuple[float, float]:
+    # Other libraries in this process (vargas) may switch the global ayanamsa; always use Lahiri.
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
     pos, _ = swe.calc_ut(jd, planet_id, FLAGS)
     return pos[0] % 360, pos[3]
 
@@ -56,6 +58,7 @@ def compute_chart(dob, tob, tz_name: str, latitude: float, longitude: float) -> 
     jd = julian_day(birth_utc)
     ayanamsa = swe.get_ayanamsa_ut(jd)
 
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
     _, ascmc = swe.houses_ex(jd, latitude, longitude, b"W", swe.FLG_SIDEREAL)
     asc_lon = ascmc[0] % 360
     lagna = sign_of(asc_lon)
