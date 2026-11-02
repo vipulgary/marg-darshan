@@ -1,7 +1,8 @@
 /**
- * AMX-206 — pull birth details out of a biodata's plain text (Hindi and/or English), with no AI.
- * Works on PDF text, OCR output or text pasted from WhatsApp. Only returns what is written;
- * anything unclear is left null so the user fills it in.
+ * AMX-206 — pull details out of a biodata's plain text (Hindi and/or English), with no AI.
+ * Works on PDF text, OCR output or text pasted from WhatsApp. Handles "Label : value",
+ * "Label - value", "Label – value" and a label on its own line with the value below it.
+ * Only returns what is written; anything unclear is left null so the user fills it in.
  */
 
 export interface BiodataFields {
@@ -10,9 +11,20 @@ export interface BiodataFields {
   dob: string | null; // YYYY-MM-DD
   tob: string | null; // HH:mm 24h
   place: string | null;
+  /** True when the place came from "Native" rather than an explicit birthplace. */
+  placeIsNative?: boolean;
   height: string | null;
   education: string | null;
   profession: string | null;
+  father?: string | null;
+  mother?: string | null;
+  grandfather?: string | null;
+  residence?: string | null;
+  mobile?: string | null;
+  email?: string | null;
+  complexion?: string | null;
+  manglik?: string | null;
+  gotra?: string | null;
 }
 
 const HINDI_DIGITS = "०१२३४५६७८९";
@@ -21,24 +33,38 @@ const MONTHS: Record<string, number> = {
   जनवरी: 1, फरवरी: 2, फ़रवरी: 2, मार्च: 3, अप्रैल: 4, अप्रेल: 4, मई: 5, जून: 6, जुलाई: 7, अगस्त: 8, सितंबर: 9, सितम्बर: 9, अक्टूबर: 10, अक्तूबर: 10, नवंबर: 11, नवम्बर: 11, दिसंबर: 12, दिसम्बर: 12,
 };
 
-// Field labels as they appear in biodatas. Each line "Label : value" (or "Label - value").
-const LABELS: Record<keyof BiodataFields | "dobtime", RegExp> = {
-  name: /^(?:full\s*)?name|^नाम/i,
-  gender: /^gender|^sex|^लिंग/i,
-  dobtime: /^(?:date\s*(?:and|&)\s*time\s*of\s*birth|जन्म\s*तिथि\s*(?:एवं|व|और)\s*समय)/i,
-  dob: /^(?:d\.?o\.?b|date\s*of\s*birth|birth\s*date|जन्म\s*(?:तिथि|दिनांक|तारीख)|जन्मतिथि)/i,
-  tob: /^(?:t\.?o\.?b|time\s*of\s*birth|birth\s*time|जन्म\s*(?:समय|का\s*समय))/i,
-  place: /^(?:p\.?o\.?b|place\s*of\s*birth|birth\s*place|जन्म\s*स्थान|जन्मस्थान)/i,
-  height: /^height|^कद|^ऊँचाई|^ऊंचाई|^लंबाई/i,
-  education: /^(?:education|qualification)|^शिक्षा|^योग्यता/i,
-  profession: /^(?:occupation|profession|job|work)|^व्यवसाय|^नौकरी|^पेशा|^कार्य/i,
-};
+type Key = Exclude<keyof BiodataFields, "placeIsNative"> | "dobtime" | "native";
+// Field labels as they appear in biodatas (matched against the label part, case-insensitive).
+const LABELS: [Key, RegExp][] = [
+  ["dobtime", /^(?:date\s*(?:and|&)\s*time\s*of\s*birth|जन्म\s*तिथि\s*(?:एवं|व|और|\/)\s*समय)/i],
+  ["father", /^(?:father'?’?s?(?:\s*name)?|पिता(?:\s*का\s*नाम|जी)?)$/i],
+  ["mother", /^(?:mother'?’?s?(?:\s*name)?|माता(?:\s*का\s*नाम|जी)?)$/i],
+  ["grandfather", /^(?:grand\s*father|दादा(?:\s*जी|जी)?|paternal)/i],
+  ["name", /^(?:full\s*)?name$|^नाम$|^(?:boy|girl)'?s?\s*name|^(?:लड़के|लड़की)\s*का\s*नाम/i],
+  ["gender", /^gender|^sex$|^लिंग/i],
+  ["dob", /^(?:d\.?\s*o\.?\s*b\.?|date\s*of\s*birth|birth\s*date|जन्म\s*(?:तिथि|दिनांक|तारीख)|जन्मतिथि)/i],
+  ["tob", /^(?:t\.?\s*o\.?\s*b\.?|time\s*of\s*birth|birth\s*time|जन्म\s*(?:समय|का\s*समय))/i],
+  ["place", /^(?:p\.?\s*o\.?\s*b\.?|place\s*of\s*birth|birth\s*place|जन्म\s*स्थान|जन्मस्थान)/i],
+  ["native", /^(?:native(?:\s*place)?|मूल\s*निवास|पैतृक\s*(?:गाँव|स्थान))/i],
+  ["residence", /^(?:residential\s*address|residence|address|current\s*address|निवास|पता)/i],
+  ["height", /^height|^कद|^ऊँचाई|^ऊंचाई|^लंबाई/i],
+  ["complexion", /^(?:complexion|colou?r|रंग|वर्ण)/i],
+  ["education", /^(?:education|qualification)|^शिक्षा|^योग्यता/i],
+  ["profession", /^(?:occupation|profession|job|work|service)|^व्यवसाय|^नौकरी|^पेशा|^कार्य/i],
+  ["manglik", /^(?:manglik|mangalik|मांगलिक|मंगली)/i],
+  ["gotra", /^(?:gotra|gotras|sakha|गोत्र)/i],
+  ["mobile", /^(?:mobile|contact|phone|mob\.?|मोबाइल|संपर्क)/i],
+  ["email", /^(?:e-?mail)/i],
+];
 
 const toAscii = (s: string) => s.replace(/[०-९]/g, (d) => String(HINDI_DIGITS.indexOf(d)));
 const pad = (n: number) => String(n).padStart(2, "0");
+/** Section titles like "OFFICE ADDRESS", "FAMILY DETAILS" end a multi-line value. */
+const HEADING = /^[A-Z][A-Z &/]{5,}$/;
+const RELIGIOUS = /ॐ|नमः|गणेश|श्री\s*गणेशाय|जय\s|भिक्षु|ganesh|namah|shree|om\s/i;
 
 export function parseDate(raw: string): string | null {
-  const s = toAscii(raw).toLowerCase();
+  const s = toAscii(raw).toLowerCase().replace(/(\d)\s*(?:st|nd|rd|th)\b/g, "$1");
   let m = s.match(/(\d{1,2})\s*[\/.\-]\s*(\d{1,2})\s*[\/.\-]\s*(\d{4}|\d{2})/);
   if (m) {
     const y = m[3].length === 2 ? (Number(m[3]) > 30 ? 1900 : 2000) + Number(m[3]) : Number(m[3]);
@@ -46,12 +72,12 @@ export function parseDate(raw: string): string | null {
   }
   m = s.match(/(\d{4})\s*[\/.\-]\s*(\d{1,2})\s*[\/.\-]\s*(\d{1,2})/);
   if (m) return valid(Number(m[1]), Number(m[2]), Number(m[3]));
-  m = s.match(/(\d{1,2})(?:st|nd|rd|th)?\s+([a-zऀ-ॿ]+)[,\s]+(\d{4})/);
+  m = s.match(/(\d{1,2})\s+([a-zऀ-ॿ]+)[,\s]+(\d{4})/);
   if (m) {
     const mon = MONTHS[m[2].slice(0, 3)] ?? MONTHS[m[2]];
     if (mon) return valid(Number(m[3]), mon, Number(m[1]));
   }
-  m = s.match(/([a-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/);
+  m = s.match(/([a-z]+)\s+(\d{1,2}),?\s+(\d{4})/);
   if (m && MONTHS[m[1].slice(0, 3)]) return valid(Number(m[3]), MONTHS[m[1].slice(0, 3)], Number(m[2]));
   return null;
 }
@@ -80,35 +106,101 @@ export function parseTime(raw: string): string | null {
   return `${pad(h)}:${pad(min)}`;
 }
 
-/** Splits text into "label : value" pairs, tolerating OCR noise, bullets and Hindi visarga-like colons. */
-function pairs(text: string): [string, string][] {
-  const out: [string, string][] = [];
-  for (const line of text.split(/\r?\n/)) {
-    const clean = line.replace(/^[\s•*\-–>|]+/, "").trim();
-    const m = clean.match(/^(.{2,40}?)\s*[:：\-–=|]\s*(.+)$/);
-    if (m) out.push([m[1].trim(), m[2].trim()]);
+const labelOf = (s: string): Key | null => LABELS.find(([, re]) => re.test(s.trim()))?.[0] ?? null;
+const clean = (s: string) => s.replace(/\s+/g, " ").replace(/^[\s:：\-–=|.,]+|[\s,]+$/g, "").trim();
+
+/** Turns the text into (label, value) pairs: same-line separators, or a bare label line followed by its value. */
+function pairs(lines: string[]): [Key, string][] {
+  const out: [Key, string][] = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].replace(/^[\s•*>|]+/, "").trim();
+    if (!line) continue;
+    const m = line.match(/^(.{2,40}?)\s*(?:[:：=|]|\s[-–—]\s|[-–—]\s|\s[-–—])\s*(.+)$/);
+    const key = m ? labelOf(m[1]) : null;
+    if (m && key) {
+      out.push([key, m[2].trim()]);
+      continue;
+    }
+    // A label alone on its line: the value is the next line(s) (addresses can run over two or three).
+    const alone = labelOf(line.replace(/[:：\-–]$/, ""));
+    if (alone && i + 1 < lines.length && !labelOf(lines[i + 1].split(/[:：\-–]/)[0])) {
+      let value = lines[i + 1].trim();
+      if (alone === "residence" || alone === "mobile") {
+        for (let k = i + 2; k < Math.min(lines.length, i + 5) && !labelOf(lines[k].split(/[:：\-–]/)[0]) && !HEADING.test(lines[k]) && lines[k].length < 60; k++) value += `, ${lines[k].trim()}`;
+      }
+      out.push([alone, value]);
+    }
   }
   return out;
 }
 
-export function parseBiodata(text: string): BiodataFields {
+/**
+ * @param headline the biggest-font text near the top (PDFs) — used as the name when there is no "Name" label.
+ */
+export function parseBiodata(text: string, headline?: string | null): BiodataFields {
   const f: BiodataFields = { name: null, gender: null, dob: null, tob: null, place: null, height: null, education: null, profession: null };
-  for (const [label, value] of pairs(text)) {
-    if (LABELS.dobtime.test(label)) {
-      f.dob ??= parseDate(value);
-      f.tob ??= parseTime(value.replace(/^[^,]*\d{4}/, ""));
-      continue;
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  let native: string | null = null;
+  const timePlace = (v: string) => v.match(/\(([^)]+)\)/)?.[1] ?? null;
+
+  for (const [key, raw] of pairs(lines)) {
+    const value = clean(raw);
+    if (!value) continue;
+    switch (key) {
+      case "dobtime":
+        f.dob ??= parseDate(value);
+        f.tob ??= parseTime(value.replace(/^.*?\d{4}/, ""));
+        break;
+      case "name":
+        f.name ??= value.replace(/[^\p{L}\p{M}\s.]/gu, "").trim().slice(0, 80) || null;
+        break;
+      case "gender":
+        f.gender ??= /female|\bf\b|स्त्री|महिला|लड़की/i.test(value) ? "female" : /male|\bm\b|पुरुष|लड़का/i.test(value) ? "male" : null;
+        break;
+      case "dob":
+        f.dob ??= parseDate(value);
+        if (!f.tob && /\d[:.]\d{2}/.test(toAscii(value).replace(/^.*?\d{4}/, ""))) f.tob = parseTime(value.replace(/^.*?\d{4}/, ""));
+        break;
+      case "tob":
+        f.tob ??= parseTime(value);
+        f.place ??= timePlace(value);
+        break;
+      case "place":
+        f.place ??= value.slice(0, 120);
+        break;
+      case "native":
+        native ??= value.slice(0, 120);
+        break;
+      case "mobile": {
+        // "Contact details" blocks often mix phone numbers and the address: keep them apart.
+        const phones = toAscii(value).match(/(?:\+91[\s-]*)?\b[6-9]\d{9}\b/g);
+        if (phones) f.mobile ??= phones.map((p) => p.replace(/\s/g, "")).join(", ");
+        const rest = clean(toAscii(value).replace(/(?:\+91[\s-]*)?\b[6-9]\d{9}\b/g, "").replace(/(,\s*){2,}/g, ", "));
+        if (rest.length > 6) f.residence ??= rest.slice(0, 160);
+        break;
+      }
+      default:
+        if (key in f || ["father", "mother", "grandfather", "residence", "mobile", "email", "complexion", "manglik", "gotra"].includes(key)) {
+          const k = key as keyof BiodataFields;
+          if (f[k] == null) (f as unknown as Record<string, string>)[k] = value.slice(0, 160);
+        }
     }
-    if (!f.name && LABELS.name.test(label) && !/father|mother|पिता|माता/i.test(label)) f.name = value.replace(/[^\p{L}\p{M}\s.]/gu, "").trim().slice(0, 80) || null;
-    else if (!f.gender && LABELS.gender.test(label)) f.gender = /female|f\b|स्त्री|महिला|लड़की/i.test(value) ? "female" : /male|m\b|पुरुष|लड़का/i.test(value) ? "male" : null;
-    else if (!f.dob && LABELS.dob.test(label)) {
-      f.dob = parseDate(value);
-      f.tob ??= /\d[:.]\d{2}/.test(toAscii(value).replace(/^[^,]*\d{4}/, "")) ? parseTime(value.replace(/^[^,]*\d{4}/, "")) : null;
-    } else if (!f.tob && LABELS.tob.test(label)) f.tob = parseTime(value);
-    else if (!f.place && LABELS.place.test(label)) f.place = value.replace(/\s+/g, " ").slice(0, 120);
-    else if (!f.height && LABELS.height.test(label)) f.height = value.slice(0, 40);
-    else if (!f.education && LABELS.education.test(label)) f.education = value.slice(0, 120);
-    else if (!f.profession && LABELS.profession.test(label)) f.profession = value.slice(0, 120);
   }
+
+  // Name: the big heading on PDFs, else the first short ALL-CAPS line that isn't a section title.
+  if (!f.name) {
+    const cand = headline && !RELIGIOUS.test(headline) ? headline : lines.slice(0, 10).find((l) => /^[A-Z][A-Z .]{3,40}$/.test(l) && l.split(/\s+/).length <= 4 && !/BIO\s*DATA|DETAILS|ABOUT|CONTACT|EDUCATION|FAMILY|HOBB/i.test(l));
+    if (cand) f.name = cand.replace(/\s+/g, " ").trim().replace(/\b(\w)(\w*)/g, (_, a: string, b: string) => a + b.toLowerCase());
+  }
+  if (!f.place && native) {
+    f.place = native;
+    f.placeIsNative = true;
+  }
+  // Contacts can sit anywhere.
+  const flat = toAscii(text);
+  f.residence = f.residence?.replace(/,\s*,/g, ",") ?? null;
+  f.mobile ??= flat.match(/(?:\+91[\s-]*)?\b[6-9]\d{9}\b/)?.[0]?.replace(/\s/g, "") ?? null;
+  f.email ??= text.match(/[\w.+-]+@[\w-]+\.[\w.]+/)?.[0] ?? null;
+  if (f.mobile && !/\d{10}/.test(f.mobile.replace(/\D/g, "").slice(-10))) f.mobile = null;
   return f;
 }

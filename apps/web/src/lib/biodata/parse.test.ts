@@ -32,7 +32,10 @@ Place of Birth : Pune, Maharashtra
 Height : 5'9"
 Education : B.Tech (Computer Science)
 Occupation : Software Engineer`);
-  assert.deepEqual(f, { name: "Sample Kumar", gender: "male", dob: "1990-06-15", tob: "07:45", place: "Pune, Maharashtra", height: `5'9"`, education: "B.Tech (Computer Science)", profession: "Software Engineer" });
+  assert.deepEqual(
+    { name: f.name, gender: f.gender, dob: f.dob, tob: f.tob, place: f.place, height: f.height, education: f.education, profession: f.profession, father: f.father },
+    { name: "Sample Kumar", gender: "male", dob: "1990-06-15", tob: "07:45", place: "Pune, Maharashtra", height: `5'9"`, education: "B.Tech (Computer Science)", profession: "Software Engineer", father: "Ram Kumar" },
+  );
 });
 
 test("Hindi biodata without birth time", () => {
@@ -53,4 +56,28 @@ test("combined date & time line", () => {
   const f = parseBiodata("Date & Time of Birth : 02-09-1992, 06:20 PM");
   assert.equal(f.dob, "1992-09-02");
   assert.equal(f.tob, "18:20");
+});
+
+test("designer layouts: dash labels, label above value, heading name, birthplace in brackets", () => {
+  const f = parseBiodata(
+    `SAMPLE PERSON
+PERSONAL DETAILS
+D.O.B. – 4 August, 1995
+Birth Time – 1.45 PM (Jaipur)
+Height – 5’10’’
+Contact details
+9876543210
+12, Sample Marg
+Sample City
+Father
+Sample Senior`,
+    "SAMPLE PERSON",
+  );
+  assert.equal(f.name, "Sample Person");
+  assert.equal(f.dob, "1995-08-04");
+  assert.equal(f.tob, "13:45");
+  assert.equal(f.place, "Jaipur");
+  assert.equal(f.mobile, "9876543210");
+  assert.equal(f.residence, "12, Sample Marg, Sample City");
+  assert.equal(f.father, "Sample Senior");
 });

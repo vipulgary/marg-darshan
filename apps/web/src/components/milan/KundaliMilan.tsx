@@ -15,6 +15,9 @@ import type { MatchResult } from "@/lib/engine/client";
 import { SIGN_NAMES } from "@/lib/kundali/chart-layout";
 import { BiodataDrop } from "./BiodataDrop";
 import { MilanCompare } from "./MilanCompare";
+import { coupleSummary } from "@/lib/milan/summary";
+import { SpokenText } from "@/components/report/SpokenText";
+import { VoiceSectionPlayer } from "@/components/report/VoiceSectionPlayer";
 
 export interface MilanProfile {
   id: string;
@@ -60,7 +63,7 @@ const EMPTY: Person = { name: "", dob: "", tob: "", place: null };
 
 const VERDICT_TONE = { excellent: "success", good: "success", average: "warning", low: "error" } as const;
 
-function PersonForm({ side, value, onChange, bad, profiles }: { side: "boy" | "girl"; value: Person; onChange: (p: Person) => void; bad: string[]; profiles: MilanProfile[] }) {
+function PersonForm({ side, value, onChange, onClear, bad, profiles }: { side: "boy" | "girl"; value: Person; onChange: (p: Person) => void; onClear: () => void; bad: string[]; profiles: MilanProfile[] }) {
   const t = useTranslations("milan");
   const has = (k: string) => bad.some((b) => b === `${side}.${k}` || b.startsWith(`${side}.${k}.`));
   // AMX-202: the boy's side never lists female profiles and vice versa ("other" fits either side).
@@ -68,9 +71,16 @@ function PersonForm({ side, value, onChange, bad, profiles }: { side: "boy" | "g
   const visibleProfiles = profiles.filter((p) => p.gender !== opposite);
   return (
     <Card className="flex flex-col gap-4">
-      <h2 className="flex items-center gap-2 text-xl">
-        <Icon name="user" size={22} className="text-gold-300" /> {t(side)}
-      </h2>
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="flex items-center gap-2 text-xl">
+          <Icon name="user" size={22} className="text-gold-300" /> {t(side)}
+        </h2>
+        {(value.name || value.dob || value.tob || value.place) && (
+          <button type="button" onClick={onClear} className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-3 text-xs font-semibold text-ink-2 hover:border-line-gold hover:text-ink-1 focus-visible:ring-focus">
+            <Icon name="x" size={14} /> {t("clear")}
+          </button>
+        )}
+      </div>
       <BiodataDrop onFill={(f) => onChange({ ...value, ...f, place: f.place ?? value.place })} />
       {visibleProfiles.length > 0 && (
         <Field label={t("fromProfile")}>
@@ -141,6 +151,24 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<MatchResult | null>(null);
+  const [resetKey, setResetKey] = useState({ boy: 0, girl: 0 });
+  const clearSide = (side: "boy" | "girl") => {
+    (side === "boy" ? setBoy : setGirl)(EMPTY);
+    setResetKey((k) => ({ ...k, [side]: k[side] + 1 }));
+    setResult(null);
+  };
+  const clearAll = () => {
+    clearSide("boy");
+    clearSide("girl");
+    setBad([]);
+    setError("");
+    try {
+      sessionStorage.removeItem(DRAFT_KEY);
+    } catch {
+      // storage blocked
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const run = async (b: Person, g: Person, scroll = true) => {
     setBusy(true);
@@ -209,13 +237,18 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
     <div className="flex flex-col gap-8">
       <form onSubmit={submit} noValidate className="flex flex-col gap-6">
         <div className="grid gap-6 lg:grid-cols-2">
-          <PersonForm side="boy" value={boy} onChange={setBoy} bad={bad} profiles={profiles} />
-          <PersonForm side="girl" value={girl} onChange={setGirl} bad={bad} profiles={profiles} />
+          <PersonForm key={`boy-${resetKey.boy}`} side="boy" value={boy} onChange={setBoy} onClear={() => clearSide("boy")} bad={bad} profiles={profiles} />
+          <PersonForm key={`girl-${resetKey.girl}`} side="girl" value={girl} onChange={setGirl} onClear={() => clearSide("girl")} bad={bad} profiles={profiles} />
         </div>
         {error && <p role="alert" className="text-error">{error}</p>}
-        <Button type="submit" size="lg" className="self-center" loading={busy} loadingLabel={t("matching")} iconRight={<Icon name="arrow-right" size={18} />}>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Button type="submit" size="lg"  loading={busy} loadingLabel={t("matching")} iconRight={<Icon name="arrow-right" size={18} />}>
           {t("submit")}
         </Button>
+          <button type="button" onClick={clearAll} className="inline-flex h-14 items-center gap-2 rounded-full border border-line px-6 font-semibold text-ink-2 hover:border-line-gold hover:text-ink-1 focus-visible:ring-focus">
+            <Icon name="x" size={18} /> {t("clearAll")}
+          </button>
+        </div>
       </form>
 
       {result && (
@@ -245,8 +278,8 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
                 </p>
                 {!result.certainty.exact && (
                   <ul className="mt-1.5 flex flex-col gap-0.5 text-xs text-ink-2">
-                    {result.certainty.options.slice(0, 4).map((o) => (
-                      <li key={`${o.boy_nakshatra_en}-${o.girl_nakshatra_en}`}>
+                    {result.certainty.options.slice(0, 4).map((o, oi) => (
+                      <li key={oi}>
                         {hi ? o.boy_nakshatra_hi : o.boy_nakshatra_en} × {hi ? o.girl_nakshatra_hi : o.girl_nakshatra_en}: <strong>{o.total}</strong> ({Math.round(o.weight * 100)}%)
                       </li>
                     ))}
@@ -260,6 +293,18 @@ export function KundaliMilan({ profiles = [] }: { profiles?: MilanProfile[] }) {
             </div>
             <Badge tone={VERDICT_TONE[result.verdict]}>{t(`verdict.${result.verdict}`)}</Badge>
             <p className="max-w-[60ch] text-ink-2">{t(`verdictText.${result.verdict}`)}</p>
+            {(() => {
+              const lines = coupleSummary(result, hi ? "hi" : "en");
+              return (
+                <div className="mt-2 w-full max-w-3xl rounded-xl border border-line-gold bg-saffron-500/6 p-4 text-left">
+                  <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                    <p className="font-semibold text-ink-1">{t("coupleSummary")}</p>
+                    <VoiceSectionPlayer text={lines.join(" ")} locale={locale} title={t("coupleSummary")} spokenId="say-couple" />
+                  </div>
+                  <SpokenText id="say-couple" paragraphs={lines} className="gap-1.5 text-[15px] text-ink-2" />
+                </div>
+              );
+            })()}
           </Card>
 
           {result.vivah_muhurats && result.vivah_muhurats.length > 0 && (

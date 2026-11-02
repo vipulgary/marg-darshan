@@ -15,7 +15,9 @@ export interface BiodataFill {
   timeUnknown?: boolean;
   place?: PlaceValue | null;
 }
-type Facts = { height: string | null; education: string | null; profession: string | null };
+// Everything we could read, shown back so the user sees what came out of the biodata.
+const SHOWN = ["name", "father", "grandfather", "mother", "dob", "tob", "place", "residence", "mobile", "email", "height", "complexion", "education", "profession", "gotra", "manglik"] as const;
+type Facts = Partial<Record<(typeof SHOWN)[number], string | null>> & { placeIsNative?: boolean };
 
 /**
  * AMX-206 — drop a biodata (PDF / photo) or paste its text; we fill this side of the form.
@@ -42,7 +44,7 @@ export function BiodataDrop({ onFill }: { onFill: (f: BiodataFill) => void }) {
     }
     onFill({ name: d.name ?? undefined, dob: d.dob ?? undefined, tob: d.tob ?? "", timeUnknown: !d.tob, place });
     setMissing([!d.name && "name", !d.dob && "dob", !d.tob && "tob", !place && "place"].filter(Boolean) as string[]);
-    setFacts({ height: d.height, education: d.education, profession: d.profession });
+    setFacts({ ...d, gender: undefined } as Facts);
     setState(d.name || d.dob ? "done" : "error");
   };
 
@@ -116,14 +118,19 @@ export function BiodataDrop({ onFill }: { onFill: (f: BiodataFill) => void }) {
         <div className="flex flex-col gap-1.5 text-xs">
           <p className="text-success">{t("filled")}</p>
           {missing.length > 0 && <p className="text-warning">{t("missing", { fields: missing.map((m) => t(`field.${m}`)).join(", ") })}</p>}
-          {facts && (facts.height || facts.education || facts.profession) && (
-            <p className="flex flex-wrap gap-1.5">
-              {[facts.height, facts.education, facts.profession].filter(Boolean).map((f) => (
-                <span key={f} className="rounded-full bg-night-s3 px-2 py-0.5 text-ink-2">
-                  {f}
-                </span>
+          {facts && (
+            <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 rounded-md border border-line-subtle bg-night-s2/60 p-3 text-xs">
+              <dt className="col-span-2 mb-1 text-[13px] font-semibold text-ink-1">{t("readTitle")}</dt>
+              {SHOWN.filter((k) => facts[k]).map((k) => (
+                <div key={k} className="contents">
+                  <dt className="text-ink-3">{t(`f.${k}`)}</dt>
+                  <dd className="break-words text-ink-1">
+                    {facts[k]}
+                    {k === "place" && facts.placeIsNative && <span className="text-warning"> ({t("nativeNote")})</span>}
+                  </dd>
+                </div>
               ))}
-            </p>
+            </dl>
           )}
         </div>
       )}

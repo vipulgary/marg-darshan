@@ -16,6 +16,8 @@ from fastapi import FastAPI, HTTPException, Response
 from piper import PiperVoice, SynthesisConfig
 from pydantic import BaseModel, Field
 
+from translit import latin_to_devanagari
+
 HERE = Path(__file__).parent
 CACHE = HERE / "cache"
 CACHE.mkdir(exist_ok=True)
@@ -55,6 +57,8 @@ def health():
 def tts(body: TtsIn):
     lang = "en" if body.lang == "en" else "hi"
     text = clean(body.text)
+    if lang == "hi":
+        text = latin_to_devanagari(text)  # the Hindi voice only reads Devanagari (names like "Tanuj")
     if not text:
         raise HTTPException(400, "empty text")
     key = hashlib.sha256(f"{VOICES[lang].name}|{CONFIG}|{text}".encode()).hexdigest()[:32]

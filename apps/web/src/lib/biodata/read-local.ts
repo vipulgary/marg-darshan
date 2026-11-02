@@ -7,22 +7,27 @@
  * Language data for OCR is fetched once from the CDN and cached by the browser.
  */
 import { type BiodataFields, parseBiodata } from "./parse";
+import { pdfLines } from "./pdf-lines";
 
-async function pdfText(file: File): Promise<{ text: string; firstPage: HTMLCanvasElement | null }> {
+async function pdfText(file: File): Promise<{ text: string; headline: string | null; firstPage: HTMLCanvasElement | null }> {
   const pdfjs = await import("pdfjs-dist");
   pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
   const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
   const lines: string[] = [];
+  let headline: string | null = null;
   for (let i = 1; i <= Math.min(doc.numPages, 3); i++) {
     const page = await doc.getPage(i);
     const content = await page.getTextContent();
-    // Rebuild lines from text items by their vertical position.
-    const rows = new Map<number, string[]>();
-    for (const it of content.items as { str: string; transform: number[] }[]) {
-      const y = Math.round(it.transform[5]);
-      rows.set(y, [...(rows.get(y) ?? []), it.str]);
-    }
-    [...rows.entries()].sort((a, b) => b[0] - a[0]).forEach(([, parts]) => lines.push(parts.join(" ")));
+    const items = (content.items as { str: string; transform: number[]; width: number; height: number }[]).map((it) => ({
+      str: it.str,
+      x: it.transform[4],
+      y: it.transform[5],
+      w: it.width,
+      h: Math.abs(it.transform[3]) || it.height,
+    }));
+    const out = pdfLines(items, page.view[2]);
+    lines.push(...out.lines);
+    headline ??= out.headline;
   }
   let firstPage: HTMLCanvasElement | null = null;
   if (lines.join("").trim().length < 40) {
@@ -34,7 +39,7 @@ async function pdfText(file: File): Promise<{ text: string; firstPage: HTMLCanva
     firstPage.height = viewport.height;
     await page.render({ canvasContext: firstPage.getContext("2d")!, viewport }).promise;
   }
-  return { text: lines.join("\n"), firstPage };
+  return { text: lines.join("\n"), headline, firstPage };
 }
 
 async function ocr(image: File | HTMLCanvasElement, onProgress?: (pct: number) => void): Promise<string> {
@@ -53,8 +58,8 @@ async function ocr(image: File | HTMLCanvasElement, onProgress?: (pct: number) =
 
 export async function readBiodataLocally(file: File, onProgress?: (pct: number) => void): Promise<BiodataFields> {
   if (file.type === "application/pdf") {
-    const { text, firstPage } = await pdfText(file);
-    if (!firstPage) return parseBiodata(text);
+    const { text, headline, firstPage } = await pdfText(file);
+    if (!firstPage) return parseBiodata(text, headline);
     return parseBiodata(await ocr(firstPage, onProgress));
   }
   return parseBiodata(await ocr(file, onProgress));

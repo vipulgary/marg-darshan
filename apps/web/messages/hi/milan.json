@@ -130,6 +130,29 @@
     "readingPct": "बायोडाटा पढ़ा जा रहा है… {pct}%",
     "pasteToggle": "या बायोडाटा का टेक्स्ट पेस्ट करें (जैसे WhatsApp से)",
     "pastePlaceholder": "नाम: …\nजन्म तिथि: …\nजन्म समय: …\nजन्म स्थान: …",
-    "pasteRead": "यह टेक्स्ट पढ़ें"
-  }
+    "pasteRead": "यह टेक्स्ट पढ़ें",
+    "readTitle": "बायोडाटा से पढ़ा गया",
+    "nativeNote": "मूल निवास — कृपया जन्म स्थान पुष्टि करें",
+    "f": {
+      "name": "नाम",
+      "father": "पिता",
+      "grandfather": "दादाजी",
+      "mother": "माता",
+      "dob": "जन्म तिथि",
+      "tob": "जन्म समय",
+      "place": "जन्म स्थान",
+      "residence": "पता",
+      "mobile": "मोबाइल",
+      "email": "ईमेल",
+      "height": "कद",
+      "complexion": "रंग",
+      "education": "शिक्षा",
+      "profession": "काम",
+      "gotra": "गोत्र",
+      "manglik": "मांगलिक"
+    }
+  },
+  "coupleSummary": "दोनों का सार",
+  "clear": "साफ़ करें",
+  "clearAll": "सब साफ़ करें, फिर से शुरू करें"
 }

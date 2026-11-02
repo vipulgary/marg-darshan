@@ -130,6 +130,29 @@
     "readingPct": "Reading the biodata… {pct}%",
     "pasteToggle": "Or paste biodata text (e.g. from WhatsApp)",
     "pastePlaceholder": "Name: …\nDate of Birth: …\nTime of Birth: …\nPlace of Birth: …",
-    "pasteRead": "Read this text"
-  }
+    "pasteRead": "Read this text",
+    "readTitle": "Read from the biodata",
+    "nativeNote": "native place — please confirm birthplace",
+    "f": {
+      "name": "Name",
+      "father": "Father",
+      "grandfather": "Grandfather",
+      "mother": "Mother",
+      "dob": "Date of birth",
+      "tob": "Birth time",
+      "place": "Birthplace",
+      "residence": "Address",
+      "mobile": "Mobile",
+      "email": "Email",
+      "height": "Height",
+      "complexion": "Complexion",
+      "education": "Education",
+      "profession": "Work",
+      "gotra": "Gotra",
+      "manglik": "Manglik"
+    }
+  },
+  "coupleSummary": "The two of you, in short",
+  "clear": "Clear",
+  "clearAll": "Clear all & start again"
 }
