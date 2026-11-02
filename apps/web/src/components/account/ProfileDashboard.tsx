@@ -33,6 +33,7 @@ const TOOLS: { key: string; href: string; icon: IconName }[] = [
   { key: "milan", href: "/kundali-milan", icon: "rings" },
   { key: "muhurat", href: "/shubh-samay", icon: "clock" },
   { key: "numerology", href: "/numerology", icon: "star" },
+  { key: "gems", href: "/gem-finder", icon: "gem" },
   { key: "book", href: "/book-appointment", icon: "calendar" },
 ];
 
@@ -159,7 +160,7 @@ export async function ProfileDashboard({ clientId, locale, profiles, active }: {
 
       <section className="flex flex-col gap-3">
         <h3 className="text-lg font-semibold text-ink-1">{t("more", { name: active.label })}</h3>
-        <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
           {TOOLS.map((tool) => (
             <li key={tool.key}>
               <Link

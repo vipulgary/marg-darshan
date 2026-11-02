@@ -60,7 +60,19 @@ export interface Product {
   priceHint: Bilingual;
   certified: boolean;
   image: string; // /images/shop/<slug>.jpg (placeholder gradient if missing)
+  /** Gems only (AMX-204): the planet the stone serves and the weights we stock. */
+  planet?: "sun" | "moon" | "mars" | "mercury" | "jupiter" | "venus" | "saturn" | "rahu" | "ketu";
+  variants?: GemVariant[];
 }
+
+/** One stocked weight of a gem — ratti (or carat for diamond), price in ₹, and whether it is in stock. DRAFT sample stock. */
+export interface GemVariant {
+  weight: number;
+  price: number;
+  inStock: boolean;
+}
+
+const v = (weight: number, price: number, inStock = true): GemVariant => ({ weight, price, inStock });
 
 export const SERVICES: Service[] = [
   {
@@ -198,6 +210,8 @@ export const PRODUCTS: Product[] = [
     priceHint: { hi: "₹4,500 / रत्ती से", en: "From ₹4,500 / ratti" },
     certified: true,
     image: "/images/shop/yellow-sapphire-pukhraj.jpg",
+    planet: "jupiter",
+    variants: [v(3, 13500), v(4, 18000), v(5, 22500), v(6, 27000, false)],
   },
   {
     slug: "blue-sapphire-neelam",
@@ -209,6 +223,8 @@ export const PRODUCTS: Product[] = [
     priceHint: { hi: "₹6,000 / रत्ती से", en: "From ₹6,000 / ratti" },
     certified: true,
     image: "/images/shop/blue-sapphire-neelam.jpg",
+    planet: "saturn",
+    variants: [v(3, 18000), v(4, 24000, false), v(5, 30000), v(6, 36000, false)],
   },
   {
     slug: "ruby-manik",
@@ -220,6 +236,8 @@ export const PRODUCTS: Product[] = [
     priceHint: { hi: "₹3,500 / रत्ती से", en: "From ₹3,500 / ratti" },
     certified: true,
     image: "/images/shop/ruby-manik.jpg",
+    planet: "sun",
+    variants: [v(3, 10500), v(4, 14000), v(5, 17500, false), v(6, 21000)],
   },
   {
     slug: "emerald-panna",
@@ -231,6 +249,73 @@ export const PRODUCTS: Product[] = [
     priceHint: { hi: "₹3,000 / रत्ती से", en: "From ₹3,000 / ratti" },
     certified: true,
     image: "/images/shop/emerald-panna.jpg",
+    planet: "mercury",
+    variants: [v(3, 9000), v(4, 12000), v(5, 15000), v(6, 18000, false)],
+  },
+  {
+    slug: "pearl-moti",
+    sku: "GEM-MOT-001",
+    category: "GEM",
+    title: { hi: "मोती", en: "Pearl (Moti)" },
+    description: { hi: "चंद्र का रत्न — मन की शांति, भावनात्मक संतुलन और नींद के लिए।", en: "Moon's gem — for calm, emotional balance and sleep." },
+    suitableFor: { hi: "कर्क, वृश्चिक, मीन लग्न (कुंडली देखकर ही)", en: "Cancer, Scorpio, Pisces ascendant (only after chart review)" },
+    priceHint: { hi: "₹1,200 / रत्ती से", en: "From ₹1,200 / ratti" },
+    certified: true,
+    image: "/images/shop/pearl-moti.jpg",
+    planet: "moon",
+    variants: [v(4, 4800), v(5, 6000), v(6, 7200), v(7, 8400, false)],
+  },
+  {
+    slug: "red-coral-moonga",
+    sku: "GEM-MOO-001",
+    category: "GEM",
+    title: { hi: "मूंगा", en: "Red Coral (Moonga)" },
+    description: { hi: "मंगल का रत्न — साहस, ऊर्जा और रक्त-स्वास्थ्य के लिए।", en: "Mars's gem — for courage, energy and vitality." },
+    suitableFor: { hi: "मेष, सिंह, वृश्चिक, धनु लग्न (कुंडली देखकर ही)", en: "Aries, Leo, Scorpio, Sagittarius ascendant (only after chart review)" },
+    priceHint: { hi: "₹900 / रत्ती से", en: "From ₹900 / ratti" },
+    certified: true,
+    image: "/images/shop/red-coral-moonga.jpg",
+    planet: "mars",
+    variants: [v(5, 4500), v(6, 5400), v(7, 6300), v(8, 7200, false), v(9, 8100, false)],
+  },
+  {
+    slug: "diamond-heera",
+    sku: "GEM-HEE-001",
+    category: "GEM",
+    title: { hi: "हीरा", en: "Diamond (Heera)" },
+    description: { hi: "शुक्र का रत्न — प्रेम, विवाह सुख, कला और वैभव के लिए।", en: "Venus's gem — for love, marital harmony, art and luxury." },
+    suitableFor: { hi: "वृषभ, तुला, मकर, कुंभ लग्न (कुंडली देखकर ही)", en: "Taurus, Libra, Capricorn, Aquarius ascendant (only after chart review)" },
+    priceHint: { hi: "₹45,000 / कैरेट से", en: "From ₹45,000 / carat" },
+    certified: true,
+    image: "/images/shop/diamond-heera.jpg",
+    planet: "venus",
+    variants: [v(0.5, 22500), v(0.75, 33750), v(1, 45000, false), v(1.5, 67500, false)],
+  },
+  {
+    slug: "hessonite-gomed",
+    sku: "GEM-GOM-001",
+    category: "GEM",
+    title: { hi: "गोमेद", en: "Hessonite (Gomed)" },
+    description: { hi: "राहु का रत्न — भ्रम दूर करने और अचानक अवसरों के लिए; सलाह के बाद ही।", en: "Rahu's gem — clears confusion, sudden opportunities; only after advice." },
+    suitableFor: { hi: "केवल ज्योतिषी की सलाह पर", en: "Only on a Jyotish's advice" },
+    priceHint: { hi: "₹700 / रत्ती से", en: "From ₹700 / ratti" },
+    certified: true,
+    image: "/images/shop/hessonite-gomed.jpg",
+    planet: "rahu",
+    variants: [v(5, 3500), v(6, 4200), v(7, 4900, false), v(8, 5600, false)],
+  },
+  {
+    slug: "cats-eye-lehsunia",
+    sku: "GEM-LEH-001",
+    category: "GEM",
+    title: { hi: "लहसुनिया", en: "Cat's Eye (Lehsunia)" },
+    description: { hi: "केतु का रत्न — आध्यात्मिक सुरक्षा और एकाग्रता; सलाह के बाद ही।", en: "Ketu's gem — spiritual protection and focus; only after advice." },
+    suitableFor: { hi: "केवल ज्योतिषी की सलाह पर", en: "Only on a Jyotish's advice" },
+    priceHint: { hi: "₹1,500 / रत्ती से", en: "From ₹1,500 / ratti" },
+    certified: true,
+    image: "/images/shop/cats-eye-lehsunia.jpg",
+    planet: "ketu",
+    variants: [v(4, 6000, false), v(5, 7500), v(6, 9000), v(7, 10500, false)],
   },
   {
     slug: "panchmukhi-rudraksha",
@@ -270,6 +355,8 @@ export const PRODUCTS: Product[] = [
 export const getService = (slug: string) => SERVICES.find((s) => s.slug === slug);
 export const getProblem = (slug: string) => PROBLEMS.find((p) => p.slug === slug);
 export const getProduct = (slug: string) => PRODUCTS.find((p) => p.slug === slug);
+/** The shop gem that serves a planet (AMX-204). */
+export const gemProductFor = (planet: string) => PRODUCTS.find((p) => p.category === "GEM" && p.planet === planet);
 export const pick = (b: Bilingual, locale: string) => (locale === "en" ? b.en : b.hi);
 
 /** Business contact settings (moved to CMS Settings in AMX-143). */

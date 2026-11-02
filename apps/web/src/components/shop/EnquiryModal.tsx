@@ -10,6 +10,8 @@ import { enquiryFieldErrors } from "@/lib/shop/enquiry";
 import { useDraftField } from "@/stores/formDraft";
 
 export interface EnquiryProduct {
+  /** Prefilled note, e.g. the chosen gem weight (AMX-204). */
+  presetNote?: string;
   slug: string;
   sku: string;
   title: string;
@@ -73,7 +75,7 @@ function EnquiryForm({ product }: { product: EnquiryProduct }) {
   const [name, setName] = useDraftField("shop-enquiry", "name", "");
   const [phone, setPhone] = useDraftField("shop-enquiry", "phone", "");
   const [problemSlug, setProblem] = useDraftField("shop-enquiry", "problem", "");
-  const [note, setNote] = useDraftField("shop-enquiry", `note:${product.slug}`, "");
+  const [note, setNote] = useDraftField("shop-enquiry", `note:${product.slug}:${product.presetNote ?? ""}`, product.presetNote ?? "");
   const [attempted, setAttempted] = useState(false);
   const [status, setStatus] = useState<Status>({ kind: "idle" });
 

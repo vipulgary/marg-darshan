@@ -47,6 +47,10 @@
       "birthTime": {
         "title": "Birth Time Finder",
         "desc": "Estimate an unknown birth time"
+      },
+      "gems": {
+        "title": "Gem Finder",
+        "desc": "Right gem & ratti for you"
       }
     }
   },

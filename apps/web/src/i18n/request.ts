@@ -4,7 +4,7 @@ import { routing } from "./routing";
 
 // messages/<locale>/common.json is mounted at the root; every other file is mounted
 // under its own name, e.g. messages/hi/booking.json -> t("booking.*").
-export const NAMESPACES = ["layout", "home", "pages", "booking", "payment", "kundali", "shop", "newsletter", "birthTime", "panchang", "manage", "account", "report", "muhurat", "milan", "numerology"] as const;
+export const NAMESPACES = ["layout", "home", "pages", "booking", "payment", "kundali", "shop", "newsletter", "birthTime", "panchang", "manage", "account", "report", "muhurat", "milan", "numerology", "gems"] as const;
 
 type Messages = Record<string, unknown>;
 

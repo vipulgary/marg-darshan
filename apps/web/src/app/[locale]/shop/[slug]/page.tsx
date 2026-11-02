@@ -7,6 +7,7 @@ import { EnquiryButton } from "@/components/shop/EnquiryModal";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { ProductGallery } from "@/components/shop/ProductGallery";
 import { Badge } from "@/components/ui/Display";
+import { cn } from "@/lib/cn";
 import { Link } from "@/i18n/navigation";
 import { SITE_NAME, absoluteUrl, breadcrumbJsonLd, localePath, pageMetadata, withBrand } from "@/lib/seo";
 import { consultProblemFor, relatedProducts } from "@/lib/shop/catalog";
@@ -32,14 +33,18 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/shop/[sl
   });
 }
 
-export default async function ProductPage({ params }: PageProps<"/[locale]/shop/[slug]">) {
+export default async function ProductPage({ params, searchParams }: PageProps<"/[locale]/shop/[slug]">) {
   const { locale, slug } = await params;
+  const sp = await searchParams;
   setRequestLocale(locale);
   const product = getProduct(slug);
   if (!product) notFound();
   const t = await getTranslations("shop");
   const tc = await getTranslations();
   const title = pick(product.title, locale);
+  const weightUnit = product.planet === "venus" ? (locale === "en" ? "carat" : "कैरेट") : locale === "en" ? "ratti" : "रत्ती";
+  const wanted = Number(typeof sp.w === "string" ? sp.w : NaN);
+  const selected = product.variants?.find((v) => v.weight === wanted) ?? product.variants?.find((v) => v.inStock) ?? null;
   const consultKey = product.category === "VASTU" ? "consultVastu" : product.category === "YANTRA" ? "consultAstro" : "consultGems";
   const related = relatedProducts(product, PRODUCTS, 4);
   const views = [
@@ -109,14 +114,40 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/shop/
 
           <div className="rounded-lg border border-line bg-night-s1 p-5">
             <p className="text-sm text-ink-3">{t("detail.priceHint")}</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-ink-1">{pick(product.priceHint, locale)}</p>
+            <p className="mt-1 text-2xl font-bold tabular-nums text-ink-1">{selected ? `₹${selected.price.toLocaleString("en-IN")}` : pick(product.priceHint, locale)}</p>
+            {product.variants && (
+              <div className="mt-4 flex flex-col gap-2">
+                <p className="text-sm font-semibold text-ink-1">{t("detail.chooseWeight", { unit: weightUnit })}</p>
+                <ul className="flex flex-wrap gap-2">
+                  {product.variants.map((v) => {
+                    const on = selected?.weight === v.weight;
+                    return (
+                      <li key={v.weight}>
+                        <Link
+                          href={`/shop/${product.slug}?w=${v.weight}`}
+                          scroll={false}
+                          aria-current={on ? "true" : undefined}
+                          className={cn(
+                            "inline-flex min-h-11 flex-col items-center justify-center rounded-lg border px-3 py-1.5 text-sm transition-colors focus-visible:ring-focus",
+                            on ? "border-saffron-400 bg-saffron-500/12 font-semibold text-ink-1" : "border-line text-ink-2 hover:border-line-gold",
+                          )}
+                        >
+                          <span>{v.weight} {weightUnit}</span>
+                          <span className={cn("text-[11px]", v.inStock ? "text-success" : "text-ink-3")}>{v.inStock ? t("detail.inStock") : t("detail.onRequest")}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
             <p className="mt-2 text-sm text-ink-3">{t("detail.priceNote")}</p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <EnquiryButton
-              product={{ slug: product.slug, sku: product.sku, title }}
-              label={tc("cta.enquire")}
+              product={{ slug: product.slug, sku: product.sku, title, presetNote: selected ? `${selected.weight} ${weightUnit}${selected.inStock ? "" : ` — ${t("detail.onRequest")}`}` : undefined }}
+              label={selected && !selected.inStock ? t("detail.requestThis") : tc("cta.enquire")}
               variant="primary"
               size="lg"
               className="justify-center"

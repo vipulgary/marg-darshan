@@ -73,7 +73,11 @@
     "viewCertificate": "Certificate",
     "viewEnergised": "Energised & packed",
     "showView": "Show {view}",
-    "placeholder": "Real photos coming soon"
+    "placeholder": "Real photos coming soon",
+    "chooseWeight": "Choose weight ({unit})",
+    "inStock": "In stock",
+    "onRequest": "On request",
+    "requestThis": "Request this weight"
   },
   "enquiry": {
     "title": "Check suitability & price",

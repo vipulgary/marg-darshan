@@ -73,7 +73,11 @@
     "viewCertificate": "प्रमाणपत्र",
     "viewEnergised": "सिद्ध एवं पैक",
     "showView": "{view} दिखाएं",
-    "placeholder": "असली तस्वीरें जल्द"
+    "placeholder": "असली तस्वीरें जल्द",
+    "chooseWeight": "वज़न चुनें ({unit})",
+    "inStock": "उपलब्ध",
+    "onRequest": "मँगवाना होगा",
+    "requestThis": "यह वज़न मँगवाएँ"
   },
   "enquiry": {
     "title": "उपयुक्तता एवं मूल्य जानें",

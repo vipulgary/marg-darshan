@@ -17,6 +17,7 @@ const TOOLS = [
   { key: "shubh", href: "/shubh-samay", icon: "clock" },
   { key: "numerology", href: "/numerology", icon: "star" },
   { key: "birthTime", href: "/birth-time-finder", icon: "hourglass" },
+  { key: "gems", href: "/gem-finder", icon: "gem" },
 ] as const;
 
 export const SERVICE_ICONS = { astrology: IconAstrology, vastu: IconVastu, gems: IconGem, "birth-time": IconHourglass } as const;
@@ -135,7 +136,7 @@ export function MegaMenu({ navClass }: { navClass: (active: boolean) => string }
               })}
             </ul>
             <p className="px-2 pb-2 pt-4 text-[13px] font-semibold text-gold-300">{t("mega.toolsIntro")}</p>
-            <ul className="grid grid-cols-2 gap-2 lg:grid-cols-5">
+            <ul className="grid grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-6">
               {TOOLS.map((tool) => (
                 <li key={tool.key}>
                   <Link

@@ -248,6 +248,10 @@
       "book": {
         "title": "Talk to Acharya ji",
         "desc": "Personal consultation"
+      },
+      "gems": {
+        "title": "Gem Finder",
+        "desc": "Right gemstone and ratti"
       }
     },
     "glance": "Today at a glance",

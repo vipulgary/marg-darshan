@@ -811,7 +811,7 @@
           "AMX-204",
           "Gem Finder: problem-based gem advice safe for the chart, ratti by body weight, buy in-stock ratti or request",
           3,
-          "todo",
+          "done",
           "S5"
         ]
       ]
@@ -900,6 +900,7 @@
     "AMX-200": "Real Saturn transits from Swiss Ephemeris; matches published table",
     "AMX-201": "Encouraging tone pass",
     "AMX-202": "Strict gender filter",
-    "AMX-203": "Self-hosted Piper voices (Priyamvada hi, Jenny en), in-place speed, cache"
+    "AMX-203": "Self-hosted Piper voices (Priyamvada hi, Jenny en), in-place speed, cache",
+    "AMX-204": "Gem Finder live; sample stock DRAFT"
   }
 }
