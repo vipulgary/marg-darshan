@@ -12,7 +12,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import type { PlaceValue } from "@/lib/contracts";
 import { BiodataDrop } from "@/components/milan/BiodataDrop";
 import { api } from "./api";
-import { Empty } from "./parts";
+import { Empty } from "./ui-parts";
 
 export interface SavedProfile {
   id: string;

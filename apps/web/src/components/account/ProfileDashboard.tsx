@@ -9,7 +9,7 @@ import { getPanchang } from "@/lib/engine/client";
 import { dayMuhurat, nextGoodWindow } from "@/lib/muhurat/choghadiya";
 import { buildReport } from "@/lib/report/build";
 import { VoiceSectionPlayer } from "@/components/report/VoiceSectionPlayer";
-import { goldLink, pillLink } from "./parts";
+import { goldLink, pillLink } from "./ui-parts";
 
 /** Today's next good choghadiya and Rahu Kaal at the profile's place; null if the engine is unreachable. */
 async function todayTimes(place: SavedProfile["place"]) {

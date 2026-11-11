@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"
@@ -27,6 +27,7 @@
   "devDependencies": {
     "@electric-sql/pglite": "^0.4.3",
     "@electric-sql/pglite-socket": "^0.1.3",
+    "@tailwindcss/postcss": "^4.3.5",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/pg": "^8.23.1",
