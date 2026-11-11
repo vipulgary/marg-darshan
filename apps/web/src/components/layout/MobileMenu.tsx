@@ -12,6 +12,7 @@ import { buildWhatsAppUrl, whatsappContextFromPath, whatsappMessage } from "@/li
 import { IconClose, IconWhatsApp } from "./icons";
 import { AccountButton } from "./AccountButton";
 import { LanguageToggle } from "./LanguageToggle";
+import { ThemeToggle } from "./ThemeToggle";
 import { SERVICE_ICONS } from "./MegaMenu";
 import { SERVICE_ROUTES, bookingHrefFor, isActivePath } from "./routes";
 import { Icon } from "@/components/icons";
@@ -146,7 +147,13 @@ export function MobileMenu({
               <div className="relative flex-1 overflow-y-auto overscroll-contain px-4 pb-6 pt-4">
                 <div className="mb-5 flex items-center justify-between gap-3 rounded-lg border border-line-subtle bg-night-s1/60 p-3">
                   <span className="text-sm font-medium text-ink-2">{t("mobile.language")}</span>
-                  <LanguageToggle />
+                  <div className="flex items-center gap-2">
+                    {/* The header drops its theme toggle below 400px; offer it here instead. */}
+                    <div className="flex min-[400px]:hidden">
+                      <ThemeToggle />
+                    </div>
+                    <LanguageToggle />
+                  </div>
                   <AccountButton block className="mt-3" />
                 </div>
 

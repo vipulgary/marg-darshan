@@ -81,9 +81,19 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <ThemeToggle />
-          <LanguageToggle hint />
-          <AccountButton className="hidden sm:inline-flex" />
+          {/* Narrow phones can't fit logo + every control (EN logo + toggles + menu = 416px).
+              Below 400px the theme toggle moves into the menu; below 360px the language toggle too. */}
+          <div className="flex max-[399px]:hidden">
+            <ThemeToggle />
+          </div>
+          <div className="flex max-[359px]:hidden">
+            <LanguageToggle hint />
+          </div>
+          {/* Wrapped: cn() is plain clsx, so "hidden" passed to AccountButton loses to its own inline-flex.
+              On phones the menu carries the account entry; showing it here overflowed 375px screens. */}
+          <div className="hidden sm:flex">
+            <AccountButton />
+          </div>
           <Link
             href={bookingHrefFor(pathname)}
             className="relative hidden h-9 items-center rounded-full bg-grad-gold before:absolute before:-inset-y-1 before:inset-x-0 before:content-[''] px-3.5 text-sm font-semibold text-ink-ongold transition-all hover:-translate-y-0.5 hover:shadow-glow-gold focus-visible:ring-focus sm:inline-flex"

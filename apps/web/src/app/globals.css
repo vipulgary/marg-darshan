@@ -223,6 +223,9 @@
     font-size: 16px;
     line-height: 1.65;
     background: var(--bg-0);
+    /* Safety net: never let a stray wide element widen the mobile page (which also drags
+       fixed bars like MobileCtaBar off-screen). `clip`, unlike `hidden`, keeps position: sticky working. */
+    overflow-x: clip;
   }
   h1, h2, h3, h4 {
     color: var(--text-1);
