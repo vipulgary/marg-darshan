@@ -20,6 +20,9 @@ import { Icon } from "@/components/icons";
 const MORE = [
   { href: "/", key: "home" },
   { href: "/free-kundali", key: "kundali" },
+  // Public tools that the desktop bar shows (PRIMARY_NAV) — keep them reachable on phones too.
+  { href: "/kundali-milan", key: "milan" },
+  { href: "/shubh-samay", key: "muhurat" },
   { href: "/shop", key: "shop" },
   { href: "/pricing", key: "pricing" },
   { href: "/about-jyotish", key: "about" },

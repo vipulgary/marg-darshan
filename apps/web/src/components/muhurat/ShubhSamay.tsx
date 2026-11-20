@@ -11,6 +11,7 @@ import { Field, Select } from "@/components/ui/Field";
 import { cn } from "@/lib/cn";
 import type { PlaceValue } from "@/lib/contracts";
 import { type ChoghadiyaName, type DayMuhurat, type Quality, type Span, currentSlot, nextGoodWindow } from "@/lib/muhurat/choghadiya";
+import { tzForCoords } from "@/lib/geo/tz-for-coords";
 
 type Name = { name_en: string; name_hi: string };
 interface Data {
@@ -105,14 +106,12 @@ export function ShubhSamay() {
     if (!navigator.geolocation) return;
     setLocating(true);
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
+        const latitude = Number(pos.coords.latitude.toFixed(4));
+        const longitude = Number(pos.coords.longitude.toFixed(4));
+        const tzName = await tzForCoords(latitude, longitude);
         setLocating(false);
-        choose({
-          placeName: t("myLocation"),
-          latitude: Number(pos.coords.latitude.toFixed(4)),
-          longitude: Number(pos.coords.longitude.toFixed(4)),
-          tzName: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata",
-        });
+        choose({ placeName: t("myLocation"), latitude, longitude, tzName });
       },
       () => setLocating(false),
       { timeout: 10_000 },

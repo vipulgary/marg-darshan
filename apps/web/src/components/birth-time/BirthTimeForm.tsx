@@ -23,6 +23,7 @@ import { type WindowPreset, resolveWindow } from "@/lib/rectification/windows";
 import { isIndianMobile, looksLikeEmail } from "@/lib/shop/phone";
 import { useDraftField } from "@/stores/formDraft";
 import { Icon } from "@/components/icons";
+import { tzForCoords } from "@/lib/geo/tz-for-coords";
 
 const FORM_ID = "birthTime";
 
@@ -142,6 +143,8 @@ export function BirthTimeForm() {
     }
     setSubmitting(true);
     try {
+      // The prashna moment is local to where the person is, not to their device's clock setting.
+      const prashnaTz = geo ? await tzForCoords(geo.lat, geo.lng) : Intl.DateTimeFormat().resolvedOptions().timeZone;
       const res = await fetch("/api/rectification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -155,7 +158,7 @@ export function BirthTimeForm() {
             .map((r) => ({ type: r.type, date: r.date, note: r.note.trim() || undefined })),
           prashna: known
             ? undefined
-            : { lat: geo?.lat, lng: geo?.lng, tzName: Intl.DateTimeFormat().resolvedOptions().timeZone },
+            : { lat: geo?.lat, lng: geo?.lng, tzName: prashnaTz },
           contact: { name: name.trim(), email: email.trim(), phone },
           locale,
           consent: true,

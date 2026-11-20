@@ -141,14 +141,17 @@ export async function Footer() {
                   </Link>
                 </li>
               ))}
-              <li>
-                {/* AGPL §13: the engine source must be public — set NEXT_PUBLIC_ENGINE_SOURCE_URL before launch. */}
-                <a href={process.env.NEXT_PUBLIC_ENGINE_SOURCE_URL ?? "https://github.com/"} target="_blank" rel="noopener noreferrer" lang="en" className={`${linkClass} gap-1.5`}>
-                  {t("footer.agpl")}
-                  <IconExternal size={14} />
-                  <span className="sr-only">{t("footer.newTab")}</span>
-                </a>
-              </li>
+              {/* AGPL §13: once the astro engine serves the public, its source must be offered —
+                  set NEXT_PUBLIC_ENGINE_SOURCE_URL then and this link reappears. Hidden until then. */}
+              {process.env.NEXT_PUBLIC_ENGINE_SOURCE_URL && (
+                <li>
+                  <a href={process.env.NEXT_PUBLIC_ENGINE_SOURCE_URL} target="_blank" rel="noopener noreferrer" lang="en" className={`${linkClass} gap-1.5`}>
+                    {t("footer.agpl")}
+                    <IconExternal size={14} />
+                    <span className="sr-only">{t("footer.newTab")}</span>
+                  </a>
+                </li>
+              )}
             </ul>
             <div className="mt-6 flex flex-col gap-2">
               <span className="text-sm text-ink-3">{t("footer.language")}</span>
