@@ -1,8 +1,10 @@
 /**
- * Transactional email via the Resend REST API (AMX-091). Without RESEND_API_KEY the message is
+ * Transactional email via SMTP when SMTP_USER/SMTP_PASS are set (e.g. Gmail + App Password, no
+ * domain needed), else the Resend REST API (AMX-091). With neither configured the message is
  * printed with console.info so local development and previews still work. Every attempt is
  * written to NotificationLog (template + entity) — that log is also the idempotency record.
  */
+import nodemailer, { type Transporter } from "nodemailer";
 import { db } from "@/lib/db";
 import type { NotificationChannel } from "@/generated/prisma/enums";
 
@@ -27,15 +29,60 @@ export interface SendEmailInput {
 
 export interface SendEmailResult {
   ok: boolean;
-  provider: "resend" | "console";
+  provider: "smtp" | "resend" | "console";
   id?: string;
   error?: string;
 }
 
 const RESEND_URL = "https://api.resend.com/emails";
 
+/** SMTP (e.g. Gmail + App Password) needs no verified domain, so it works on a temporary site address. */
+const smtpConfigured = () => Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
+
 export function emailConfigured(): boolean {
-  return Boolean(process.env.RESEND_API_KEY);
+  return smtpConfigured() || Boolean(process.env.RESEND_API_KEY);
+}
+
+let smtpTransport: Transporter | null = null;
+function smtp(): Transporter {
+  if (!smtpTransport) {
+    const port = Number(process.env.SMTP_PORT ?? 465);
+    smtpTransport = nodemailer.createTransport({
+      host: process.env.SMTP_HOST ?? "smtp.gmail.com",
+      port,
+      secure: port === 465,
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+      connectionTimeout: 15_000,
+      socketTimeout: 20_000,
+    });
+  }
+  return smtpTransport;
+}
+
+async function sendViaSmtp(input: SendEmailInput): Promise<SendEmailResult> {
+  const { to, subject, html, text, attachments } = input;
+  try {
+    const info = await smtp().sendMail({
+      // Gmail rewrites any other From to the signed-in account, so default to it.
+      from: process.env.EMAIL_FROM ?? `Marg Darshan <${process.env.SMTP_USER}>`,
+      to,
+      subject,
+      html,
+      text,
+      ...(process.env.EMAIL_REPLY_TO && { replyTo: process.env.EMAIL_REPLY_TO }),
+      ...(attachments?.length && {
+        attachments: attachments.map((a) => ({
+          filename: a.filename,
+          content: a.content,
+          encoding: "base64",
+          ...(a.contentType && { contentType: a.contentType }),
+        })),
+      }),
+    });
+    return { ok: true, provider: "smtp", id: info.messageId };
+  } catch (e) {
+    return { ok: false, provider: "smtp", error: e instanceof Error ? e.message : String(e) };
+  }
 }
 
 export async function logNotification(row: {
@@ -58,7 +105,10 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
   const key = process.env.RESEND_API_KEY;
   let result: SendEmailResult;
 
-  if (!key) {
+  if (smtpConfigured()) {
+    result = await sendViaSmtp(input);
+    if (!result.ok) console.error(`[email] ${template} to ${to} failed: ${result.error}`);
+  } else if (!key) {
     console.info(
       `[email:console] to=${to} template=${template} subject=${subject}` +
         (attachments?.length ? ` attachments=${attachments.map((a) => a.filename).join(",")}` : "") +
