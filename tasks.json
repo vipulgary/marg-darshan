@@ -688,7 +688,7 @@
           "AMX-153",
           "Go-live",
           1,
-          "todo",
+          "doing",
           "S5"
         ]
       ]
@@ -756,7 +756,7 @@
           "AMX-171",
           "Google sign-in (OAuth, env-gated)",
           0.5,
-          "doing",
+          "done",
           "S5"
         ],
         [
@@ -833,7 +833,7 @@
   ],
   "notes": {
     "AMX-002": "Workflow file written; runs on first push to GitHub",
-    "AMX-003": ".env.example done; real secrets pending from client",
+    "AMX-003": "Live env set on Hostinger (DB, Gmail SMTP, Google); Razorpay/Zoom/engine pending",
     "AMX-005": "docker-compose written; Docker not installed locally",
     "AMX-041": "Verified live: pyswisseph built, 57 engine tests pass, kundali generated end to end",
     "AMX-042": "Verified live: pyswisseph built, 57 engine tests pass, kundali generated end to end",
@@ -899,7 +899,7 @@
     "AMX-170": "Verified live: signup, verify, login, 6 account pages, claim, logout",
     "AMX-172": "Verified live: signup, verify, login, 6 account pages, claim, logout",
     "AMX-173": "Verified live: signup, verify, login, 6 account pages, claim, logout",
-    "AMX-171": "Code complete; needs GOOGLE_CLIENT_ID/SECRET only",
+    "AMX-171": "Live: Google OAuth client set, redirect verified",
     "AMX-180": "Live on result tab + print PDF; DRAFT text pending Jyotish review",
     "AMX-181": "Live on result tab + print PDF; DRAFT text pending Jyotish review",
     "AMX-190": "Live at /shubh-samay, verified against today",
@@ -917,6 +917,7 @@
     "AMX-203": "Self-hosted Piper voices (Priyamvada hi, Jenny en), in-place speed, cache",
     "AMX-204": "Gem Finder live; sample stock DRAFT",
     "AMX-205": "Good periods, study direction, seva",
-    "AMX-206": "Free in-browser reading (pdf.js + Tesseract) + paste; Claude optional upgrade"
+    "AMX-206": "Free in-browser reading (pdf.js + Tesseract) + paste; Claude optional upgrade",
+    "AMX-153": "Live on Hostinger temp domain; needs own domain, Razorpay, engine host"
   }
 }
